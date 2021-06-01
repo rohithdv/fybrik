@@ -3,23 +3,23 @@ package data_policies
 #general functions that make data-policies composing easier
 
 dataset_has_tag(tag) {
-    compare_str(tag,  DatasetTags()[_])
+    compare_str(tag,  DatasetTags[_])
 }
 
 dataset_has_tag_not(tag) {
-    compare_str_not(tag,  DatasetTags()[_])
+    compare_str_not(tag,  DatasetTags[_])
 }
 
 check_access_type(access_types) {
-    compare_str(AccessType(), access_types[_])
+    compare_str(AccessType, access_types[_])
 }
 
-check_destination(destinations) {
-    compare_str(DestinationGeo(), destinations[_])
-}
+# check_destination(destinations) {
+#     compare_str(DestinationGeo, destinations[_])
+# }
 
 check_processingGeo_not(processingGeo) {
-	compare_str_not(processingGeo, ProcessingGeo())
+	compare_str_not(processingGeo, ProcessingGeo)
 }
 
 clean_string(str) = result {
@@ -41,19 +41,19 @@ column_has_tag(tag) {
 }
 
 check_intent(intent) {
-    compare_str(intent, Intent())
+    compare_str(intent, Intent)
 }
 
 check_role(role) {
-    compare_str(role, Role())
+    compare_str(role, Role)
 }
 
 check_role_not(role) {
-    compare_str_not(role, Role())
+    compare_str_not(role, Role)
 }
 
 check_processingGeo_not(processingGeo) {
-	compare_str_not(processingGeo, ProcessingGeo())
+	compare_str_not(processingGeo, ProcessingGeo)
 }
 
 compare_str_not(str1, str2) {

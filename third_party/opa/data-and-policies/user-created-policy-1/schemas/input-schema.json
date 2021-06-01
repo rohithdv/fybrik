@@ -1,0 +1,108 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "required": [
+        "dataset_id",
+        "details",
+        "processing_geography",
+        "properties"
+    ],
+    "properties": {
+        "dataset_id": {
+            "type": "string"
+        },
+        "details": {
+            "type" : "object",
+            "properties": {
+                "data_format": {
+                    "type": "string"
+                },
+                "data_store":{
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "s3": {
+                            "type": "object"
+                        },
+                        "type":{
+                            "type": "integer"
+                        }
+                    }
+                },
+                "geo": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "properties": {
+                        "components_metadata" :{
+                            "type" : "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "component_type": {
+                                        "type": "string"
+                                    },
+                                    "named_metadata": {
+                                        "type": "object",
+                                        "properties": {
+                                            "elementPosition" : {
+                                                "type" : "string"
+                                            },
+                                            "guid": {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    },
+                                    "tags": {
+                                        "type" : "array",
+                                        "items" : {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "dataset_named_metadata" : {
+                            "type" : "string"
+                        },
+                        "dataset_tags" :{
+                            "type" : "array",
+                            "items" :{
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "name" : {
+                    "type" : "string"
+                }
+            }
+        },
+        "processing_geography" : {
+            "type" : "string"
+        },
+        "properties" : {
+            "type" : "object",
+            "properties": {
+                "intent1": {
+                    "type" : "string"
+                },
+                "role" : {
+                    "type" : "string"
+                }
+            },
+            "required": ["intent"]
+        },
+        "type": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": true
+}

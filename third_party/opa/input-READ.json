@@ -1,4 +1,4 @@
-{ "input": {
+{ 
 	"dataset_id": "{\"ServerName\":\"mds1\", \"AssetGuid\":\"deda6bf9-e758-4b36-8444-82a718562656\"}",
 	"details": {
 		"data_format": "csv",
@@ -69,7 +69,10 @@
 					"named_metadata": {
 						"elementPosition": "7",
 						"guid": "3b770e27-d7e0-41d3-92b9-959a81d07d07"
-					}
+					},
+					tags: [
+						"Confidential"
+					]
 				},
 				"oldbalanceOrg::4": {
 					"component_type": "column",
@@ -97,7 +100,7 @@
 				"description": "Synthetic Financial Dataset For Fraud Detection"
 			},
 			"dataset_tags": [
-				"finance"
+				"residency = Turkey"
 			]
 		},
 		"name": "transactions.csv"
@@ -108,4 +111,4 @@
 		"role": "Data Scientist"
 	},
 	"type": "READ"
-} }
+} 

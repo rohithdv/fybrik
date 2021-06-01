@@ -5,6 +5,7 @@ set -x
 
 NAMESPACE=m4d-system
 TIMEOUT=8m
+OPA_EXECUTABLE=../../hack/tools/bin/opa
 
 check_valid_data_folder(){
     count=`ls -1 *.json 2>/dev/null | wc -l`
@@ -86,7 +87,14 @@ loaddata(){
     cd -
 }
 
+validate_schema(){
+   $OPA_EXECUTABLE eval  data.dataapi.authz.transform -i input-READ.json -d data-and-policies/user-created-policy-1/sample_policies.rego -d ../../charts/m4d/files/opa-server/policy-lib  -s data-and-policies/user-created-policy-1/schemas/input-schema.json
+}
+
 case "$1" in
+    validateschema)
+        validate_schema
+        ;;
     loadpolicy)
         loadpolicy "$2"
         ;;

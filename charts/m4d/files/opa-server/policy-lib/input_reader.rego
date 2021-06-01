@@ -44,19 +44,19 @@ package data_policies
 # 		},
 # 	}
 # }
-Properties() = input.properties
+Properties = input.properties
 
-Intent() = Properties().intent
+Intent = input.properties.intent
 
-Role() = Properties().role
+Role = input.properties.role
 
-AccessType() = input.type
+AccessType = input.type
 
-DatasetTags() = input.details.metadata.dataset_tags
+DatasetTags = input.details.metadata.dataset_tags
 
-ProcessingGeo() = input.processing_geography
+ProcessingGeo = input.processing_geography
 
-DestinationGeo() = input.destination
+#DestinationGeo = input.destination
 
 
 
