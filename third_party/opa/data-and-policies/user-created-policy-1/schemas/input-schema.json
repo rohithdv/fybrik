@@ -91,7 +91,7 @@
         "properties" : {
             "type" : "object",
             "properties": {
-                "intent1": {
+                "intent": {
                     "type" : "string"
                 },
                 "role" : {

@@ -88,7 +88,7 @@ loaddata(){
 }
 
 validate_schema(){
-   $OPA_EXECUTABLE eval  data.dataapi.authz.transform -i input-READ.json -d data-and-policies/user-created-policy-1/sample_policies.rego -d ../../charts/m4d/files/opa-server/policy-lib  -s data-and-policies/user-created-policy-1/schemas/input-schema.json
+   $OPA_EXECUTABLE eval  data.dataapi.authz.transform -i input-READ.json -d data-and-policies/user-created-policy-1/sample_policies.rego -d ../../charts/m4d/files/opa-server/policy-lib  -s data-and-policies/user-created-policy-1/schemas
 }
 
 case "$1" in

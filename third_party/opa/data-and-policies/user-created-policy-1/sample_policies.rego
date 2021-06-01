@@ -1,6 +1,10 @@
 package dataapi.authz
 import data.data_policies as dp
 
+# METADATA
+# scope: rule
+# schemas:
+#   - input: schema["input-schema"]
 transform[action] {
 	description = "Columns with Confidential tag to be redacted before read action"
     #user context and access type check
