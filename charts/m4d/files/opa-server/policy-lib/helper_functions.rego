@@ -1,3 +1,7 @@
+# METADATA
+# scope: subpackages
+# schemas:
+#   - input: schema["input-schema"]
 package data_policies
 
 #general functions that make data-policies composing easier
