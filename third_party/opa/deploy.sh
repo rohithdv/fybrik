@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+# Below will cause the shell to exit immediately if a simple command exits with a nonzero exit value. A simple command is any command not part of an if, while, or until test, or part of an && or || list
+#set -e
 set -x
 
 NAMESPACE=m4d-system
@@ -88,7 +89,14 @@ loaddata(){
 }
 
 validate_schema(){
-   $OPA_EXECUTABLE eval  --format pretty  data.dataapi.authz.transform -i input-READ.json -d data-and-policies/user-created-policy-1/sample_policies.rego -d ../../charts/m4d/files/opa-server/policy-lib  -s data-and-policies/schemas
+   retVal=$($OPA_EXECUTABLE eval  --format pretty  data.dataapi.authz.transform -i input-READ.json -d data-and-policies/user-created-policy-1/sample_policies.rego -d ../../charts/m4d/files/opa-server/policy-lib  -s data-and-policies/schemas )
+
+   if [ "$?" == 0 ];
+   then
+       echo "Validation succeeded! Result is : $retVal"
+    else
+       echo "Error occurred: $retVal"
+    fi
 }
 
 case "$1" in
