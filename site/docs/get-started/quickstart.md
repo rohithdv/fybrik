@@ -41,8 +41,10 @@ Run the following to install vault and the plugin in development mode:
     helm repo update
     helm install vault hashicorp/vault --version 0.9.1 --create-namespace -n m4d-system \
         --set "server.dev.enabled=true" \
+        --set "injector.enabled=false" \
         --values https://raw.githubusercontent.com/mesh-for-data/mesh-for-data/v0.1.0/third_party/vault/vault-single-cluster/values.yaml \
         --wait --timeout 120s
+    kubectl wait --for=condition=ready --all pod -n m4d-system --timeout=120s
     kubectl apply -f https://raw.githubusercontent.com/mesh-for-data/mesh-for-data/v0.1.0/third_party/vault/vault-single-cluster/vault-rbac.yaml -n m4d-system
     ```
 
@@ -53,9 +55,11 @@ Run the following to install vault and the plugin in development mode:
     helm repo update
     helm install vault hashicorp/vault --version 0.9.1 --create-namespace -n m4d-system \
         --set "global.openshift=true" \
+        --set "injector.enabled=false" \
         --set "server.dev.enabled=true" \
         --values https://raw.githubusercontent.com/mesh-for-data/mesh-for-data/v0.1.0/third_party/vault/vault-single-cluster/values.yaml \
         --wait --timeout 120s
+    kubectl wait --for=condition=ready --all pod -n m4d-system --timeout=120s
     kubectl apply -f https://raw.githubusercontent.com/mesh-for-data/mesh-for-data/v0.1.0/third_party/vault/vault-single-cluster/vault-rbac.yaml -n m4d-system
     ```
 
@@ -70,7 +74,7 @@ Run the following to install vault and the plugin in development mode:
     git clone https://github.com/mesh-for-data/mesh-for-data.git
     cd mesh-for-data
     helm install m4d-crd charts/m4d-crd -n m4d-system --wait
-    helm install m4d charts/m4d -n m4d-system --wait
+    helm install m4d charts/m4d --set global.tag=latest -n m4d-system --wait
     ```
 
 The control plane includes a `manager` service that connects to a data catalog and to a policy manager. 
@@ -86,10 +90,12 @@ helm install m4d m4d-charts/m4d -n m4d-system --wait
 
 ## Install modules
 
-[Modules](../concepts/modules.md) are plugins that the control plane deploys whenever required. 
+[Modules](../concepts/modules.md) are plugins that the control plane deploys whenever required. The [arrow flight module](https://github.com/mesh-for-data/arrow-flight-module) enables reading data through Apache Arrow Flight API. 
 
-Install the [arrow flight module](https://github.com/mesh-for-data/the-mesh-for-data-flight-module):
+Install the latest[^1] release of arrow-flight-module:
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/mesh-for-data/the-mesh-for-data-flight-module/master/module.yaml -n m4d-system
+kubectl apply -f https://github.com/mesh-for-data/arrow-flight-module/releases/latest/download/module.yaml -n m4d-system
 ```
+
+[^1]: Refer to the [documentation](https://github.com/mesh-for-data/arrow-flight-module/blob/master/README.md#register-as-a-mesh-for-data-module) of arrow-flight-module for other versions

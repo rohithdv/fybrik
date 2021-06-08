@@ -27,6 +27,7 @@ run-integration-tests: export VALUES_FILE=m4d/integration-tests.values.yaml
 run-integration-tests:
 	$(MAKE) kind
 	$(MAKE) -C charts vault
+	$(MAKE) -C charts wait-for-vault
 	$(MAKE) -C charts cert-manager
 	$(MAKE) -C third_party/datashim deploy
 	$(MAKE) docker
@@ -36,6 +37,7 @@ run-integration-tests:
 	$(MAKE) -C charts m4d
 	$(MAKE) -C manager wait_for_manager
 	$(MAKE) helm
+	$(MAKE) -C modules helm-uninstall # Uninstalls the deployed tests from previous command
 	$(MAKE) -C pkg/helm test
 	$(MAKE) -C manager run-integration-tests
 	$(MAKE) -C modules test
@@ -58,6 +60,7 @@ run-deploy-tests:
 cluster-prepare:
 	$(MAKE) -C charts cert-manager
 	$(MAKE) -C charts vault
+	$(MAKE) -C charts wait-for-vault
 	$(MAKE) -C third_party/datashim deploy
 
 .PHONY: cluster-prepare-wait
