@@ -10,29 +10,54 @@
             "enum": ["copy", "read", "write"]
         },
         "allowable_action_columns": {
+            "type": "string",
             "enum": ["RemoveColumn", "RedactColumn", "EncryptColumn", "PeriodicBlackout"]
         },
         "allowable_action_dataset": {
+            "type": "string",
             "enum": ["DenyAccess", "DenyWriting"]
+        },
+        "action_on_columns" :{
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Represents the unique action type taken on a list of columns",
+                    "$ref": "#/definitions/allowable_action_columns"
+                },
+                "columns": {
+                    "type": "array",
+                    "description": "Represents the column names on which the actions have been taken",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": ["columns"],
+            "additionalProperties": false
+        },
+        "action_on_datasets" :{
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Represents the unique action type taken on datasets",
+                    "$ref": "#/definitions/allowable_action_dataset"
+                }
+            }
         },
         "action": {
             "type": "object",
-            "action_struct":{"$ref": "module.structs.schema.json#/definitions/action"},
-            "x-kubernetes-int-or-string": "true",
+            "description": "Contains one of two action types ",
             "oneOf": [
                 {
-                    "properties": {
-                        "name": {"$ref": "#/definitions/allowable_action_columns"} 
-		            },
-		            "required": ["columns"]
+                    "$ref": "#/definitions/action_on_columns"
                 },
                 {
-                    "properties": {
-                        "name": {"$ref": "#/definitions/allowable_action_dataset"} 		
-                    }
+                    "$ref": "#/definitions/action_on_datasets"
                 }
-	    ]
-	},
+	        ]
+	    },
         "interface": {
             "type": "object",
             "description": "Contains protocol and data format for arrow-flight",
@@ -52,7 +77,7 @@
                         "enum":["m4d-arrow-flight"]
                     },
                     "data_format": {
-                        "enum":["arrow"] 
+                        "enum":["arrow"]
                     }
                 }
             },
@@ -62,7 +87,7 @@
                         "enum":["kafka"]
                     },
                     "data_format": {
-                        "enum":["json", "avro"] 
+                        "enum":["json", "avro"]
                     }
                 }
             },
@@ -72,7 +97,7 @@
                         "enum":["s3"]
                     },
                     "data_format": {
-                        "enum":["csv", "parquet"] 
+                        "enum":["csv", "parquet"]
                     }
                 }
             },
@@ -82,7 +107,7 @@
                         "enum":["db2-jdbc"]
                     },
                     "data_format": {
-                        "enum":["db2-jdbc"] 
+                        "enum":["db2-jdbc"]
                     }
                 }
             }]
@@ -90,9 +115,7 @@
     },
     "properties": {
         "module_type": { "$ref": "#/definitions/module_type" },
-        "allowable_action_columns": { "$ref": "#/definitions/allowable_action_columns" },
-        "allowable_action_dataset": { "$ref": "#/definitions/allowable_action_dataset" },
-	"action": { "$ref": "#/definitions/action" },
+	    "action": { "$ref": "#/definitions/action" },
         "interface": {"$ref": "#/definitions/interface"}
     },
     "additionalProperties": false

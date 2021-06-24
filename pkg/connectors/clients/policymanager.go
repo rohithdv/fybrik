@@ -6,6 +6,7 @@ package clients
 import (
 	"io"
 
+	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
 )
 
@@ -13,6 +14,13 @@ import (
 type PolicyManager interface {
 	pb.PolicyManagerServiceServer
 	io.Closer
+}
+
+// PolicyManager is an interface of a facade to connect to a policy manager.
+type PolicyManager2 interface {
+	//pb.PolicyManagerServiceServer
+	GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest) (*openapiclient.PolicymanagerResponse, error)
+	//io.Closer
 }
 
 func MergePoliciesDecisions(in ...*pb.PoliciesDecisions) *pb.PoliciesDecisions {
