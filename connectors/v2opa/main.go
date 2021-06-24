@@ -5,14 +5,28 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 
 	v2opa "github.com/mesh-for-data/mesh-for-data/connectors/v2opa/http"
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
+
+	opabl "github.com/mesh-for-data/mesh-for-data/connectors/v2opa/lib"
 )
+
+func getEnv(key string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		log.Fatalf("Env Variable %v not defined", key)
+	}
+	log.Printf("Env. variable extracted: %s - %s\n", key, value)
+	return value
+}
 
 // var opaServerURL = ""
 
@@ -67,6 +81,32 @@ func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input []op
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
 	//return Response(400, nil),nil
+
+	log.Println("Received PolicymanagerRequest")
+	log.Println(input)
+
+	catalogConnectorAddress := getEnv("CATALOG_CONNECTOR_URL")
+	policyToBeEvaluated := "dataapi/authz"
+
+	timeOutInSecs := getEnv("CONNECTION_TIMEOUT")
+	timeOut, err := strconv.Atoi(timeOutInSecs)
+
+	if err != nil {
+		return nil, fmt.Errorf("conversion of timeOutinseconds failed: %v", err)
+	}
+
+	catalogReader := opabl.NewCatalogReader(catalogConnectorAddress, timeOut)
+	eval, err := s.opaReader.GetOPADecisions(input[0], catalogReader, policyToBeEvaluated)
+	if err != nil {
+		log.Println("GetOPADecisions err:", err)
+		return nil, err
+	}
+	jsonOutput, err := json.MarshalIndent(eval, "", "\t")
+	if err != nil {
+		return nil, fmt.Errorf("error during MarshalIndent of OPA decisions: %v", err)
+	}
+	log.Println("Received evaluation : " + string(jsonOutput))
+	//return eval, err
 
 	return v2opa.Response(http.StatusNotImplemented, nil), errors.New("GetPoliciesDecisions method not implemented")
 }
