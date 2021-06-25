@@ -4,34 +4,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: v2-opa-connector
+  name: v2opaconnector
   labels:
-    app: v2-opa-connector
+    app: v2opaconnector
 spec:
   selector:
     matchLabels:
-      app: v2-opa-connector
+      app: v2opaconnector
   replicas: 1
   template:
     metadata:
       labels:
-        app: v2-opa-connector
+        app: v2opaconnector
     spec:
       containers:
-      - name: v2-opa-connector
-        image: v2-opa-connector:latest
+      - name: v2opaconnector
+        image: v2opaconnector:latest
         imagePullPolicy: Always
         ports:
-        - name: v2-opa-connector
+        - name: v2opaconnector
           containerPort: 50050
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: v2-opa-connector
+  name: v2opaconnector
 spec:
   selector:
-    app: v2-opa-connector
+    app: v2opaconnector
   ports:
   - port: 50050
-    targetPort: v2-opa-connector
+    targetPort: v2opaconnector

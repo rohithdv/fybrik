@@ -140,6 +140,6 @@ func main() {
 
 	router := v2opa.NewRouter(DefaultApiController)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":50050", router))
 
 }

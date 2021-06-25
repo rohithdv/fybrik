@@ -6,6 +6,6 @@ resources:
 namespace: m4d-system
 
 images:
-- name: v2-opa-connector
-  newName: uk.icr.io/datamesh/v2-opa-connector
+- name: v2opaconnector
+  newName: uk.icr.io/datamesh/v2opaconnector
   newTag: latest

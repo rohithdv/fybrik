@@ -1,7 +1,7 @@
 FROM gcr.io/distroless/static:nonroot
 
-COPY v2-opa-connector /
+COPY v2opaconnector /
 
 EXPOSE 50082
 
-ENTRYPOINT ["/v2-opa-connector"]
+ENTRYPOINT ["/v2opaconnector"]

@@ -34,7 +34,7 @@ undeploy() {
 }
 
 deploy() {
-	config
+	config || true
         v2_opa_connector_create
 }
 
