@@ -6,7 +6,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -92,23 +91,27 @@ func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input []op
 	timeOut, err := strconv.Atoi(timeOutInSecs)
 
 	if err != nil {
-		return nil, fmt.Errorf("conversion of timeOutinseconds failed: %v", err)
+		return v2opa.ImplResponse{}, fmt.Errorf("conversion of timeOutinseconds failed: %v", err)
 	}
 
+	opaServerURL := getEnv("OPA_SERVER_URL")
+	opaReader := opabl.NewOpaReader(opaServerURL)
+
 	catalogReader := opabl.NewCatalogReader(catalogConnectorAddress, timeOut)
-	eval, err := s.opaReader.GetOPADecisions(input[0], catalogReader, policyToBeEvaluated)
+	eval, err := opaReader.GetOPADecisions(&input[0], catalogReader, policyToBeEvaluated)
 	if err != nil {
 		log.Println("GetOPADecisions err:", err)
-		return nil, err
+		return v2opa.ImplResponse{}, err
 	}
 	jsonOutput, err := json.MarshalIndent(eval, "", "\t")
 	if err != nil {
-		return nil, fmt.Errorf("error during MarshalIndent of OPA decisions: %v", err)
+		return v2opa.ImplResponse{}, fmt.Errorf("error during MarshalIndent of OPA decisions: %v", err)
 	}
 	log.Println("Received evaluation : " + string(jsonOutput))
 	//return eval, err
 
-	return v2opa.Response(http.StatusNotImplemented, nil), errors.New("GetPoliciesDecisions method not implemented")
+	return *eval, nil
+	// return v2opa.Response(http.StatusNotImplemented, nil), errors.New("GetPoliciesDecisions method not implemented")
 }
 
 func main() {

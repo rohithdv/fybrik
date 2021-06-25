@@ -24,7 +24,7 @@
             "type": "array",
             "description": "A grouping of discrete geographies that are not necessarily in a common hierarchy.",
             "items": {
-                "$ref": "#/definitions/geography"                
+                "$ref": "#/definitions/geography"
             }
         },
         "tags": {
@@ -38,6 +38,10 @@
                 "name": {
                     "type": "string",
                     "description": "Name of the data set"
+                },
+                "creds": {
+                    "type": "string",
+                    "description": "location of dataset credentials"
                 },
                 "tags": { "$ref": "#/definitions/tags" },
                 "columns": {

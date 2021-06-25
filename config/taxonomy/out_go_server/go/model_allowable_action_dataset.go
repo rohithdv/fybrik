@@ -15,4 +15,5 @@ type AllowableActionDataset string
 const (
 	DENY_ACCESS AllowableActionDataset = "DenyAccess"
 	DENY_WRITING AllowableActionDataset = "DenyWriting"
+	ALLOW_ACCESS AllowableActionDataset = "AllowAccess"
 )

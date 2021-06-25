@@ -22,11 +22,13 @@ type AllowableActionDataset string
 const (
 	DENY_ACCESS AllowableActionDataset = "DenyAccess"
 	DENY_WRITING AllowableActionDataset = "DenyWriting"
+	ALLOW_ACCESS AllowableActionDataset = "AllowAccess"
 )
 
 var allowedAllowableActionDatasetEnumValues = []AllowableActionDataset{
 	"DenyAccess",
 	"DenyWriting",
+	"AllowAccess",
 }
 
 func (v *AllowableActionDataset) UnmarshalJSON(src []byte) error {

@@ -15,7 +15,7 @@
         },
         "allowable_action_dataset": {
             "type": "string",
-            "enum": ["DenyAccess", "DenyWriting"]
+            "enum": ["DenyAccess", "DenyWriting", "AllowAccess"]
         },
         "action_on_columns" :{
             "type": "object",

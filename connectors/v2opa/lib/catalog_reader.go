@@ -37,22 +37,20 @@ func (r *CatalogReader) GetDatasetsMetadataFromCatalog(in *openapiclient.Policym
 	defer conn.Close()
 	client := pb.NewDataCatalogServiceClient(conn)
 
-	creds := in.GetCredentialPath()
+	//creds := in.GetCredentialPath()
+	creds := *(in.GetResource()).Creds
 
 	// datasetID -> metadata of dataset in form of map
 	datasetsMetadata := make(map[string]interface{})
-	for _, datasetContext := range in.GetDatasets() {
-		dataset := datasetContext.GetDataset()
-		datasetID := dataset.GetDatasetId()
+	datasetID := (in.GetResource()).Name
 
-		if _, present := datasetsMetadata[datasetID]; !present {
-			metadataMap, err := r.GetDatasetMetadata(&ctx, client, datasetID, creds)
+	if _, present := datasetsMetadata[datasetID]; !present {
+		metadataMap, err := r.GetDatasetMetadata(&ctx, client, datasetID, creds)
 
-			if err != nil {
-				return nil, err
-			}
-			datasetsMetadata[datasetID] = metadataMap
+		if err != nil {
+			return nil, err
 		}
+		datasetsMetadata[datasetID] = metadataMap
 	}
 
 	return datasetsMetadata, nil

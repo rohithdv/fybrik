@@ -18,6 +18,8 @@ import (
 type Resource struct {
 	// Name of the data set
 	Name string `json:"name"`
+	// location of dataset credentials
+	Creds *string `json:"creds,omitempty"`
 	Tags *map[string]map[string]interface{} `json:"tags,omitempty"`
 	// List of column names in the data set with their associated tags. They must be key value pairs.
 	Columns *[]ResourceColumns `json:"columns,omitempty"`
@@ -63,6 +65,38 @@ func (o *Resource) GetNameOk() (*string, bool) {
 // SetName sets field value
 func (o *Resource) SetName(v string) {
 	o.Name = v
+}
+
+// GetCreds returns the Creds field value if set, zero value otherwise.
+func (o *Resource) GetCreds() string {
+	if o == nil || o.Creds == nil {
+		var ret string
+		return ret
+	}
+	return *o.Creds
+}
+
+// GetCredsOk returns a tuple with the Creds field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Resource) GetCredsOk() (*string, bool) {
+	if o == nil || o.Creds == nil {
+		return nil, false
+	}
+	return o.Creds, true
+}
+
+// HasCreds returns a boolean if a field has been set.
+func (o *Resource) HasCreds() bool {
+	if o != nil && o.Creds != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetCreds gets a reference to the given string and assigns it to the Creds field.
+func (o *Resource) SetCreds(v string) {
+	o.Creds = &v
 }
 
 // GetTags returns the Tags field value if set, zero value otherwise.
@@ -133,6 +167,9 @@ func (o Resource) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["name"] = o.Name
+	}
+	if o.Creds != nil {
+		toSerialize["creds"] = o.Creds
 	}
 	if o.Tags != nil {
 		toSerialize["tags"] = o.Tags

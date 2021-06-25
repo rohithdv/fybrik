@@ -119,6 +119,9 @@ components:
         name:
           description: Name of the data set
           type: string
+        creds:
+          description: location of dataset credentials
+          type: string
         tags:
           additionalProperties: true
           type: object
@@ -170,6 +173,7 @@ components:
       enum:
       - DenyAccess
       - DenyWriting
+      - AllowAccess
       type: string
     action_type:
       description: The action to be taken on the data.  A mandatory object used by

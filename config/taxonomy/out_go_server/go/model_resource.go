@@ -15,6 +15,9 @@ type Resource struct {
 	// Name of the data set
 	Name string `json:"name"`
 
+	// location of dataset credentials
+	Creds string `json:"creds,omitempty"`
+
 	Tags map[string]map[string]interface{} `json:"tags,omitempty"`
 
 	// List of column names in the data set with their associated tags. They must be key value pairs.

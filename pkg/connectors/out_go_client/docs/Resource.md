@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | Name of the data set | 
+**Creds** | Pointer to **string** | location of dataset credentials | [optional] 
 **Tags** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
 **Columns** | Pointer to [**[]ResourceColumns**](ResourceColumns.md) | List of column names in the data set with their associated tags. They must be key value pairs. | [optional] 
 
@@ -46,6 +47,31 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
+### GetCreds
+
+`func (o *Resource) GetCreds() string`
+
+GetCreds returns the Creds field if non-nil, zero value otherwise.
+
+### GetCredsOk
+
+`func (o *Resource) GetCredsOk() (*string, bool)`
+
+GetCredsOk returns a tuple with the Creds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreds
+
+`func (o *Resource) SetCreds(v string)`
+
+SetCreds sets Creds field to given value.
+
+### HasCreds
+
+`func (o *Resource) HasCreds() bool`
+
+HasCreds returns a boolean if a field has been set.
 
 ### GetTags
 
