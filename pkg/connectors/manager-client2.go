@@ -14,7 +14,7 @@ func main() {
 	//mainPolicyManagerName := os.Getenv("MAIN_POLICY_MANAGER_NAME")
 	mainPolicyManagerName := "OPEN API MANAGER"
 	//mainPolicyManagerURL := os.Getenv("MAIN_POLICY_MANAGER_CONNECTOR_URL")
-	mainPolicyManagerURL := "https://v2opaconnector:50050"
+	mainPolicyManagerURL := "http://v2opaconnector.m4d-system:50050"
 	//connectionTimeout, err := getConnectionTimeout()
 	timeOutInSeconds := 120
 	connectionTimeout := time.Duration(timeOutInSeconds) * time.Second
