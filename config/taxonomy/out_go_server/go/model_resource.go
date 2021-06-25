@@ -16,7 +16,7 @@ type Resource struct {
 	Name string `json:"name"`
 
 	// location of dataset credentials
-	Creds string `json:"creds,omitempty"`
+	Creds string `json:"creds"`
 
 	Tags map[string]map[string]interface{} `json:"tags,omitempty"`
 

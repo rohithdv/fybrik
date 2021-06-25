@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | Name of the data set | 
-**Creds** | Pointer to **string** | location of dataset credentials | [optional] 
+**Creds** | **string** | location of dataset credentials | 
 **Tags** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
 **Columns** | Pointer to [**[]ResourceColumns**](ResourceColumns.md) | List of column names in the data set with their associated tags. They must be key value pairs. | [optional] 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewResource
 
-`func NewResource(name string, ) *Resource`
+`func NewResource(name string, creds string, ) *Resource`
 
 NewResource instantiates a new Resource object
 This constructor will assign default values to properties that have it defined,
@@ -67,11 +67,6 @@ and a boolean to check if the value has been set.
 
 SetCreds sets Creds field to given value.
 
-### HasCreds
-
-`func (o *Resource) HasCreds() bool`
-
-HasCreds returns a boolean if a field has been set.
 
 ### GetTags
 

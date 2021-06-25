@@ -60,7 +60,7 @@
                     }
                 }
             },
-            "required": ["name"]
+            "required": ["name", "creds"]
 			}
         },
     "properties": {

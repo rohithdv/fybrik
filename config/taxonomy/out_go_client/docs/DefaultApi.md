@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-    input := []openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.action_type("read")), *openapiclient.NewResource("Name_example"))} // []PolicymanagerRequest | input values that need to be considered for filter
+    input := []openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.action_type("read")), *openapiclient.NewResource("Name_example", "Creds_example"))} // []PolicymanagerRequest | input values that need to be considered for filter
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

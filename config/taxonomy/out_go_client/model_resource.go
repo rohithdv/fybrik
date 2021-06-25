@@ -19,7 +19,7 @@ type Resource struct {
 	// Name of the data set
 	Name string `json:"name"`
 	// location of dataset credentials
-	Creds *string `json:"creds,omitempty"`
+	Creds string `json:"creds"`
 	Tags *map[string]map[string]interface{} `json:"tags,omitempty"`
 	// List of column names in the data set with their associated tags. They must be key value pairs.
 	Columns *[]ResourceColumns `json:"columns,omitempty"`
@@ -29,9 +29,10 @@ type Resource struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewResource(name string) *Resource {
+func NewResource(name string, creds string) *Resource {
 	this := Resource{}
 	this.Name = name
+	this.Creds = creds
 	return &this
 }
 
@@ -67,36 +68,28 @@ func (o *Resource) SetName(v string) {
 	o.Name = v
 }
 
-// GetCreds returns the Creds field value if set, zero value otherwise.
+// GetCreds returns the Creds field value
 func (o *Resource) GetCreds() string {
-	if o == nil || o.Creds == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Creds
+
+	return o.Creds
 }
 
-// GetCredsOk returns a tuple with the Creds field value if set, nil otherwise
+// GetCredsOk returns a tuple with the Creds field value
 // and a boolean to check if the value has been set.
 func (o *Resource) GetCredsOk() (*string, bool) {
-	if o == nil || o.Creds == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Creds, true
+	return &o.Creds, true
 }
 
-// HasCreds returns a boolean if a field has been set.
-func (o *Resource) HasCreds() bool {
-	if o != nil && o.Creds != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetCreds gets a reference to the given string and assigns it to the Creds field.
+// SetCreds sets field value
 func (o *Resource) SetCreds(v string) {
-	o.Creds = &v
+	o.Creds = v
 }
 
 // GetTags returns the Tags field value if set, zero value otherwise.
@@ -168,7 +161,7 @@ func (o Resource) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["name"] = o.Name
 	}
-	if o.Creds != nil {
+	if true {
 		toSerialize["creds"] = o.Creds
 	}
 	if o.Tags != nil {
