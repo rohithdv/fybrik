@@ -24,6 +24,9 @@ spec:
         ports:
         - name: v2opaconnector
           containerPort: 50050
+        envFrom:
+        - configMapRef:
+            name: v2-opa-connector-config
 ---
 apiVersion: v1
 kind: Service
