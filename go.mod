@@ -23,6 +23,7 @@ require (
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/gorilla/mux v1.7.4
+	github.com/gorilla/schema v1.2.0
 	github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79 // indirect
 	github.com/hashicorp/go-retryablehttp v0.6.7
 	github.com/hashicorp/hcl v1.0.1-vault // indirect
