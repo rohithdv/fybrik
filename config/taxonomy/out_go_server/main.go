@@ -13,16 +13,16 @@ import (
 	"log"
 	"net/http"
 
-	openapi "github.com/GIT_USER_ID/GIT_REPO_ID/go"
+	openapiserver "github.com/GIT_USER_ID/GIT_REPO_ID/openapiserver"
 )
 
 func main() {
 	log.Printf("Server started")
 
-	DefaultApiService := openapi.NewDefaultApiService()
-	DefaultApiController := openapi.NewDefaultApiController(DefaultApiService)
+	DefaultApiService := openapiserver.NewDefaultApiService()
+	DefaultApiController := openapiserver.NewDefaultApiController(DefaultApiService)
 
-	router := openapi.NewRouter(DefaultApiController)
+	router := openapiserver.NewRouter(DefaultApiController)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8081", router))
 }

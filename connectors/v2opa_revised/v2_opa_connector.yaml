@@ -1,0 +1,40 @@
+# Copyright 2020 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: v2opaconnector
+  labels:
+    app: v2opaconnector
+spec:
+  selector:
+    matchLabels:
+      app: v2opaconnector
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: v2opaconnector
+    spec:
+      containers:
+      - name: v2opaconnector
+        image: v2opaconnector:latest
+        imagePullPolicy: Always
+        ports:
+        - name: v2opaconnector
+          containerPort: 50050
+        envFrom:
+        - configMapRef:
+            name: v2-opa-connector-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: v2opaconnector
+spec:
+  selector:
+    app: v2opaconnector
+  ports:
+  - port: 50050
+    targetPort: v2opaconnector

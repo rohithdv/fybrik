@@ -1,0 +1,11 @@
+# Copyright 2020 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+
+resources:
+- v2_opa_connector.yaml
+namespace: m4d-system
+
+images:
+- name: v2opaconnector
+  newName: uk.icr.io/datamesh/v2opaconnector
+  newTag: latest
