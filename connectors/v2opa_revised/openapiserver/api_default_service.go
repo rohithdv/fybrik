@@ -21,7 +21,7 @@ import (
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 
-	opabl "github.com/mesh-for-data/mesh-for-data/connectors/v2opa/lib"
+	opabl "github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/lib"
 )
 
 func getEnv(key string) string {

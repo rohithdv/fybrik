@@ -17,12 +17,11 @@ paths:
           description: input values that need to be considered for filter
           required: true
           in: query
-          style: simple
-          explode: true
-          schema:
-            type: array
-            items:
-              $ref: policymanager_request.structs.schema.json
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: policymanager_request.structs.schema.json
       responses:
         '200':
           description: successful operation

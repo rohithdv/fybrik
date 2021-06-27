@@ -29,10 +29,10 @@ type DefaultApiService service
 type ApiGetPoliciesDecisionsRequest struct {
 	ctx _context.Context
 	ApiService *DefaultApiService
-	input *[]PolicymanagerRequest
+	input *PolicymanagerRequest
 }
 
-func (r ApiGetPoliciesDecisionsRequest) Input(input []PolicymanagerRequest) ApiGetPoliciesDecisionsRequest {
+func (r ApiGetPoliciesDecisionsRequest) Input(input PolicymanagerRequest) ApiGetPoliciesDecisionsRequest {
 	r.input = &input
 	return r
 }
@@ -82,7 +82,7 @@ func (a *DefaultApiService) GetPoliciesDecisionsExecute(r ApiGetPoliciesDecision
 		return localVarReturnValue, nil, reportError("input is required and must be specified")
 	}
 
-	localVarQueryParams.Add("input", parameterToString(*r.input, "csv"))
+	localVarQueryParams.Add("input", parameterToString(*r.input, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

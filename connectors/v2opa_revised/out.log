@@ -1,28 +1,30 @@
-2021/06/27 15:39:14 Server started
+2021/06/27 16:45:31 Server started
 query77777
-map[input:[{<nil>,{read,<nil>},{{"asset_id":,"0bb3245e-e3ef-40b7-b639-c471bae4966c",,"catalog_id":,"503d683f-1d43-4257-a1a3-0ddf5e446ba5"},http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d,<nil>,<nil>}}]]
+map[input:[{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}]]
 HTTP Request Got
-GET /getPoliciesDecisions?input=%7B%3Cnil%3E%2C%7Bread%2C%3Cnil%3E%7D%2C%7B%7B%22asset_id%22%3A%2C%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C%2C%22catalog_id%22%3A%2C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D%2Chttp%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d%2C%3Cnil%3E%2C%3Cnil%3E%7D%7D HTTP/1.1
+GET /getPoliciesDecisions?input=%7B%3Cnil%3E+%7Bread+%3Cnil%3E%7D+%7B%7B%22asset_id%22%3A+%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C+%22catalog_id%22%3A+%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D+http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d+%3Cnil%3E+%3Cnil%3E%7D%7D HTTP/1.1
 Host: v2opaconnector.m4d-system:50050
 user-agent: OpenAPI-Generator/1.0.0/go
 accept: application/json
 accept-encoding: gzip
 encodedValue
-/getPoliciesDecisions?input=%7B%3Cnil%3E%2C%7Bread%2C%3Cnil%3E%7D%2C%7B%7B%22asset_id%22%3A%2C%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C%2C%22catalog_id%22%3A%2C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D%2Chttp%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d%2C%3Cnil%3E%2C%3Cnil%3E%7D%7D
+/getPoliciesDecisions?input=%7B%3Cnil%3E+%7Bread+%3Cnil%3E%7D+%7B%7B%22asset_id%22%3A+%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C+%22catalog_id%22%3A+%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D+http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d+%3Cnil%3E+%3Cnil%3E%7D%7D
 decodedValue
-/getPoliciesDecisions?input={<nil>,{read,<nil>},{{"asset_id":,"0bb3245e-e3ef-40b7-b639-c471bae4966c",,"catalog_id":,"503d683f-1d43-4257-a1a3-0ddf5e446ba5"},http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d,<nil>,<nil>}}
+/getPoliciesDecisions?input={<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}
 formatRequest
-GET /getPoliciesDecisions?input=%7B%3Cnil%3E%2C%7Bread%2C%3Cnil%3E%7D%2C%7B%7B%22asset_id%22%3A%2C%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C%2C%22catalog_id%22%3A%2C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D%2Chttp%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d%2C%3Cnil%3E%2C%3Cnil%3E%7D%7D HTTP/1.1
-2021/06/27 15:39:44 Received PolicymanagerRequest
-2021/06/27 15:39:44 []
+GET /getPoliciesDecisions?input=%7B%3Cnil%3E+%7Bread+%3Cnil%3E%7D+%7B%7B%22asset_id%22%3A+%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C+%22catalog_id%22%3A+%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D+http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d+%3Cnil%3E+%3Cnil%3E%7D%7D HTTP/1.1
 Host: v2opaconnector.m4d-system:50050
+2021/06/27 16:45:56 Received PolicymanagerRequest
+2021/06/27 16:45:56 []
+accept-encoding: gzip
 user-agent: OpenAPI-Generator/1.0.0/go
 accept: application/json
-accept-encoding: gzip
 inconstructPolicymanagerRequest
 inputString
-{<nil>,{read,<nil>},{{"asset_id":,"0bb3245e-e3ef-40b7-b639-c471bae4966c",,"catalog_id":,"503d683f-1d43-4257-a1a3-0ddf5e446ba5"},http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d,<nil>,<nil>}}
-bird: {<nil>,{read,<nil>},{{"asset_id":,"0bb3245e-e3ef-40b7-b639-c471bae4966c",,"catalog_id":,"503d683f-1d43-4257-a1a3-0ddf5e446ba5"},http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d,<nil>,<nil>}}Reached Server!
+{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}
+bird: %v {<nil> { <nil>} {  <nil> <nil>}}
+bird creds: 
+Reached Server!
 input
 []
-2021/06/27 15:39:44 GET /getPoliciesDecisions?input=%7B%3Cnil%3E%2C%7Bread%2C%3Cnil%3E%7D%2C%7B%7B%22asset_id%22%3A%2C%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C%2C%22catalog_id%22%3A%2C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D%2Chttp%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d%2C%3Cnil%3E%2C%3Cnil%3E%7D%7D GetPoliciesDecisions 354.751µs
+2021/06/27 16:45:56 GET /getPoliciesDecisions?input=%7B%3Cnil%3E+%7Bread+%3Cnil%3E%7D+%7B%7B%22asset_id%22%3A+%220bb3245e-e3ef-40b7-b639-c471bae4966c%22%2C+%22catalog_id%22%3A+%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%22%7D+http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d+%3Cnil%3E+%3Cnil%3E%7D%7D GetPoliciesDecisions 1.059555ms

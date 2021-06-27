@@ -42,7 +42,7 @@ func (c *DefaultApiController) Routes() Routes {
 // GetPoliciesDecisions - getPoliciesDecisions
 func (c *DefaultApiController) GetPoliciesDecisions(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	input := strings.Split(query.Get("input"), ",")
+	input := query.Get("input")
 	result, err := c.service.GetPoliciesDecisions(r.Context(), input)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

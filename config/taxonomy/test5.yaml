@@ -12,16 +12,14 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: getPoliciesDecisions
       parameters:
-      - description: input values that need to be considered for filter
-        explode: true
+      - content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policymanager_request'
+        description: input values that need to be considered for filter
         in: query
         name: input
         required: true
-        schema:
-          items:
-            $ref: '#/components/schemas/policymanager_request'
-          type: array
-        style: simple
       responses:
         "200":
           content:

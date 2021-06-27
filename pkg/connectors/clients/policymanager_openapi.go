@@ -53,9 +53,9 @@ func NewOpenApiPolicyManager(name string, connectionURL string, connectionTimeou
 func (m *openApiPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest) (*openapiclient.PolicymanagerResponse, error) {
 	//input := []openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.ActionType("read")), *openapiclient.NewResource("Name_example"))} // []PolicymanagerRequest | input values that need to be considered for filter
 
-	input := []openapiclient.PolicymanagerRequest{*in}
+	//input := []openapiclient.PolicymanagerRequest{*in}
 
-	resp, r, err := m.client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(input).Execute()
+	resp, r, err := m.client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(*in).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.GetPoliciesDecisions``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -77,7 +77,9 @@ func constructPolicymanagerRequest(inputString string) {
 	fmt.Println(inputString)
 	var bird openapiclient.PolicymanagerRequest
 	json.Unmarshal([]byte(inputString), &bird)
-	fmt.Printf("bird: %v", inputString)
+	fmt.Println("bird: %v", bird)
+	resource := (&bird).GetResource()
+	fmt.Println(fmt.Sprintf("bird creds: %v", (&resource).GetCreds()))
 }
 
 // GetPoliciesDecisions - getPoliciesDecisions
