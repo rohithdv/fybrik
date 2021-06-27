@@ -16,7 +16,6 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"reflect"
 )
 
 // Linger please
@@ -83,17 +82,7 @@ func (a *DefaultApiService) GetPoliciesDecisionsExecute(r ApiGetPoliciesDecision
 		return localVarReturnValue, nil, reportError("input is required and must be specified")
 	}
 
-	{
-		t := *r.input
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("input", parameterToString(s.Index(i), "multi"))
-			}
-		} else {
-			localVarQueryParams.Add("input", parameterToString(t, "multi"))
-		}
-	}
+	localVarQueryParams.Add("input", parameterToString(*r.input, "csv"))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

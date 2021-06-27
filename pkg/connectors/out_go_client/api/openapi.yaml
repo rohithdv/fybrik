@@ -21,7 +21,7 @@ paths:
           items:
             $ref: '#/components/schemas/policymanager_request'
           type: array
-        style: form
+        style: simple
       responses:
         "200":
           content:
