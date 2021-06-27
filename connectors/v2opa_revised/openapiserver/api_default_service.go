@@ -12,8 +12,10 @@ package openapiserver
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 
@@ -79,7 +81,8 @@ func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input []op
 	log.Println("Received PolicymanagerRequest")
 	log.Println(input)
 
-	return ImplResponse{}, fmt.Errorf("returning before business logic execution for debugging purpose")
+	return Response(http.StatusNotImplemented, nil), errors.New("GetPoliciesDecisions method not implemented")
+	// return ImplResponse{}, fmt.Errorf("returning before business logic execution for debugging purpose")
 
 	catalogConnectorAddress := getEnv("CATALOG_CONNECTOR_URL")
 	policyToBeEvaluated := "dataapi/authz"

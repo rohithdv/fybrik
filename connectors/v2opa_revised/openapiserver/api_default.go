@@ -11,8 +11,11 @@ package openapiserver
 
 import (
 	// "encoding/json"
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"net/url"
 	"strings"
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
@@ -41,14 +44,67 @@ func (c *DefaultApiController) Routes() Routes {
 	}
 }
 
+// formatRequest generates ascii representation of a request
+func formatRequest(r *http.Request) string {
+	// Create return string
+	var request []string
+	// Add the request string
+	url := fmt.Sprintf("%v %v %v", r.Method, r.URL, r.Proto)
+	request = append(request, url)
+	// Add the host
+	request = append(request, fmt.Sprintf("Host: %v", r.Host))
+	// Loop through headers
+	for name, headers := range r.Header {
+		name = strings.ToLower(name)
+		for _, h := range headers {
+			request = append(request, fmt.Sprintf("%v: %v", name, h))
+		}
+	}
+
+	// If this is a POST, add post data
+	if r.Method == "POST" {
+		r.ParseForm()
+		request = append(request, "\n")
+		request = append(request, r.Form.Encode())
+	}
+	// Return the request as a string
+	return strings.Join(request, "\n")
+}
+
+func constructPolicymanagerRequest(inputString string) {
+	fmt.Println("inconstructPolicymanagerRequest")
+	fmt.Println("inputString")
+	fmt.Println(inputString)
+	var bird openapiclient.PolicymanagerRequest
+	json.Unmarshal([]byte(inputString), &bird)
+	fmt.Printf("bird: %v", inputString)
+}
+
 // GetPoliciesDecisions - getPoliciesDecisions
 func (c *DefaultApiController) GetPoliciesDecisions(w http.ResponseWriter, r *http.Request) {
-	// query := r.URL.Query()
-	// input := strings.Split(query.Get("input"), ",")
 	query := r.URL.Query()
+	// input := strings.Split(query.Get("input"), ",")
 	fmt.Println("query77777")
 	fmt.Println(query)
 
+	fmt.Println("HTTP Request Got")
+	fmt.Println(formatRequest(r))
+
+	encodedValue := fmt.Sprintf("%v", r.URL)
+	fmt.Println("encodedValue")
+	fmt.Println(encodedValue)
+
+	decodedValue, err := url.QueryUnescape(encodedValue)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	fmt.Println("decodedValue")
+	fmt.Println(decodedValue)
+	fmt.Println("formatRequest")
+	fmt.Println(formatRequest(r))
+
+	constructPolicymanagerRequest(query.Get("input"))
 	input2 := []openapiclient.PolicymanagerRequest{}
 	result, err := c.service.GetPoliciesDecisions(r.Context(), input2)
 	// If an error occurred, encode the error with the status code
