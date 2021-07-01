@@ -8,12 +8,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
+	clients "github.com/mesh-for-data/mesh-for-data/pkg/connectors/clients"
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
-	"google.golang.org/grpc"
 )
+
+func getEnv(key string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		log.Fatalf("Env Variable %v not defined", key)
+	}
+	log.Printf("Env. variable extracted: %s - %s\n", key, value)
+	return value
+}
 
 // CatalogReader - Reader struct which has information to read from catalog, this struct does not have any information related to the application context. any request specific info is passed as parameters to functions belonging to this struct.
 type CatalogReader struct {
@@ -27,30 +37,42 @@ func NewCatalogReader(address string, timeOut int) *CatalogReader {
 
 // return map  datasetID -> metadata of dataset in form of map
 func (r *CatalogReader) GetDatasetsMetadataFromCatalog(in *openapiclient.PolicymanagerRequest) (map[string]interface{}, error) {
-	log.Println("(*in.GetResource()).Creds :", ((in.GetResource()).Creds))
-	log.Println("Create new catalog connection using catalog connector address: ", r.catalogConnectorAddress)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(r.timeOut)*time.Second)
-	defer cancel()
-	conn, err := grpc.DialContext(ctx, r.catalogConnectorAddress, grpc.WithInsecure())
-	if err != nil {
-		return nil, fmt.Errorf("connection to external catalog connector failed: %v", err)
-	}
-	defer conn.Close()
-	client := pb.NewDataCatalogServiceClient(conn)
-
-	log.Println("in :", in)
-	//creds := in.GetCredentialPath()
-	creds := ((in.GetResource()).Creds)
-
-	// datasetID -> metadata of dataset in form of map
 	datasetsMetadata := make(map[string]interface{})
+	catalogProviderName := getEnv("CATALOG_PROVIDER_NAME")
+	creds := ((in.GetResource()).Creds)
+	// datasetID -> metadata of dataset in form of map
 	datasetID := (in.GetResource()).Name
 
 	if _, present := datasetsMetadata[datasetID]; !present {
-		metadataMap, err := r.GetDatasetMetadata(&ctx, client, datasetID, creds)
 
+		connectionURL := r.catalogConnectorAddress
+		connectionTimeout := time.Duration(r.timeOut) * time.Second
+		log.Println("(*in.GetResource()).Creds :", ((in.GetResource()).Creds))
+		log.Println("Create new catalog connection using catalog connector address: ", r.catalogConnectorAddress)
+
+		var dataCatalog clients.DataCatalog
+		dataCatalog, err := clients.NewGrpcDataCatalog(catalogProviderName, connectionURL, connectionTimeout)
+		if err != nil {
+			return nil, fmt.Errorf("connection to external catalog connector failed: %v", err)
+		}
+
+		objToSend := &pb.CatalogDatasetRequest{CredentialPath: creds, DatasetId: datasetID}
+		info, err := dataCatalog.GetDatasetInfo(context.Background(), objToSend)
 		if err != nil {
 			return nil, err
+		}
+
+		log.Printf("Received Response from External Catalog Connector for  dataSetID: %s\n", datasetID)
+		log.Printf("Response received from External Catalog Connector is given below:")
+		responseBytes, errJSON := json.MarshalIndent(info, "", "\t")
+		if errJSON != nil {
+			return nil, fmt.Errorf("error Marshalling External Catalog Connector Response: %v", errJSON)
+		}
+		log.Print(string(responseBytes))
+		metadataMap := make(map[string]interface{})
+		err = json.Unmarshal(responseBytes, &metadataMap)
+		if err != nil {
+			return nil, fmt.Errorf("error in unmarshalling responseBytes (datasetID = %s): %v", datasetID, err)
 		}
 		datasetsMetadata[datasetID] = metadataMap
 	}

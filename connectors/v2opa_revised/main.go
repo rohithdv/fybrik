@@ -6,19 +6,9 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 
 	v2opa "github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver"
 )
-
-func getEnv(key string) string {
-	value, exists := os.LookupEnv(key)
-	if !exists {
-		log.Fatalf("Env Variable %v not defined", key)
-	}
-	log.Printf("Env. variable extracted: %s - %s\n", key, value)
-	return value
-}
 
 func main() {
 	// port := getEnvWithDefault("PORT_OPA_CONNECTOR", defaultPort)

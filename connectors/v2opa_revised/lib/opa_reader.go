@@ -119,6 +119,7 @@ func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient
 }
 
 func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, catalogReader *CatalogReader, policyToBeEvaluated string) (*openapiclient.PolicymanagerResponse, error) {
+
 	datasetsMetadata, err := catalogReader.GetDatasetsMetadataFromCatalog(in)
 	if err != nil {
 		return nil, err
