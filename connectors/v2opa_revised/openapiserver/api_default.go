@@ -71,7 +71,7 @@ func formatRequest(r *http.Request) string {
 	return strings.Join(request, "\n")
 }
 
-func constructPolicymanagerRequest(inputString string) {
+func constructPolicymanagerRequest(inputString string) *openapiclient.PolicymanagerRequest {
 	fmt.Println("inconstructPolicymanagerRequest")
 	fmt.Println("inputString")
 	fmt.Println(inputString)
@@ -80,6 +80,8 @@ func constructPolicymanagerRequest(inputString string) {
 	fmt.Println("bird: %v", bird)
 	resource := (&bird).GetResource()
 	fmt.Println(fmt.Sprintf("bird creds: %v", (&resource).GetCreds()))
+
+	return &bird
 }
 
 // GetPoliciesDecisions - getPoliciesDecisions
@@ -106,9 +108,9 @@ func (c *DefaultApiController) GetPoliciesDecisions(w http.ResponseWriter, r *ht
 	fmt.Println("formatRequest")
 	fmt.Println(formatRequest(r))
 
-	constructPolicymanagerRequest(query.Get("input"))
-	input2 := []openapiclient.PolicymanagerRequest{}
-	result, err := c.service.GetPoliciesDecisions(r.Context(), input2)
+	input2 := constructPolicymanagerRequest(query.Get("input"))
+	input3 := []openapiclient.PolicymanagerRequest{*input2}
+	result, err := c.service.GetPoliciesDecisions(r.Context(), input3)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)

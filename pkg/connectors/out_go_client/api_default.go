@@ -27,9 +27,9 @@ var (
 type DefaultApiService service
 
 type ApiGetPoliciesDecisionsRequest struct {
-	ctx _context.Context
+	ctx        _context.Context
 	ApiService *DefaultApiService
-	input *PolicymanagerRequest
+	input      *PolicymanagerRequest
 }
 
 func (r ApiGetPoliciesDecisionsRequest) Input(input PolicymanagerRequest) ApiGetPoliciesDecisionsRequest {
@@ -50,7 +50,7 @@ func (r ApiGetPoliciesDecisionsRequest) Execute() ([]PolicymanagerResponse, *_ne
 func (a *DefaultApiService) GetPoliciesDecisions(ctx _context.Context) ApiGetPoliciesDecisionsRequest {
 	return ApiGetPoliciesDecisionsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -82,7 +82,9 @@ func (a *DefaultApiService) GetPoliciesDecisionsExecute(r ApiGetPoliciesDecision
 		return localVarReturnValue, nil, reportError("input is required and must be specified")
 	}
 
-	localVarQueryParams.Add("input", parameterToString(*r.input, ""))
+	//localVarQueryParams.Add("input", parameterToString(*r.input, ""))
+	retval, _ := parameterToJson(*r.input)
+	localVarQueryParams.Add("input", retval)
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

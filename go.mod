@@ -47,7 +47,8 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/spf13/cobra v1.1.1
 	github.com/stretchr/testify v1.7.0
-	github.com/tidwall/pretty v1.0.1 // indirect
+	github.com/tidwall/gjson v1.8.0
+	github.com/tidwall/pretty v1.1.0
 	github.com/xeipuuv/gojsonschema v1.2.0
 	go.mongodb.org/mongo-driver v1.4.2 // indirect
 	go.opencensus.io v0.23.0 // indirect

@@ -1,9 +1,6 @@
 policy manager request: %v &{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}
-Response from `DefaultApi.GetPoliciesDecisions`: []
-panic: runtime error: index out of range [0] with length 0
-
-goroutine 1 [running]:
-github.com/mesh-for-data/mesh-for-data/pkg/connectors/clients.(*openApiPolicyManager).GetPoliciesDecisions(0xc00000cfa0, 0xc000072780, 0xc0001a1ef8, 0x2, 0x2)
-	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/pkg/connectors/clients/policymanager_openapi.go:66 +0x405
-main.main()
-	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/pkg/connectors/manager-client2.go:39 +0x310
+Error when calling `DefaultApi.GetPoliciesDecisions``: 501 Not Implemented
+Full HTTP response: &{501 Not Implemented 501 HTTP/1.1 1 1 map[Content-Length:[46] Content-Type:[application/json; charset=UTF-8] Date:[Mon, 28 Jun 2021 07:27:26 GMT]] {"GetPoliciesDecisions method not implemented"
+Response from `DefaultApi.GetPoliciesDecisions`: %v
+ <nil>
+} 46 [] false false map[] 0xc00016e200 <nil>}

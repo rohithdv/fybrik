@@ -4,7 +4,6 @@
 package lib
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/buger/jsonparser"
 	"github.com/hashicorp/go-retryablehttp"
+	"github.com/tidwall/pretty"
 )
 
 func performHTTPReq(standardClient *http.Client, address string, httpMethod string, content string, contentType string) *http.Response {
@@ -56,7 +56,7 @@ func doesOpaHaveUserPoliciesLoaded(responsedata []byte) (string, bool) {
 	return decisionid, true
 }
 
-func EvaluatePoliciesOnInput(inputMap map[string]interface{}, opaServerURL string, policyToBeEvaluated string) (string, error) {
+func EvaluatePoliciesOnInput(inputJSON string, opaServerURL string, policyToBeEvaluated string) (string, error) {
 	if !strings.HasPrefix(opaServerURL, "http://") {
 		opaServerURL = "http://" + opaServerURL + "/"
 	}
@@ -71,10 +71,12 @@ func EvaluatePoliciesOnInput(inputMap map[string]interface{}, opaServerURL strin
 
 	// input HTTP req
 	httpMethod := "POST"
-	toPrintBytes, _ := json.MarshalIndent(inputMap, "", "\t")
-	inputJSON := "{ \"input\": " + string(toPrintBytes) + " }"
-	log.Println("inputJSON")
-	log.Println(inputJSON)
+	// toPrintBytes, _ := json.MarshalIndent(inputMap, "", "\t")
+	// inputJSON := "{ \"input\": " + string(toPrintBytes) + " }"
+	log.Println("inputJSON in pretty print ")
+	res1 := pretty.Pretty([]byte(inputJSON))
+	log.Println("res = ", string(res1))
+
 	contentType := "application/json"
 	log.Println("opaServerURL")
 	log.Println(opaServerURL)

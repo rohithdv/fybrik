@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
@@ -21,27 +22,107 @@ func NewOpaReader(opasrvurl string) *OpaReader {
 	return &OpaReader{opaServerURL: opasrvurl}
 }
 
+func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient.PolicymanagerRequest, metadata map[string]interface{}) (*openapiclient.PolicymanagerRequest, error) {
+
+	responseBytes, errJSON := json.MarshalIndent(metadata, "", "\t")
+	if errJSON != nil {
+		return nil, fmt.Errorf("error Marshalling External Catalog Connector Response: %v", errJSON)
+	}
+
+	// https://stackoverflow.com/questions/21268000/unmarshaling-nested-json-objects
+	var f interface{}
+	json.Unmarshal(responseBytes, &f)
+
+	m := f.(map[string]interface{})
+	log.Println("dataset_id", m["dataset_id"])
+
+	f = m["details"]
+	m = f.(map[string]interface{})
+
+	f = m["metadata"]
+	m = f.(map[string]interface{})
+
+	f = m["components_metadata"]
+	m = f.(map[string]interface{})
+
+	listofcols := []string{}
+	listoftags := [][]string{}
+	lstOfValueTags := []string{}
+	for key, val := range m {
+		log.Println("key :", key)
+		log.Println("val :", val)
+		listofcols = append(listofcols, key)
+
+		m = val.(map[string]interface{})
+		if v, ok := m["tags"]; ok {
+			l := v.([]interface{})
+
+			lstOfValueTags = []string{}
+			for _, l1 := range l {
+				lstOfValueTags = append(lstOfValueTags, l1.(string))
+			}
+			listoftags = append(listoftags, lstOfValueTags)
+		} else {
+			lstOfValueTags = []string{}
+			listoftags = append(listoftags, lstOfValueTags)
+		}
+	}
+	log.Println("******** listofcols : *******", listofcols)
+	log.Println("******** listoftags: *******", listoftags)
+
+	cols := []openapiclient.ResourceColumns{}
+
+	var newcol *openapiclient.ResourceColumns
+	numOfCols := len(listofcols)
+	numOfTags := 0
+	for i := 0; i < numOfCols; i++ {
+		newcol = new(openapiclient.ResourceColumns)
+		newcol.SetName(listofcols[i])
+		numOfTags = len(listoftags[i])
+		if numOfTags > 0 {
+			p := make(map[string]map[string]interface{})
+			q := make(map[string]interface{})
+			q[listofcols[i]] = listoftags[i]
+			p["tags"] = q
+			newcol.SetTags(p)
+		}
+		// if val, ok := inputMap2["tags"]; ok {
+		// 	newcol.SetTags(val.(map[string]map[string]interface{}))
+		// }
+		cols = append(cols, *newcol)
+	}
+	log.Println("******** cols : *******")
+	log.Println("cols=", cols)
+	for i := 0; i < numOfCols; i++ {
+		log.Println("cols=", cols[i].GetName())
+		log.Println("cols=", cols[i].GetTags())
+	}
+	log.Println("******** in before: *******", *in)
+	log.Println("******** res before: *******", in.Resource)
+	res := in.Resource
+	(&res).SetColumns(cols)
+	in.SetResource(res)
+	log.Println("******** res after: *******", res)
+	log.Println("******** in after: *******", *in)
+
+	log.Println("******** udpated policy manager resp object : *******")
+	b, err := json.Marshal(*in)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	fmt.Println("stringified policy manager request", string(b))
+	log.Println("******** udpated policy manager resp object end : *******")
+	time.Sleep(8 * time.Second)
+
+	return in, nil
+}
+
 func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, catalogReader *CatalogReader, policyToBeEvaluated string) (*openapiclient.PolicymanagerResponse, error) {
 	datasetsMetadata, err := catalogReader.GetDatasetsMetadataFromCatalog(in)
 	if err != nil {
 		return nil, err
 	}
-
-	requestContext := in.GetRequestContext()
-	requestContextBytes, err := json.MarshalIndent(requestContext, "", "\t")
-	if err != nil {
-		return nil, fmt.Errorf("error in marshalling requestContext: %v", err)
-	}
-	log.Println("requestContext : " + string(requestContextBytes))
-	requestContextMap := make(map[string]interface{})
-	err = json.Unmarshal(requestContextBytes, &requestContextMap)
-	if err != nil {
-		return nil, fmt.Errorf("error in unmarshalling requestContextBytes: %v", err)
-	}
-
-	// to store the list of DatasetDecision
-	// var datasetDecisionList []*pb.DatasetDecision
-
 	datasetID := in.GetResource().Name
 	metadata := datasetsMetadata[datasetID]
 
@@ -50,56 +131,27 @@ func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, cata
 		return nil, fmt.Errorf("error in unmarshalling dataset metadata (datasetID = %s): %v", datasetID, err)
 	}
 
-	//operation := datasetContext.GetOperation()
-	operation := in.GetAction().ActionType
-	inputMap["type"] = operation
-	// // Encode operation in a map[string]interface
-	// operationBytes, err := json.MarshalIndent(operation, "", "\t")
-	// log.Println("Operation Bytes: " + string(operationBytes))
-	// if err != nil {
-	// 	return nil, fmt.Errorf("error in marshalling operation (i = %d): %v", i, err)
-	// }
-	// operationMap := make(map[string]interface{})
-	// err = json.Unmarshal(operationBytes, &operationMap)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("error in marshalling into operation map (i = %d): %v", i, err)
-	// }
-	// for k, v := range operationMap {
-	// 	if k == "type" {
-	// 		inputMap[k] = pb.AccessOperation_AccessType_name[int32(operation.GetType())]
-	// 	} else {
-	// 		inputMap[k] = v
-	// 	}
-	// }
+	in, _ = r.updatePolicyManagerRequestWithResourceInfo(in, inputMap)
 
-	// Combine with appInfoMap
-	for k, v := range requestContextMap {
-		inputMap[k] = v
+	b, err := json.Marshal(*in)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
 	}
-	// Printing the combined map
-	toPrintBytes, _ := json.MarshalIndent(inputMap, "", "\t")
-	log.Println("********sending this to OPA : *******")
-	log.Println(string(toPrintBytes))
-	opaEval, err := EvaluatePoliciesOnInput(inputMap, r.opaServerURL, policyToBeEvaluated)
+	fmt.Println("stringified policy manager request", string(b))
+	inputJSON := "{ \"input\": " + string(b) + " }"
+
+	opaEval, err := EvaluatePoliciesOnInput(inputJSON, r.opaServerURL, policyToBeEvaluated)
 	if err != nil {
 		log.Printf("error in EvaluatePoliciesOnInput : %v", err)
 		return nil, fmt.Errorf("error in EvaluatePoliciesOnInput : %v", err)
 	}
 	log.Println("OPA Eval : " + opaEval)
+	operation := in.GetAction().ActionType
 	opaOperationDecision, err := GetOPAOperationDecision(opaEval, &operation)
 	if err != nil {
 		return nil, fmt.Errorf("error in GetOPAOperationDecision : %v", err)
 	}
-	// // Add to a list
-	// var opaOperationDecisionList []*pb.OperationDecision
-	// opaOperationDecisionList = append(opaOperationDecisionList, opaOperationDecision)
-	// // Create a new *DatasetDecision
-	// datasetDecison := &pb.DatasetDecision{Dataset: dataset, Decisions: opaOperationDecisionList}
-	// datasetDecisionList = append(datasetDecisionList, datasetDecison)
-
-	// var implResp = new(v2opa.ImplResponse)
-	// implResp.Body = opaOperationDecision
-
 	return opaOperationDecision, nil
 }
 
