@@ -39,11 +39,10 @@
                     "type": "string",
                     "description": "Name of the data set"
                 },
-                "creds": {
-                    "type": "string",
-                    "description": "location of dataset credentials"
+                "tags": { 
+                    "type": "object",
+                    "additionalProperties": true 
                 },
-                "tags": { "$ref": "#/definitions/tags" },
                 "columns": {
                     "type": "array",
                     "description": "List of column names in the data set with their associated tags. They must be key value pairs.",
@@ -54,7 +53,10 @@
                                 "type": "string",
                                 "description": "name of column or component"
                             },
-                            "tags": { "$ref": "#/definitions/tags" }
+                            "tags": { 
+                                "type": "object",
+                                "additionalProperties": true 
+                            }
                         },
                         "required": ["name"]
                     }

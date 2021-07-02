@@ -14,12 +14,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
-
 	opabl "github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/lib"
+	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 )
 
 func getEnv(key string) string {
@@ -43,12 +43,12 @@ func NewDefaultApiService() DefaultApiServicer {
 }
 
 // GetPoliciesDecisions - getPoliciesDecisions
-func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input []openapiclient.PolicymanagerRequest) (ImplResponse, error) {
+func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input openapiclient.PolicymanagerRequest, creds string) (ImplResponse, error) {
 	// TODO - update GetPoliciesDecisions with the required logic for this service method.
 	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, []PolicymanagerResponse{}) or use other options such as http.Ok ...
-	//return Response(200, []PolicymanagerResponse{}), nil
+	//TODO: Uncomment the next line to return response Response(200, PolicymanagerResponse{}) or use other options such as http.Ok ...
+	//return Response(200, PolicymanagerResponse{}), nil
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
 	//return Response(400, nil),nil
@@ -96,7 +96,7 @@ func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input []op
 	opaReader := opabl.NewOpaReader(opaServerURL)
 
 	catalogReader := opabl.NewCatalogReader(catalogConnectorAddress, timeOut)
-	eval, err := opaReader.GetOPADecisions(&input[0], catalogReader, policyToBeEvaluated)
+	eval, err := opaReader.GetOPADecisions(&input, creds, catalogReader, policyToBeEvaluated)
 	if err != nil {
 		log.Println("GetOPADecisions err:", err)
 		return ImplResponse{}, err
@@ -109,7 +109,10 @@ func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input []op
 	//return eval, err
 
 	var implResp = new(ImplResponse)
-	implResp.Body = *eval
+	implResp.Body = eval
+	implResp.Code = http.StatusOK
+
+	log.Println("implResp evaluation : ", *implResp)
 
 	return *implResp, nil
 

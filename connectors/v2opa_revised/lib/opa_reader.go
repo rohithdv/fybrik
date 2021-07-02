@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"time"
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
@@ -113,23 +112,23 @@ func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient
 	}
 	fmt.Println("stringified policy manager request", string(b))
 	log.Println("******** udpated policy manager resp object end : *******")
-	time.Sleep(8 * time.Second)
+	//time.Sleep(8 * time.Second)
 
 	return in, nil
 }
 
-func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, catalogReader *CatalogReader, policyToBeEvaluated string) (*openapiclient.PolicymanagerResponse, error) {
+func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, creds string, catalogReader *CatalogReader, policyToBeEvaluated string) (openapiclient.PolicymanagerResponse, error) {
 
-	datasetsMetadata, err := catalogReader.GetDatasetsMetadataFromCatalog(in)
+	datasetsMetadata, err := catalogReader.GetDatasetsMetadataFromCatalog(in, creds)
 	if err != nil {
-		return nil, err
+		return openapiclient.PolicymanagerResponse{}, err
 	}
 	datasetID := in.GetResource().Name
 	metadata := datasetsMetadata[datasetID]
 
 	inputMap, ok := metadata.(map[string]interface{})
 	if !ok {
-		return nil, fmt.Errorf("error in unmarshalling dataset metadata (datasetID = %s): %v", datasetID, err)
+		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in unmarshalling dataset metadata (datasetID = %s): %v", datasetID, err)
 	}
 
 	in, _ = r.updatePolicyManagerRequestWithResourceInfo(in, inputMap)
@@ -137,7 +136,7 @@ func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, cata
 	b, err := json.Marshal(*in)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return openapiclient.PolicymanagerResponse{}, err
 	}
 	fmt.Println("stringified policy manager request", string(b))
 	inputJSON := "{ \"input\": " + string(b) + " }"
@@ -145,27 +144,30 @@ func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, cata
 	opaEval, err := EvaluatePoliciesOnInput(inputJSON, r.opaServerURL, policyToBeEvaluated)
 	if err != nil {
 		log.Printf("error in EvaluatePoliciesOnInput : %v", err)
-		return nil, fmt.Errorf("error in EvaluatePoliciesOnInput : %v", err)
+		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in EvaluatePoliciesOnInput : %v", err)
 	}
 	log.Println("OPA Eval : " + opaEval)
 	operation := in.GetAction().ActionType
 	opaOperationDecision, err := GetOPAOperationDecision(opaEval, &operation)
 	if err != nil {
-		return nil, fmt.Errorf("error in GetOPAOperationDecision : %v", err)
+		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in GetOPAOperationDecision : %v", err)
 	}
+
+	log.Println("opaOperationDecision : ", opaOperationDecision)
+
 	return opaOperationDecision, nil
 }
 
 // Translate the evaluation received from OPA for (dataset, operation) into pb.OperationDecision
-func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType) (*openapiclient.PolicymanagerResponse, error) {
+func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType) (openapiclient.PolicymanagerResponse, error) {
 	resultInterface := make(map[string]interface{})
 	err := json.Unmarshal([]byte(opaEval), &resultInterface)
 	if err != nil {
-		return nil, err
+		return openapiclient.PolicymanagerResponse{}, err
 	}
 	evaluationMap, ok := resultInterface["result"].(map[string]interface{})
 	if !ok {
-		return nil, errors.New("error in format of OPA evaluation (incorrect result map)")
+		return openapiclient.PolicymanagerResponse{}, errors.New("error in format of OPA evaluation (incorrect result map)")
 	}
 
 	// Now iterate over
@@ -178,7 +180,7 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 	if evaluationMap["deny"] != nil {
 		lstDeny, ok := evaluationMap["deny"].([]interface{})
 		if !ok {
-			return nil, errors.New("unknown format of deny content")
+			return openapiclient.PolicymanagerResponse{}, errors.New("unknown format of deny content")
 		}
 		if len(lstDeny) > 0 {
 
@@ -211,13 +213,13 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 	if evaluationMap["transform"] != nil {
 		lstTransformations, ok := evaluationMap["transform"].([]interface{})
 		if !ok {
-			return nil, errors.New("unknown format of transform content")
+			return openapiclient.PolicymanagerResponse{}, errors.New("unknown format of transform content")
 		}
 		for i, transformAction := range lstTransformations {
 
 			newEnforcementAction, newUsedPolicy, ok := buildNewEnfrocementAction(transformAction)
 			if !ok {
-				return nil, errors.New("unknown format of transform action")
+				return openapiclient.PolicymanagerResponse{}, errors.New("unknown format of transform action")
 			}
 			var action1 = new(openapiclient.Action1)
 			action1.ActionOnColumns = newEnforcementAction
@@ -256,7 +258,7 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 	log.Println("enforcementActions: ", enforcementActions)
 	log.Println("usedPolicies: ", usedPolicies)
 
-	return policyManagerResp, nil
+	return *policyManagerResp, nil
 }
 
 func buildNewEnfrocementAction(transformAction interface{}) (*openapiclient.ActionOnColumns, *string, bool) {

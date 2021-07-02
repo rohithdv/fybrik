@@ -27,17 +27,22 @@ var (
 type DefaultApiService service
 
 type ApiGetPoliciesDecisionsRequest struct {
-	ctx        _context.Context
+	ctx _context.Context
 	ApiService *DefaultApiService
-	input      *PolicymanagerRequest
+	input *PolicymanagerRequest
+	creds *string
 }
 
 func (r ApiGetPoliciesDecisionsRequest) Input(input PolicymanagerRequest) ApiGetPoliciesDecisionsRequest {
 	r.input = &input
 	return r
 }
+func (r ApiGetPoliciesDecisionsRequest) Creds(creds string) ApiGetPoliciesDecisionsRequest {
+	r.creds = &creds
+	return r
+}
 
-func (r ApiGetPoliciesDecisionsRequest) Execute() ([]PolicymanagerResponse, *_nethttp.Response, error) {
+func (r ApiGetPoliciesDecisionsRequest) Execute() (PolicymanagerResponse, *_nethttp.Response, error) {
 	return r.ApiService.GetPoliciesDecisionsExecute(r)
 }
 
@@ -50,22 +55,22 @@ func (r ApiGetPoliciesDecisionsRequest) Execute() ([]PolicymanagerResponse, *_ne
 func (a *DefaultApiService) GetPoliciesDecisions(ctx _context.Context) ApiGetPoliciesDecisionsRequest {
 	return ApiGetPoliciesDecisionsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 /*
  * Execute executes the request
- * @return []PolicymanagerResponse
+ * @return PolicymanagerResponse
  */
-func (a *DefaultApiService) GetPoliciesDecisionsExecute(r ApiGetPoliciesDecisionsRequest) ([]PolicymanagerResponse, *_nethttp.Response, error) {
+func (a *DefaultApiService) GetPoliciesDecisionsExecute(r ApiGetPoliciesDecisionsRequest) (PolicymanagerResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  []PolicymanagerResponse
+		localVarReturnValue  PolicymanagerResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.GetPoliciesDecisions")
@@ -81,8 +86,12 @@ func (a *DefaultApiService) GetPoliciesDecisionsExecute(r ApiGetPoliciesDecision
 	if r.input == nil {
 		return localVarReturnValue, nil, reportError("input is required and must be specified")
 	}
+	if r.creds == nil {
+		return localVarReturnValue, nil, reportError("creds is required and must be specified")
+	}
 
-	localVarQueryParams.Add("input", parameterToJson(*r.input))
+	localVarQueryParams.Add("input", parameterToString(*r.input, ""))
+	localVarQueryParams.Add("creds", parameterToString(*r.creds, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

@@ -29,5 +29,5 @@ type DefaultApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type DefaultApiServicer interface { 
-	GetPoliciesDecisions(context.Context, PolicymanagerRequest) (ImplResponse, error)
+	GetPoliciesDecisions(context.Context, PolicymanagerRequest, string) (ImplResponse, error)
 }

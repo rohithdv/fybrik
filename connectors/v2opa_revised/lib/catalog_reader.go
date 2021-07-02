@@ -36,10 +36,10 @@ func NewCatalogReader(address string, timeOut int) *CatalogReader {
 }
 
 // return map  datasetID -> metadata of dataset in form of map
-func (r *CatalogReader) GetDatasetsMetadataFromCatalog(in *openapiclient.PolicymanagerRequest) (map[string]interface{}, error) {
+func (r *CatalogReader) GetDatasetsMetadataFromCatalog(in *openapiclient.PolicymanagerRequest, creds string) (map[string]interface{}, error) {
 	datasetsMetadata := make(map[string]interface{})
 	catalogProviderName := getEnv("CATALOG_PROVIDER_NAME")
-	creds := ((in.GetResource()).Creds)
+	// creds := ((in.GetResource()).Creds)
 	// datasetID -> metadata of dataset in form of map
 	datasetID := (in.GetResource()).Name
 
@@ -47,7 +47,7 @@ func (r *CatalogReader) GetDatasetsMetadataFromCatalog(in *openapiclient.Policym
 
 		connectionURL := r.catalogConnectorAddress
 		connectionTimeout := time.Duration(r.timeOut) * time.Second
-		log.Println("(*in.GetResource()).Creds :", ((in.GetResource()).Creds))
+		log.Println("creds in GetDatasetsMetadataFromCatalog:", creds)
 		log.Println("Create new catalog connection using catalog connector address: ", r.catalogConnectorAddress)
 
 		var dataCatalog clients.DataCatalog

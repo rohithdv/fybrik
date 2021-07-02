@@ -22,14 +22,20 @@ paths:
         name: input
         required: true
         style: form
+      - description: credentials to wkc connector
+        explode: true
+        in: query
+        name: creds
+        required: true
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/policymanager_response'
-                type: array
+                $ref: '#/components/schemas/policymanager_response'
           description: successful operation
         "400":
           description: Invalid status value
@@ -119,9 +125,6 @@ components:
         name:
           description: Name of the data set
           type: string
-        creds:
-          description: location of dataset credentials
-          type: string
         tags:
           additionalProperties: true
           type: object
@@ -134,9 +137,6 @@ components:
       required:
       - creds
       - name
-      type: object
-    tags:
-      additionalProperties: true
       type: object
     action_1:
       description: 'Contains one of two action types '

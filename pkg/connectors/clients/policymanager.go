@@ -19,7 +19,7 @@ type PolicyManager interface {
 // PolicyManager is an interface of a facade to connect to a policy manager.
 type PolicyManager2 interface {
 	//pb.PolicyManagerServiceServer
-	GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest) (*openapiclient.PolicymanagerResponse, error)
+	GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error)
 	//io.Closer
 }
 

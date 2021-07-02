@@ -27,12 +27,12 @@ func NewDefaultApiService() DefaultApiServicer {
 }
 
 // GetPoliciesDecisions - getPoliciesDecisions
-func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input PolicymanagerRequest) (ImplResponse, error) {
+func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input PolicymanagerRequest, creds string) (ImplResponse, error) {
 	// TODO - update GetPoliciesDecisions with the required logic for this service method.
 	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, []PolicymanagerResponse{}) or use other options such as http.Ok ...
-	//return Response(200, []PolicymanagerResponse{}), nil
+	//TODO: Uncomment the next line to return response Response(200, PolicymanagerResponse{}) or use other options such as http.Ok ...
+	//return Response(200, PolicymanagerResponse{}), nil
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
 	//return Response(400, nil),nil

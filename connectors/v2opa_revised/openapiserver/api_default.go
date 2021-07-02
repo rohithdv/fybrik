@@ -10,7 +10,6 @@
 package openapiserver
 
 import (
-	// "encoding/json"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -18,8 +17,8 @@ import (
 	"net/url"
 	"strings"
 
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	// "github.com/gorilla/mux"
+	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 )
 
 // A DefaultApiController binds http requests to an api service and writes the service results to the http response
@@ -78,8 +77,8 @@ func constructPolicymanagerRequest(inputString string) *openapiclient.Policymana
 	var bird openapiclient.PolicymanagerRequest
 	json.Unmarshal([]byte(inputString), &bird)
 	fmt.Println("bird: %v", bird)
-	resource := (&bird).GetResource()
-	fmt.Println(fmt.Sprintf("bird creds: %v", (&resource).GetCreds()))
+	//resource := (&bird).GetResource()
+	//fmt.Println(fmt.Sprintf("bird creds: %v", (&resource).GetCreds()))
 
 	return &bird
 }
@@ -87,9 +86,16 @@ func constructPolicymanagerRequest(inputString string) *openapiclient.Policymana
 // GetPoliciesDecisions - getPoliciesDecisions
 func (c *DefaultApiController) GetPoliciesDecisions(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	// input := query.Get("input")
+	creds := query.Get("creds")
+
+	// query := r.URL.Query()
 	// input := strings.Split(query.Get("input"), ",")
 	fmt.Println("query77777")
 	fmt.Println(query)
+
+	fmt.Println("creds received")
+	fmt.Println(creds)
 
 	fmt.Println("HTTP Request Got")
 	fmt.Println(formatRequest(r))
@@ -109,8 +115,9 @@ func (c *DefaultApiController) GetPoliciesDecisions(w http.ResponseWriter, r *ht
 	fmt.Println(formatRequest(r))
 
 	input2 := constructPolicymanagerRequest(query.Get("input"))
-	input3 := []openapiclient.PolicymanagerRequest{*input2}
-	result, err := c.service.GetPoliciesDecisions(r.Context(), input3)
+	//input3 := []openapiclient.PolicymanagerRequest{*input2}
+
+	result, err := c.service.GetPoliciesDecisions(r.Context(), *input2, creds)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)

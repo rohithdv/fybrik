@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"log"
 	"time"
 
 	connectors "github.com/mesh-for-data/mesh-for-data/pkg/connectors/clients"
@@ -30,13 +29,16 @@ func main() {
 
 	input := openapiclient.NewPolicymanagerRequestWithDefaults()
 	input.SetAction(*openapiclient.NewAction(openapiclient.ActionType("read")))
-	input.SetResource(*openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))
+	input.SetResource(*openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"))
 	//input.SetRequestContext(openapiclient.RequestContext{})
 
 	// input := openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.ActionType("read")), *openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))} // []PolicymanagerRequest | input values that need to be considered for filter
 
-	fmt.Fprintln(os.Stdout, "policy manager request: %v", input)
-	response, err := policyManager.GetPoliciesDecisions(input)
+	log.Println("in manager-client - policy manager request: ", input)
+	log.Println("in manager-client - creds: ", creds)
 
-	fmt.Fprintln(os.Stdout, "Response from `DefaultApi.GetPoliciesDecisions`: %v\n", response)
+	response, err := policyManager.GetPoliciesDecisions(input, creds)
+
+	bytes, _ := response.MarshalJSON()
+	log.Println("in manager-client - Response from `policyManager.GetPoliciesDecisions`: \n", string(bytes))
 }

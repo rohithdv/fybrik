@@ -1,41 +1,42 @@
-2021/07/01 15:12:56 Server started
+2021/07/02 16:57:46 Server started
+2021/07/02 16:58:07 Received PolicymanagerRequest
+2021/07/02 16:58:07 {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/02 16:58:07 Env. variable extracted: CATALOG_CONNECTOR_URL - wkc-connector.m4d-system:50090
+2021/07/02 16:58:07 Env. variable extracted: CONNECTION_TIMEOUT - 120
+2021/07/02 16:58:07 Env. variable extracted: OPA_SERVER_URL - opa:8181
+2021/07/02 16:58:07 Env. variable extracted: CATALOG_PROVIDER_NAME - WKC
+2021/07/02 16:58:07 creds in GetDatasetsMetadataFromCatalog: http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
 query77777
-map[input:[{"action":{"action_type":"read"},"resource":{"creds":"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d","name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}]]
+map[creds:[http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d] input:[{"action":{"action_type":"read"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}]]
+creds received
+http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
 HTTP Request Got
-GET /getPoliciesDecisions?input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22creds%22%3A%22http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d%22%2C%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
+GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
 Host: v2opaconnector.m4d-system:50050
 user-agent: OpenAPI-Generator/1.0.0/go
 accept: application/json
 accept-encoding: gzip
 encodedValue
-/getPoliciesDecisions?input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22creds%22%3A%22http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d%22%2C%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D
+/getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D
 decodedValue
-/getPoliciesDecisions?input={"action":{"action_type":"read"},"resource":{"creds":"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d","name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+/getPoliciesDecisions?creds=http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d&input={"action":{"action_type":"read"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
 formatRequest
-GET /getPoliciesDecisions?input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22creds%22%3A%22http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d%22%2C%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
+GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
 Host: v2opaconnector.m4d-system:50050
 user-agent: OpenAPI-Generator/1.0.0/go
+2021/07/02 16:58:07 Create new catalog connection using catalog connector address:  wkc-connector.m4d-system:50090
 accept: application/json
 accept-encoding: gzip
 inconstructPolicymanagerRequest
 inputString
-{"action":{"action_type":"read"},"resource":{"creds":"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d","name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
-2021/07/01 15:13:18 Received PolicymanagerRequest
-2021/07/01 15:13:18 [{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}]
-2021/07/01 15:13:18 Env. variable extracted: CATALOG_CONNECTOR_URL - wkc-connector.m4d-system:50090
-2021/07/01 15:13:18 Env. variable extracted: CONNECTION_TIMEOUT - 120
-2021/07/01 15:13:18 Env. variable extracted: OPA_SERVER_URL - opa:8181
-2021/07/01 15:13:18 Env. variable extracted: CATALOG_PROVIDER_NAME - WKC
-2021/07/01 15:13:18 (*in.GetResource()).Creds : http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
-2021/07/01 15:13:18 Create new catalog connection using catalog connector address:  wkc-connector.m4d-system:50090
-bird: %v {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}
-bird creds: http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+{"action":{"action_type":"read"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+bird: %v {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
 Reached Server!
 input
-[{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}]
-2021/07/01 15:13:22 Received Response from External Catalog Connector for  dataSetID: {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
-2021/07/01 15:13:22 Response received from External Catalog Connector is given below:
-2021/07/01 15:13:22 {
+{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/02 16:58:11 Received Response from External Catalog Connector for  dataSetID: {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
+2021/07/02 16:58:11 Response received from External Catalog Connector is given below:
+2021/07/02 16:58:11 {
 	"dataset_id": "{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}",
 	"details": {
 		"name": "NTNU asset",
@@ -145,72 +146,87 @@ input
 		}
 	}
 }
-2021/07/01 15:13:22 dataset_id {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
-2021/07/01 15:13:22 key : nameDest
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : nameOrig
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : newbalanceDest
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : oldbalanceOrg
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : type
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : isFlaggedFraud
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : isFraud
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : newbalanceOrig
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
-2021/07/01 15:13:22 key : oldbalanceDest
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : step
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/01 15:13:22 key : amount
-2021/07/01 15:13:22 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
-2021/07/01 15:13:22 ******** listofcols : ******* [nameDest nameOrig newbalanceDest oldbalanceOrg type isFlaggedFraud isFraud newbalanceOrig oldbalanceDest step amount]
-2021/07/01 15:13:22 ******** listoftags: ******* [[] [] [] [] [] [] [] [Confidential] [] [] [Confidential]]
-2021/07/01 15:13:22 ******** cols : *******
-2021/07/01 15:13:22 cols= [{nameDest <nil>} {nameOrig <nil>} {newbalanceDest <nil>} {oldbalanceOrg <nil>} {type <nil>} {isFlaggedFraud <nil>} {isFraud <nil>} {newbalanceOrig 0xc00000e658} {oldbalanceDest <nil>} {step <nil>} {amount 0xc00000e660}]
-2021/07/01 15:13:22 cols= nameDest
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= nameOrig
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= newbalanceDest
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= oldbalanceOrg
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= type
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= isFlaggedFraud
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= isFraud
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= newbalanceOrig
-2021/07/01 15:13:22 cols= map[tags:map[newbalanceOrig:[Confidential]]]
-2021/07/01 15:13:22 cols= oldbalanceDest
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= step
-2021/07/01 15:13:22 cols= map[]
-2021/07/01 15:13:22 cols= amount
-2021/07/01 15:13:22 cols= map[tags:map[amount:[Confidential]]]
-2021/07/01 15:13:22 ******** in before: ******* {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}
-2021/07/01 15:13:22 ******** res before: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}
-2021/07/01 15:13:22 ******** res after: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> 0xc00030a1a0}
-2021/07/01 15:13:22 ******** in after: ******* {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> 0xc00030a1a0}}
-2021/07/01 15:13:22 ******** udpated policy manager resp object : *******
-2021/07/01 15:13:22 ******** udpated policy manager resp object end : *******
-stringified policy manager request {"action":{"action_type":"read"},"resource":{"columns":[{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"oldbalanceOrg"},{"name":"type"},{"name":"isFlaggedFraud"},{"name":"isFraud"},{"name":"newbalanceOrig","tags":{"tags":{"newbalanceOrig":["Confidential"]}}},{"name":"oldbalanceDest"},{"name":"step"},{"name":"amount","tags":{"tags":{"amount":["Confidential"]}}}],"creds":"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d","name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
-stringified policy manager request {"action":{"action_type":"read"},"resource":{"columns":[{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"oldbalanceOrg"},{"name":"type"},{"name":"isFlaggedFraud"},{"name":"isFraud"},{"name":"newbalanceOrig","tags":{"tags":{"newbalanceOrig":["Confidential"]}}},{"name":"oldbalanceDest"},{"name":"step"},{"name":"amount","tags":{"tags":{"amount":["Confidential"]}}}],"creds":"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d","name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
-2021/07/01 15:13:30 using opaServerURL in OPAConnector EvaluatePoliciesOnInput:  http://opa:8181/
-2021/07/01 15:13:30 inputJSON in pretty print 
-2021/07/01 15:13:30 res =  {
+2021/07/02 16:58:11 dataset_id {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
+2021/07/02 16:58:11 key : isFraud
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : oldbalanceDest
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : step
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : type
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : isFlaggedFraud
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : nameDest
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : nameOrig
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : newbalanceDest
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : newbalanceOrig
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
+2021/07/02 16:58:11 key : oldbalanceOrg
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/02 16:58:11 key : amount
+2021/07/02 16:58:11 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
+2021/07/02 16:58:11 ******** listofcols : ******* [isFraud oldbalanceDest step type isFlaggedFraud nameDest nameOrig newbalanceDest newbalanceOrig oldbalanceOrg amount]
+2021/07/02 16:58:11 ******** listoftags: ******* [[] [] [] [] [] [] [] [] [Confidential] [] [Confidential]]
+2021/07/02 16:58:11 ******** cols : *******
+2021/07/02 16:58:11 cols= [{isFraud <nil>} {oldbalanceDest <nil>} {step <nil>} {type <nil>} {isFlaggedFraud <nil>} {nameDest <nil>} {nameOrig <nil>} {newbalanceDest <nil>} {newbalanceOrig 0xc000232288} {oldbalanceOrg <nil>} {amount 0xc000232290}]
+2021/07/02 16:58:11 cols= isFraud
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= oldbalanceDest
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= step
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= type
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= isFlaggedFraud
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= nameDest
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= nameOrig
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= newbalanceDest
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= newbalanceOrig
+2021/07/02 16:58:11 cols= map[tags:map[newbalanceOrig:[Confidential]]]
+2021/07/02 16:58:11 cols= oldbalanceOrg
+2021/07/02 16:58:11 cols= map[]
+2021/07/02 16:58:11 cols= amount
+2021/07/02 16:58:11 cols= map[tags:map[amount:[Confidential]]]
+2021/07/02 16:58:11 ******** in before: ******* {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/02 16:58:11 ******** res before: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}
+2021/07/02 16:58:11 ******** res after: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> 0xc00034a9a0}
+2021/07/02 16:58:11 ******** in after: ******* {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> 0xc00034a9a0}}
+2021/07/02 16:58:11 ******** udpated policy manager resp object : *******
+2021/07/02 16:58:11 ******** udpated policy manager resp object end : *******
+2021/07/02 16:58:11 using opaServerURL in OPAConnector EvaluatePoliciesOnInput:  http://opa:8181/
+stringified policy manager request {"action":{"action_type":"read"},"resource":{"columns":[{"name":"isFraud"},{"name":"oldbalanceDest"},{"name":"step"},{"name":"type"},{"name":"isFlaggedFraud"},{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"newbalanceOrig","tags":{"tags":{"newbalanceOrig":["Confidential"]}}},{"name":"oldbalanceOrg"},{"name":"amount","tags":{"tags":{"amount":["Confidential"]}}}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+stringified policy manager request {"action":{"action_type":"read"},"resource":{"columns":[{"name":"isFraud"},{"name":"oldbalanceDest"},{"name":"step"},{"name":"type"},{"name":"isFlaggedFraud"},{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"newbalanceOrig","tags":{"tags":{"newbalanceOrig":["Confidential"]}}},{"name":"oldbalanceOrg"},{"name":"amount","tags":{"tags":{"amount":["Confidential"]}}}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+2021/07/02 16:58:11 inputJSON in pretty print 
+2021/07/02 16:58:11 res =  {
   "input": {
     "action": {
       "action_type": "read"
     },
     "resource": {
       "columns": [
+        {
+          "name": "isFraud"
+        },
+        {
+          "name": "oldbalanceDest"
+        },
+        {
+          "name": "step"
+        },
+        {
+          "name": "type"
+        },
+        {
+          "name": "isFlaggedFraud"
+        },
         {
           "name": "nameDest"
         },
@@ -221,18 +237,6 @@ stringified policy manager request {"action":{"action_type":"read"},"resource":{
           "name": "newbalanceDest"
         },
         {
-          "name": "oldbalanceOrg"
-        },
-        {
-          "name": "type"
-        },
-        {
-          "name": "isFlaggedFraud"
-        },
-        {
-          "name": "isFraud"
-        },
-        {
           "name": "newbalanceOrig",
           "tags": {
             "tags": {
@@ -241,10 +245,7 @@ stringified policy manager request {"action":{"action_type":"read"},"resource":{
           }
         },
         {
-          "name": "oldbalanceDest"
-        },
-        {
-          "name": "step"
+          "name": "oldbalanceOrg"
         },
         {
           "name": "amount",
@@ -255,29 +256,29 @@ stringified policy manager request {"action":{"action_type":"read"},"resource":{
           }
         }
       ],
-      "creds": "http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d",
       "name": "{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"
     }
   }
 }
 
-2021/07/01 15:13:30 opaServerURL
-2021/07/01 15:13:30 http://opa:8181/
-2021/07/01 15:13:30 req in OPAConnector performHTTPReq:  &{POST http://opa:8181/v1/data/dataapi/authz  0 0 map[Content-Type:[application/json; charset=UTF-8]] {0xc00030aa40} <nil> 0 [] false  map[] map[] <nil> map[]   <nil> <nil> <nil> <nil>}
-2021/07/01 15:13:30 httpMethod in OPAConnector performHTTPReq:  POST
-2021/07/01 15:13:30 reqURL in OPAConnector performHTTPReq:  http://opa:8181/v1/data/dataapi/authz
-2021/07/01 15:13:30 reqBody in OPAConnector performHTTPReq:  {0xc00030aa40}
-2021/07/01 15:13:30 POST succeeded
-2021/07/01 15:13:30 body from input http response: {"decision_id":"ec393109-7436-4ed1-a224-86b20f60f740","result":{"transform":[]}}
-2021/07/01 15:13:30 status from input http response: 200
-2021/07/01 15:13:30 responsestring data
-2021/07/01 15:13:30 {"decision_id":"ec393109-7436-4ed1-a224-86b20f60f740","result":{"transform":[]}}
-2021/07/01 15:13:30 decision_id: ec393109-7436-4ed1-a224-86b20f60f740
-2021/07/01 15:13:30 result: {"transform":[]}
-2021/07/01 15:13:30 OPA Eval : {"decision_id":"ec393109-7436-4ed1-a224-86b20f60f740","result":{"transform":[]}}
-2021/07/01 15:13:30 enforcementActions:  []
-2021/07/01 15:13:30 usedPolicies:  []
-2021/07/01 15:13:30 Received evaluation : {
+2021/07/02 16:58:11 opaServerURL
+2021/07/02 16:58:11 http://opa:8181/
+2021/07/02 16:58:11 req in OPAConnector performHTTPReq:  &{POST http://opa:8181/v1/data/dataapi/authz  0 0 map[Content-Type:[application/json; charset=UTF-8]] {0xc00034b2a0} <nil> 0 [] false  map[] map[] <nil> map[]   <nil> <nil> <nil> <nil>}
+2021/07/02 16:58:11 httpMethod in OPAConnector performHTTPReq:  POST
+2021/07/02 16:58:11 reqURL in OPAConnector performHTTPReq:  http://opa:8181/v1/data/dataapi/authz
+2021/07/02 16:58:11 reqBody in OPAConnector performHTTPReq:  {0xc00034b2a0}
+2021/07/02 16:58:11 POST succeeded
+2021/07/02 16:58:11 body from input http response: {"decision_id":"4db3a404-d4c7-4623-95a0-307026237d1c","result":{"transform":[]}}
+2021/07/02 16:58:11 status from input http response: 200
+2021/07/02 16:58:11 responsestring data
+2021/07/02 16:58:11 {"decision_id":"4db3a404-d4c7-4623-95a0-307026237d1c","result":{"transform":[]}}
+2021/07/02 16:58:11 decision_id: 4db3a404-d4c7-4623-95a0-307026237d1c
+2021/07/02 16:58:11 result: {"transform":[]}
+2021/07/02 16:58:11 OPA Eval : {"decision_id":"4db3a404-d4c7-4623-95a0-307026237d1c","result":{"transform":[]}}
+2021/07/02 16:58:11 enforcementActions:  []
+2021/07/02 16:58:11 usedPolicies:  []
+2021/07/02 16:58:11 opaOperationDecision :  {<nil> [{{<nil> 0xc0000ba3e0} }]}
+2021/07/02 16:58:11 Received evaluation : {
 	"result": [
 		{
 			"action": {
@@ -287,31 +288,5 @@ stringified policy manager request {"action":{"action_type":"read"},"resource":{
 		}
 	]
 }
-2021/07/01 15:13:30 http: panic serving 10.244.0.44:55152: invalid WriteHeader code 0
-goroutine 6 [running]:
-net/http.(*conn).serve.func1(0xc0001a4820)
-	/usr/local/go/src/net/http/server.go:1801 +0x147
-panic(0x984e20, 0xc0000a0540)
-	/usr/local/go/src/runtime/panic.go:975 +0x47a
-net/http.checkWriteHeaderCode(...)
-	/usr/local/go/src/net/http/server.go:1110
-net/http.(*response).WriteHeader(0xc0001c60e0, 0x0)
-	/usr/local/go/src/net/http/server.go:1144 +0x5ce
-github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver.EncodeJSONResponse(0x9e9be0, 0xc0000a46a0, 0xc0002e1958, 0xb10f40, 0xc0001c60e0, 0x1, 0x0)
-	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/openapiserver/routers.go:66 +0x138
-github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver.(*DefaultApiController).GetPoliciesDecisions(0xc00001fc40, 0xb10f40, 0xc0001c60e0, 0xc0001c0300)
-	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/openapiserver/api_default.go:120 +0x792
-net/http.HandlerFunc.ServeHTTP(0xc00001fc50, 0xb10f40, 0xc0001c60e0, 0xc0001c0300)
-	/usr/local/go/src/net/http/server.go:2042 +0x44
-github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver.Logger.func1(0xb10f40, 0xc0001c60e0, 0xc0001c0300)
-	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/openapiserver/logger.go:22 +0xb0
-net/http.HandlerFunc.ServeHTTP(0xc00018cc00, 0xb10f40, 0xc0001c60e0, 0xc0001c0300)
-	/usr/local/go/src/net/http/server.go:2042 +0x44
-github.com/gorilla/mux.(*Router).ServeHTTP(0xc000158180, 0xb10f40, 0xc0001c60e0, 0xc0001c0100)
-	/home/rohith/go/pkg/mod/github.com/gorilla/mux@v1.7.4/mux.go:210 +0xd3
-net/http.serverHandler.ServeHTTP(0xc0001c6000, 0xb10f40, 0xc0001c60e0, 0xc0001c0100)
-	/usr/local/go/src/net/http/server.go:2843 +0xa3
-net/http.(*conn).serve(0xc0001a4820, 0xb11d80, 0xc00002b040)
-	/usr/local/go/src/net/http/server.go:1925 +0x8ad
-created by net/http.(*Server).Serve
-	/usr/local/go/src/net/http/server.go:2969 +0x36c
+2021/07/02 16:58:11 implResp evaluation :  {200 {<nil> [{{<nil> 0xc0000ba3e0} }]}}
+2021/07/02 16:58:11 GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D GetPoliciesDecisions 3.957933551s

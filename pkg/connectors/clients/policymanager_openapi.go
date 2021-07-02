@@ -6,6 +6,7 @@ package clients
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -50,20 +51,20 @@ func NewOpenApiPolicyManager(name string, connectionURL string, connectionTimeou
 	}, nil
 }
 
-func (m *openApiPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest) (*openapiclient.PolicymanagerResponse, error) {
+func (m *openApiPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error) {
 	//input := []openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.ActionType("read")), *openapiclient.NewResource("Name_example"))} // []PolicymanagerRequest | input values that need to be considered for filter
 
 	//input := []openapiclient.PolicymanagerRequest{*in}
 
-	resp, r, err := m.client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(*in).Execute()
+	resp, r, err := m.client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(*in).Creds(creds).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.GetPoliciesDecisions``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 		return nil, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
 	}
 	// response from `GetPoliciesDecisions`: []PolicymanagerResponse
-	fmt.Fprintf(os.Stdout, "Response from `DefaultApi.GetPoliciesDecisions`: %v\n", resp)
-	return &resp[0], nil
+	log.Println(os.Stdout, "1Response from `DefaultApi.GetPoliciesDecisions`: \n", resp)
+	return &resp, nil
 }
 
 func (m *openApiPolicyManager) Close() error {

@@ -3,12 +3,12 @@
 set -e
 set -x
 
-#cd ../../config/taxonomy
-#./generate_client_server.sh
-#pwd
-#cd ../../pkg/connectors
-#rm -rf out_go_client 
-#cp -r ../../config/taxonomy/out_go_client .
+# cd ../../config/taxonomy
+# ./generate_client_server.sh
+# pwd
+# cd ../../pkg/connectors
+# rm -rf out_go_client 
+# cp -r ../../config/taxonomy/out_go_client .
 # pwd
 # cd out_go_client
 # rm go.mod 

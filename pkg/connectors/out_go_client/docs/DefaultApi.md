@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## GetPoliciesDecisions
 
-> []PolicymanagerResponse GetPoliciesDecisions(ctx).Input(input).Execute()
+> PolicymanagerResponse GetPoliciesDecisions(ctx).Input(input).Creds(creds).Execute()
 
 getPoliciesDecisions
 
@@ -29,16 +29,17 @@ import (
 )
 
 func main() {
-    input := *openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.action_type("read")), *openapiclient.NewResource("Name_example", "Creds_example")) // PolicymanagerRequest | input values that need to be considered for filter
+    input := *openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.action_type("read")), *openapiclient.NewResource("Name_example")) // PolicymanagerRequest | input values that need to be considered for filter
+    creds := "creds_example" // string | credentials to wkc connector
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(input).Execute()
+    resp, r, err := api_client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(input).Creds(creds).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.GetPoliciesDecisions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetPoliciesDecisions`: []PolicymanagerResponse
+    // response from `GetPoliciesDecisions`: PolicymanagerResponse
     fmt.Fprintf(os.Stdout, "Response from `DefaultApi.GetPoliciesDecisions`: %v\n", resp)
 }
 ```
@@ -55,10 +56,11 @@ Other parameters are passed through a pointer to a apiGetPoliciesDecisionsReques
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **input** | [**PolicymanagerRequest**](PolicymanagerRequest.md) | input values that need to be considered for filter | 
+ **creds** | **string** | credentials to wkc connector | 
 
 ### Return type
 
-[**[]PolicymanagerResponse**](PolicymanagerResponse.md)
+[**PolicymanagerResponse**](PolicymanagerResponse.md)
 
 ### Authorization
 

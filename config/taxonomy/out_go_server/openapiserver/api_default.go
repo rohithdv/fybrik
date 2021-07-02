@@ -43,7 +43,8 @@ func (c *DefaultApiController) Routes() Routes {
 func (c *DefaultApiController) GetPoliciesDecisions(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	input := query.Get("input")
-	result, err := c.service.GetPoliciesDecisions(r.Context(), input)
+	creds := query.Get("creds")
+	result, err := c.service.GetPoliciesDecisions(r.Context(), input, creds)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)

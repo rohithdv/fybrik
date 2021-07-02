@@ -1,6 +1,6 @@
-policy manager request: %v &{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d <nil> <nil>}}
-Error when calling `DefaultApi.GetPoliciesDecisions``: 501 Not Implemented
-Full HTTP response: &{501 Not Implemented 501 HTTP/1.1 1 1 map[Content-Length:[46] Content-Type:[application/json; charset=UTF-8] Date:[Mon, 28 Jun 2021 07:27:26 GMT]] {"GetPoliciesDecisions method not implemented"
-Response from `DefaultApi.GetPoliciesDecisions`: %v
- <nil>
-} 46 [] false false map[] 0xc00016e200 <nil>}
+2021/07/02 16:58:07 in manager-client - policy manager request:  &{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/02 16:58:07 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/02 16:58:11 &{0xc0000680c0} 1Response from `DefaultApi.GetPoliciesDecisions`: 
+ {<nil> [{{<nil> 0xc0000aa098} }]}
+2021/07/02 16:58:11 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
+ {"result":[{"action":{"name":"AllowAccess"},"policy":""}]}
