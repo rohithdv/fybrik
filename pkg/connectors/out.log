@@ -1,6 +1,6 @@
-2021/07/02 16:58:07 in manager-client - policy manager request:  &{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/02 16:58:07 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
-2021/07/02 16:58:11 &{0xc0000680c0} 1Response from `DefaultApi.GetPoliciesDecisions`: 
- {<nil> [{{<nil> 0xc0000aa098} }]}
-2021/07/02 16:58:11 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
- {"result":[{"action":{"name":"AllowAccess"},"policy":""}]}
+2021/07/03 07:40:38 in manager-client - policy manager request:  &{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/03 07:40:38 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/03 07:40:41 &{0xc0000be060} 1Response from `DefaultApi.GetPoliciesDecisions`: 
+ {<nil> [{{<nil> 0xc00021e090} ; test for transactions dataset with deny}]}
+2021/07/03 07:40:41 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
+ {"result":[{"action":{"name":"DenyAccess"},"policy":"; test for transactions dataset with deny"}]}

@@ -10,7 +10,6 @@ import (
 	"log"
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
-	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
 )
 
 type OpaReader struct {
@@ -171,8 +170,8 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 	}
 
 	// Now iterate over
-	enforcementActions := make([]*pb.EnforcementAction, 0)
-	usedPolicies := make([]*pb.Policy, 0)
+	// enforcementActions := make([]*pb.EnforcementAction, 0)
+	// usedPolicies := make([]*pb.Policy, 0)
 
 	var policyManagerResp = new(openapiclient.PolicymanagerResponse)
 	policyManagerResp.Result = make([]openapiclient.PolicymanagerResponseResult, 0)
@@ -239,7 +238,7 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 		}
 	}
 
-	if len(enforcementActions) == 0 { // allow action
+	if len(policyManagerResp.Result) == 0 { // allow action
 		// newEnforcementAction := &pb.EnforcementAction{Name: "Allow", Id: "Allow-ID", Level: pb.EnforcementAction_DATASET, Args: map[string]string{}}
 		// enforcementActions = append(enforcementActions, newEnforcementAction)
 
@@ -255,8 +254,8 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 
 	}
 
-	log.Println("enforcementActions: ", enforcementActions)
-	log.Println("usedPolicies: ", usedPolicies)
+	// log.Println("enforcementActions: ", enforcementActions)
+	// log.Println("usedPolicies: ", usedPolicies)
 
 	return *policyManagerResp, nil
 }
