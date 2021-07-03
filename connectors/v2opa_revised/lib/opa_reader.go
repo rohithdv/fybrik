@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"reflect"
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 )
@@ -131,14 +132,13 @@ func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, cred
 	}
 
 	in, _ = r.updatePolicyManagerRequestWithResourceInfo(in, inputMap)
-
 	b, err := json.Marshal(*in)
 	if err != nil {
 		fmt.Println(err)
 		return openapiclient.PolicymanagerResponse{}, err
 	}
-	fmt.Println("stringified policy manager request", string(b))
 	inputJSON := "{ \"input\": " + string(b) + " }"
+	fmt.Println("updated stringified policy manager request iun GetOPADecisions", inputJSON)
 
 	opaEval, err := EvaluatePoliciesOnInput(inputJSON, r.opaServerURL, policyToBeEvaluated)
 	if err != nil {
@@ -146,19 +146,19 @@ func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, cred
 		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in EvaluatePoliciesOnInput : %v", err)
 	}
 	log.Println("OPA Eval : " + opaEval)
+
 	operation := in.GetAction().ActionType
-	opaOperationDecision, err := GetOPAOperationDecision(opaEval, &operation)
+	policyManagerResponse, err := ConvertOpaResponseToPolicymanagerResponse(opaEval, &operation)
 	if err != nil {
-		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in GetOPAOperationDecision : %v", err)
+		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in ConvertOpaResponseToPolicymanagerResponse : %v", err)
 	}
 
-	log.Println("opaOperationDecision : ", opaOperationDecision)
-
-	return opaOperationDecision, nil
+	log.Println("policyManagerResponse : ", policyManagerResponse)
+	return policyManagerResponse, nil
 }
 
 // Translate the evaluation received from OPA for (dataset, operation) into pb.OperationDecision
-func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType) (openapiclient.PolicymanagerResponse, error) {
+func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openapiclient.ActionType) (openapiclient.PolicymanagerResponse, error) {
 	resultInterface := make(map[string]interface{})
 	err := json.Unmarshal([]byte(opaEval), &resultInterface)
 	if err != nil {
@@ -169,10 +169,6 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 		return openapiclient.PolicymanagerResponse{}, errors.New("error in format of OPA evaluation (incorrect result map)")
 	}
 
-	// Now iterate over
-	// enforcementActions := make([]*pb.EnforcementAction, 0)
-	// usedPolicies := make([]*pb.Policy, 0)
-
 	var policyManagerResp = new(openapiclient.PolicymanagerResponse)
 	policyManagerResp.Result = make([]openapiclient.PolicymanagerResponseResult, 0)
 
@@ -182,30 +178,28 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 			return openapiclient.PolicymanagerResponse{}, errors.New("unknown format of deny content")
 		}
 		if len(lstDeny) > 0 {
+			//for i, reason := range lstDeny {
+			for i := 0; i < len(lstDeny); i++ {
+				var action1 = new(openapiclient.Action1)
+				action1.ActionOnDatasets = new(openapiclient.ActionOnDatasets)
+				action1.ActionOnDatasets.SetName(openapiclient.DENY_ACCESS)
 
-			var action1 = new(openapiclient.Action1)
-			action1.ActionOnDatasets = new(openapiclient.ActionOnDatasets)
-			action1.ActionOnDatasets.SetName(openapiclient.DENY_ACCESS)
-
-			result := openapiclient.PolicymanagerResponseResult{
-				Action: *action1,
-				Policy: "",
-			}
-			//newEnforcementAction := &pb.EnforcementAction{Name: "Deny", Id: "Deny-ID", Level: pb.EnforcementAction_DATASET, Args: map[string]string{}}
-			//enforcementActions = append(enforcementActions, newEnforcementAction)
-
-			for i, reason := range lstDeny {
-				if reasonMap, ok := reason.(map[string]interface{}); ok {
-					if newUsedPolicy, ok := buildNewPolicy(reasonMap["used_policy"]); ok {
-						result.Policy = result.Policy + "; " + *newUsedPolicy
-						continue
-					}
+				result := openapiclient.PolicymanagerResponseResult{
+					Action: *action1,
+					Policy: "",
 				}
-				log.Printf("Warning: unknown format of argument %d of lstDeny list. Skipping", i)
-				continue
-			}
 
-			policyManagerResp.Result = append(policyManagerResp.Result, result)
+				log.Println("lstDeny[i]", lstDeny[i])
+				log.Println("lstDeny[i]", lstDeny[i].(string))
+				// Declared an empty map interface
+				var result1 map[string]interface{}
+				json.Unmarshal([]byte(lstDeny[i].(string)), &result1)
+				log.Println("result1 type in ConvertOpaResponseToPolicymanagerResponse", reflect.TypeOf(result1))
+				result.Policy = result1["policy"].(string)
+
+				log.Println("lstDeny[i]", lstDeny[i])
+				policyManagerResp.Result = append(policyManagerResp.Result, result)
+			}
 		}
 	}
 
@@ -216,7 +210,7 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 		}
 		for i, transformAction := range lstTransformations {
 
-			newEnforcementAction, newUsedPolicy, ok := buildNewEnfrocementAction(transformAction)
+			newEnforcementAction, ok := buildNewEnforcementAction(transformAction)
 			if !ok {
 				return openapiclient.PolicymanagerResponse{}, errors.New("unknown format of transform action")
 			}
@@ -227,97 +221,128 @@ func GetOPAOperationDecision(opaEval string, operation *openapiclient.ActionType
 				Policy: "",
 			}
 
-			// enforcementActions = append(enforcementActions, newEnforcementAction)
-			if newUsedPolicy == nil {
-				log.Printf("Warning: empty used policy field for transformation %d", i)
-			} else {
-				//usedPolicies = append(usedPolicies, newUsedPolicy)
-				result.Policy = result.Policy + "; " + *newUsedPolicy
-			}
+			log.Println("lstTransformations[i]", lstTransformations[i])
+			log.Println("lstTransformations[i]", lstTransformations[i].(string))
+			// Declared an empty map interface
+			var result1 map[string]interface{}
+			json.Unmarshal([]byte(lstTransformations[i].(string)), &result1)
+			log.Println("result1 type in ConvertOpaResponseToPolicymanagerResponse transform part ", reflect.TypeOf(result1))
+			result.Policy = result1["policy"].(string)
+
+			// if newUsedPolicy == nil {
+			// 	log.Printf("Warning: empty used policy field for transformation %d", i)
+			// } else {
+			// 	result.Policy = result.Policy + "; " + *newUsedPolicy
+			// }
 			policyManagerResp.Result = append(policyManagerResp.Result, result)
 		}
 	}
 
 	if len(policyManagerResp.Result) == 0 { // allow action
-		// newEnforcementAction := &pb.EnforcementAction{Name: "Allow", Id: "Allow-ID", Level: pb.EnforcementAction_DATASET, Args: map[string]string{}}
-		// enforcementActions = append(enforcementActions, newEnforcementAction)
-
-		var action1 = new(openapiclient.Action1)
-		action1.ActionOnDatasets = new(openapiclient.ActionOnDatasets)
-		action1.ActionOnDatasets.SetName(openapiclient.ALLOW_ACCESS)
-
-		result := openapiclient.PolicymanagerResponseResult{
-			Action: *action1,
-			Policy: "",
-		}
-		policyManagerResp.Result = append(policyManagerResp.Result, result)
-
+		policyManagerResp.Result = append(policyManagerResp.Result, openapiclient.PolicymanagerResponseResult{})
 	}
 
-	// log.Println("enforcementActions: ", enforcementActions)
-	// log.Println("usedPolicies: ", usedPolicies)
-
+	log.Println("*policyManagerResp: ", *policyManagerResp)
 	return *policyManagerResp, nil
 }
 
-func buildNewEnfrocementAction(transformAction interface{}) (*openapiclient.ActionOnColumns, *string, bool) {
-	if action, ok := transformAction.(map[string]interface{}); ok {
-		newUsedPolicy, ok := buildNewPolicy(action["used_policy"])
-		if !ok {
-			log.Println("Warning: unknown format of used policy information. Skipping policy", action)
-		}
+func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.ActionOnColumns, bool) {
+	log.Println("transformAction", transformAction)
+	log.Println("transformAction", transformAction.(string))
+	// Declared an empty map interface
+	var result1 map[string]interface{}
+	json.Unmarshal([]byte(transformAction.(string)), &result1)
+	log.Println("transformAction type :", reflect.TypeOf(result1))
+	log.Println("result1[\"action\"].(string) :", result1["action"].(map[string]interface{}))
 
-		var actionOnColumns = new(openapiclient.ActionOnColumns)
+	//if action, ok := transformAction.(map[string]interface{}); ok {
+	// newUsedPolicy, ok := buildNewPolicy(action["used_policy"])
+	// if !ok {
+	// 	log.Println("Warning: unknown format of used policy information. Skipping policy", action)
+	// }
 
-		if result, ok := action["action_name"].(string); ok {
-			switch result {
-			case string(openapiclient.REMOVE_COLUMN):
-				if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
-					//newEnforcementAction := &pb.EnforcementAction{Name: "removed", Id: "removed-ID",
-					//Level: pb.EnforcementAction_COLUMN, Args: map[string]string{"column_name": columnName}}
-					actionOnColumns.SetName(openapiclient.REMOVE_COLUMN)
-					actionOnColumns.SetColumns([]string{columnName})
+	var actionOnColumns = new(openapiclient.ActionOnColumns)
 
-					return actionOnColumns, newUsedPolicy, true
-				}
-			case string(openapiclient.ENCRYPT_COLUMN):
-				if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
-					// newEnforcementAction := &pb.EnforcementAction{Name: "encrypted", Id: "encrypted-ID",
-					// 	Level: pb.EnforcementAction_COLUMN, Args: map[string]string{"column_name": columnName}}
-					actionOnColumns.SetName(openapiclient.ENCRYPT_COLUMN)
-					actionOnColumns.SetColumns([]string{columnName})
-					return actionOnColumns, newUsedPolicy, true
-				}
-			case string(openapiclient.REDACT_COLUMN):
-				if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
-					// newEnforcementAction := &pb.EnforcementAction{Name: "redact", Id: "redact-ID",
-					// 	Level: pb.EnforcementAction_COLUMN, Args: map[string]string{"column_name": columnName}}
-					actionOnColumns.SetName(openapiclient.REDACT_COLUMN)
-					actionOnColumns.SetColumns([]string{columnName})
-					return actionOnColumns, newUsedPolicy, true
-				}
-			case string(openapiclient.PERIODIC_BLACKOUT):
-				if monthlyDaysNum, ok := extractArgument(action["arguments"], "monthly_days_end"); ok {
-					// newEnforcementAction := &pb.EnforcementAction{Name: "periodic_blackout", Id: "periodic_blackout-ID",
-					// 	Level: pb.EnforcementAction_DATASET, Args: map[string]string{"monthly_days_end": monthlyDaysNum}}
-					//return newEnforcementAction, newUsedPolicy, true
-					actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
-					actionOnColumns.SetColumns([]string{monthlyDaysNum})
-					return actionOnColumns, newUsedPolicy, true
-				} else if yearlyDaysNum, ok := extractArgument(action["arguments"], "yearly_days_end"); ok {
-					// newEnforcementAction := &pb.EnforcementAction{Name: "periodic_blackout", Id: "periodic_blackout-ID",
-					// 	Level: pb.EnforcementAction_DATASET, Args: map[string]string{"yearly_days_end": yearlyDaysNum}}
-					// return newEnforcementAction, newUsedPolicy, true
-					actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
-					actionOnColumns.SetColumns([]string{yearlyDaysNum})
-					return actionOnColumns, newUsedPolicy, true
-				}
-			default:
-				log.Printf("Unknown Enforcement Action receieved from OPA")
+	if result, ok := result1["action"].(map[string]interface{}); ok {
+		res1 := result["name"].(string)
+		switch res1 {
+		case string(openapiclient.REMOVE_COLUMN):
+			actionOnColumns.SetName(openapiclient.REMOVE_COLUMN)
+			log.Println("Name:", openapiclient.REMOVE_COLUMN)
+
+			resCols := result["columns"].([]interface{})
+			log.Println("resCols", resCols)
+			lstOfCols := []string{}
+			for i := 0; i < len(resCols); i++ {
+				lstOfCols = append(lstOfCols, resCols[i].(string))
 			}
+			log.Println("lstOfCols", lstOfCols)
+			actionOnColumns.SetColumns(lstOfCols)
+
+			//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
+			return actionOnColumns, true
+
+		case string(openapiclient.ENCRYPT_COLUMN):
+			//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
+			actionOnColumns.SetName(openapiclient.ENCRYPT_COLUMN)
+			log.Println("Name:", openapiclient.ENCRYPT_COLUMN)
+
+			resCols := result["columns"].([]interface{})
+			log.Println("resCols", resCols)
+			lstOfCols := []string{}
+			for i := 0; i < len(resCols); i++ {
+				lstOfCols = append(lstOfCols, resCols[i].(string))
+			}
+			log.Println("lstOfCols", lstOfCols)
+			actionOnColumns.SetColumns(lstOfCols)
+
+			return actionOnColumns, true
+			//}
+
+		case string(openapiclient.REDACT_COLUMN):
+			//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
+			actionOnColumns.SetName(openapiclient.REDACT_COLUMN)
+			log.Println("Name:", openapiclient.REDACT_COLUMN)
+
+			resCols := result["columns"].([]interface{})
+			log.Println("resCols", resCols)
+			lstOfCols := []string{}
+			for i := 0; i < len(resCols); i++ {
+				lstOfCols = append(lstOfCols, resCols[i].(string))
+			}
+			log.Println("lstOfCols", lstOfCols)
+			actionOnColumns.SetColumns(lstOfCols)
+
+			return actionOnColumns, true
+			//}
+
+		case string(openapiclient.PERIODIC_BLACKOUT):
+			//if monthlyDaysNum, ok := extractArgument(action["arguments"], "monthly_days_end"); ok {
+			actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
+			log.Println("Name:", openapiclient.PERIODIC_BLACKOUT)
+
+			resCols := result["columns"].([]interface{})
+			log.Println("resCols", resCols)
+			lstOfCols := []string{}
+			for i := 0; i < len(resCols); i++ {
+				lstOfCols = append(lstOfCols, resCols[i].(string))
+			}
+			log.Println("lstOfCols", lstOfCols)
+			actionOnColumns.SetColumns(lstOfCols)
+
+			return actionOnColumns, true
+			//}
+			//else if yearlyDaysNum, ok := extractArgument(action["arguments"], "yearly_days_end"); ok {
+			// actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
+			// actionOnColumns.SetColumns(result["columns"].([]string))
+			// return actionOnColumns, true
+			//}
+
+		default:
+			log.Printf("Unknown Enforcement Action receieved from OPA")
 		}
 	}
-	return nil, nil, false
+	return nil, false
 }
 
 func extractArgument(arguments interface{}, argName string) (string, bool) {
@@ -330,9 +355,10 @@ func extractArgument(arguments interface{}, argName string) (string, bool) {
 }
 
 func buildNewPolicy(usedPolicy interface{}) (*string, bool) {
+	log.Println("in buildNewPolicy")
 	if policy, ok := usedPolicy.(map[string]interface{}); ok {
 		//todo: add other fields that can be returned as part of the policy struct
-		if description, ok := policy["description"].(string); ok {
+		if description, ok := policy["policy"].(string); ok {
 			//newUsedPolicy := &pb.Policy{Description: description}
 			newUsedPolicy := description
 			return &newUsedPolicy, true

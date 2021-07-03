@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"time"
 
@@ -41,4 +42,14 @@ func main() {
 
 	bytes, _ := response.MarshalJSON()
 	log.Println("in manager-client - Response from `policyManager.GetPoliciesDecisions`: \n", string(bytes))
+
+	var resp openapiclient.PolicymanagerResponse
+	err = json.Unmarshal(bytes, &resp)
+	log.Println("err: ", err)
+	log.Println("resp: ", resp)
+
+	//res2B, _ := json.Marshal(resp)
+	res, err := json.MarshalIndent(resp, "", "\t")
+	log.Println("err :", err)
+	log.Println("marshalled response:", string(res))
 }

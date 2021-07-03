@@ -11,5 +11,16 @@ deny[action] {
     #user context and access type check
     input.action.action_type == "read"
 
-    action = dp.build_deny_access_action(dp.build_policy_from_description(description))
+    action = "{\"action\":\"DenyAccess\", \"policy\": \"Deny access to dataset\"}" 
+}
+
+
+#for transactions dataset
+transform[action] {
+	description = "test for transactions dataset with deny"
+
+    #user context and access type check
+    input.action.action_type == "read"
+
+    action = "{\"action\": {\"name\": \"RemoveColumn\", \"columns\": [\"ABCD\",\"DEFG\"]}, \"policy\": \"Remove access to some columns in the dataset\"}" 
 }
