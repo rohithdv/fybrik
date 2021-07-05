@@ -5,7 +5,10 @@ package clients
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
+	"log"
 	"time"
 
 	"emperror.dev/errors"
@@ -14,7 +17,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-var _ PolicyManager = (*grpcPolicyManager)(nil)
+var _ PolicyManager2 = (*grpcPolicyManager)(nil)
 
 type grpcPolicyManager struct {
 	name       string
@@ -22,9 +25,18 @@ type grpcPolicyManager struct {
 	client     pb.PolicyManagerServiceClient
 }
 
+// ref: https://sosedoff.com/2014/12/15/generate-random-hex-string-in-go.html
+func randomHex(n int) (string, error) {
+	bytes := make([]byte, n)
+	if _, err := rand.Read(bytes); err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(bytes), nil
+}
+
 // NewGrpcPolicyManager creates a PolicyManager facade that connects to a GRPC service
 // You must call .Close() when you are done using the created instance
-func NewGrpcPolicyManager(name string, connectionURL string, connectionTimeout time.Duration) (PolicyManager, error) {
+func NewGrpcPolicyManager(name string, connectionURL string, connectionTimeout time.Duration) (PolicyManager2, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), connectionTimeout)
 	defer cancel()
 	connection, err := grpc.DialContext(ctx, connectionURL, grpc.WithInsecure(), grpc.WithBlock())
@@ -57,13 +69,78 @@ func (m *grpcPolicyManager) GetPoliciesDecisions(in *openapiclient.Policymanager
 
 	result, err := m.client.GetPoliciesDecisions(context.Background(), appContext)
 
+	// convert GRPC response to Open Api Response - start
+	//decisionId := "3ffb47c7-c3c7-4fe7-b244-b38dc8951b87"
+	// we dont get decision id returned from OPA from GRPC response. So we generate random hex string
+	decisionId, err := randomHex(20)
+	log.Println("decision id generated", decisionId)
+
+	var datasetDecisions []*pb.DatasetDecision
+	var decisions []*pb.OperationDecision
+	datasetDecisions = result.GetDatasetDecisions()
 	respResult := []openapiclient.PolicymanagerResponseResult{}
-	decisionId := ""
+
+	// we assume only one dataset decision is passed
+	for i := 0; i < len(datasetDecisions); i++ {
+		datasetDecision := datasetDecisions[i]
+		//datasetID := datasetDecision.GetDataset()
+		decisions = datasetDecision.GetDecisions()
+
+		for j := 0; j < len(decisions); i++ {
+			decision := decisions[j]
+			operation = decision.GetOperation()
+
+			var enfActionList []*pb.EnforcementAction
+			var usedPoliciesList []*pb.Policy
+			enfActionList = decision.GetEnforcementActions()
+			usedPoliciesList = decision.GetUsedPolicies()
+
+			for k := 0; k < len(enfActionList); k++ {
+				enfAction := enfActionList[k]
+				name := enfAction.GetName()
+				level := enfAction.GetLevel()
+				args := enfAction.GetArgs()
+				policyManagerResult := openapiclient.PolicymanagerResponseResult{}
+
+				if level == pb.EnforcementAction_COLUMN {
+					actionOnCols := openapiclient.ActionOnColumns{}
+					if name == "redact" {
+						actionOnCols.SetName(openapiclient.REDACT_COLUMN)
+						actionOnCols.SetColumns([]string{args["columns_name"]})
+					}
+					if name == "encrypted" {
+						actionOnCols.SetName(openapiclient.ENCRYPT_COLUMN)
+						actionOnCols.SetColumns([]string{args["columns_name"]})
+					}
+					if name == "removed" {
+						actionOnCols.SetName(openapiclient.REMOVE_COLUMN)
+						actionOnCols.SetColumns([]string{args["columns_name"]})
+					}
+					policyManagerResult.SetAction(
+						openapiclient.ActionOnColumnsAsAction1(&actionOnCols))
+				}
+
+				if level == pb.EnforcementAction_DATASET {
+					actionOnDataset := openapiclient.ActionOnDatasets{}
+					if name == "Deny" {
+						actionOnDataset.SetName(openapiclient.DENY_ACCESS)
+					}
+					policyManagerResult.SetAction(
+						openapiclient.ActionOnDatasetsAsAction1(&actionOnDataset))
+				}
+				policy := usedPoliciesList[k].GetDescription()
+				log.Println("usedPoliciesList[k].GetDescription()", policy)
+				policyManagerResult.SetPolicy(policy)
+
+				respResult = append(respResult, policyManagerResult)
+			}
+		}
+	}
+	// convert GRPC response to Open Api Response - end
 	policyManagerResp := &openapiclient.PolicymanagerResponse{DecisionId: &decisionId, Result: respResult}
 
 	return policyManagerResp, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
 	// return result, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
-
 }
 
 // func (m *grpcPolicyManager) GetPoliciesDecisions(ctx context.Context, in *pb.ApplicationContext) (*pb.PoliciesDecisions, error) {
@@ -71,6 +148,6 @@ func (m *grpcPolicyManager) GetPoliciesDecisions(in *openapiclient.Policymanager
 // 	return result, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
 // }
 
-// func (m *grpcPolicyManager) Close() error {
-// 	return m.connection.Close()
-// }
+func (m *grpcPolicyManager) Close() error {
+	return m.connection.Close()
+}
