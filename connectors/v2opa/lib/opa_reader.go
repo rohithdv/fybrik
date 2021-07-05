@@ -22,125 +22,112 @@ func NewOpaReader(opasrvurl string) *OpaReader {
 	return &OpaReader{opaServerURL: opasrvurl}
 }
 
-func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient.PolicymanagerRequest, metadata map[string]interface{}) (*openapiclient.PolicymanagerRequest, error) {
+func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient.PolicymanagerRequest, wkcMetadata map[string]interface{}) (*openapiclient.PolicymanagerRequest, error) {
 
-	responseBytes, errJSON := json.MarshalIndent(metadata, "", "\t")
+	responseBytes, errJSON := json.MarshalIndent(wkcMetadata, "", "\t")
 	if errJSON != nil {
 		return nil, fmt.Errorf("error Marshalling External Catalog Connector Response: %v", errJSON)
 	}
 
 	// https://stackoverflow.com/questions/21268000/unmarshaling-nested-json-objects
-	var f interface{}
-	json.Unmarshal(responseBytes, &f)
+	var wkcJson interface{}
+	json.Unmarshal(responseBytes, &wkcJson)
 
-	m := f.(map[string]interface{})
-	log.Println("dataset_id", m["dataset_id"])
+	if main, ok := wkcJson.(map[string]interface{}); ok {
+		if details, ok := main["details"].(map[string]interface{}); ok {
+			if metadata, ok := details["metadata"].(map[string]interface{}); ok {
+				if datasetTags, ok := metadata["dataset_tags"].([]interface{}); ok {
+					tagArr := make([]string, 0)
+					for i := 0; i < len(datasetTags); i++ {
+						tagVal := datasetTags[i].(string)
+						tagArr = append(tagArr, tagVal)
+					}
+					log.Println("tagArr: ", tagArr)
 
-	f = m["details"]
-	m = f.(map[string]interface{})
+					tagInReq := make(map[string]map[string]interface{})
+					tagVal := make(map[string]interface{})
+					for i := 0; i < len(tagArr); i++ {
+						splitStr := strings.Split(tagArr[i], " = ")
+						// residency = Turkey
+						tagVal[splitStr[0]] = splitStr[1]
+					}
+					tagInReq["tags"] = tagVal
+					resource := in.GetResource()
+					(&resource).SetTags(tagInReq)
+					in.SetResource(resource)
+					log.Println("in.GetResource().GetTags(): ", (&resource).GetTags())
+				}
+				if componentsMetadata, ok := metadata["components_metadata"].(map[string]interface{}); ok {
+					listofcols := []string{}
+					listoftags := [][]string{}
+					lstOfValueTags := []string{}
+					for key, val := range componentsMetadata {
+						log.Println("key :", key)
+						log.Println("val :", val)
+						listofcols = append(listofcols, key)
 
-	f = m["metadata"]
-	m = f.(map[string]interface{})
+						if columnsMetadata, ok := val.(map[string]interface{}); ok {
+							if tagsList, ok := columnsMetadata["tags"].([]interface{}); ok {
+								lstOfValueTags = []string{}
+								for _, tagElem := range tagsList {
+									lstOfValueTags = append(lstOfValueTags, tagElem.(string))
+								}
+								listoftags = append(listoftags, lstOfValueTags)
+							} else {
+								lstOfValueTags = []string{}
+								listoftags = append(listoftags, lstOfValueTags)
+							}
+						}
+					}
+					log.Println("******** listofcols : *******", listofcols)
+					log.Println("******** listoftags: *******", listoftags)
 
-	f1 := m["dataset_tags"]
-	m1 := f1.([]interface{})
+					cols := []openapiclient.ResourceColumns{}
 
-	tagArr := make([]string, 0)
-	for i := 0; i < len(m1); i++ {
-		tagVal := m1[i].(string)
-		tagArr = append(tagArr, tagVal)
-	}
-	log.Println("tagArr: ", tagArr)
+					var newcol *openapiclient.ResourceColumns
+					numOfCols := len(listofcols)
+					numOfTags := 0
+					for i := 0; i < numOfCols; i++ {
+						newcol = new(openapiclient.ResourceColumns)
+						newcol.SetName(listofcols[i])
+						numOfTags = len(listoftags[i])
+						if numOfTags > 0 {
+							p := make(map[string]map[string]interface{})
+							q := make(map[string]interface{})
+							for j := 0; j < len(listoftags[i]); j++ {
+								q[listoftags[i][j]] = "true"
+							}
+							p["tags"] = q
+							newcol.SetTags(p)
+						}
+						cols = append(cols, *newcol)
+					}
+					log.Println("******** cols : *******")
+					log.Println("cols=", cols)
+					for i := 0; i < numOfCols; i++ {
+						log.Println("cols=", cols[i].GetName())
+						log.Println("cols=", cols[i].GetTags())
+					}
+					log.Println("******** in before: *******", *in)
+					log.Println("******** res before: *******", in.Resource)
+					res := in.Resource
+					(&res).SetColumns(cols)
+					in.SetResource(res)
+					log.Println("******** res after: *******", res)
+					log.Println("******** in after: *******", *in)
 
-	//var tagInReq map[string]map[string]interface{}
-	tagInReq := make(map[string]map[string]interface{})
-	tagVal := make(map[string]interface{})
-	for i := 0; i < len(tagArr); i++ {
-		splitStr := strings.Split(tagArr[i], " = ")
-		// residency = Turkey
-		tagVal[splitStr[0]] = splitStr[1]
-	}
-	tagInReq["tags"] = tagVal
-	resource := in.GetResource()
-	(&resource).SetTags(tagInReq)
-	in.SetResource(resource)
-	log.Println("in.GetResource().GetTags(): ", (&resource).GetTags())
-
-	f = m["components_metadata"]
-	m = f.(map[string]interface{})
-
-	listofcols := []string{}
-	listoftags := [][]string{}
-	lstOfValueTags := []string{}
-	for key, val := range m {
-		log.Println("key :", key)
-		log.Println("val :", val)
-		listofcols = append(listofcols, key)
-
-		m = val.(map[string]interface{})
-		if v, ok := m["tags"]; ok {
-			l := v.([]interface{})
-
-			lstOfValueTags = []string{}
-			for _, l1 := range l {
-				lstOfValueTags = append(lstOfValueTags, l1.(string))
+					log.Println("******** udpated policy manager resp object : *******")
+					b, err := json.Marshal(*in)
+					if err != nil {
+						fmt.Println(err)
+						return nil, err
+					}
+					fmt.Println("stringified policy manager request", string(b))
+					log.Println("******** udpated policy manager resp object end : *******")
+				}
 			}
-			listoftags = append(listoftags, lstOfValueTags)
-		} else {
-			lstOfValueTags = []string{}
-			listoftags = append(listoftags, lstOfValueTags)
 		}
 	}
-	log.Println("******** listofcols : *******", listofcols)
-	log.Println("******** listoftags: *******", listoftags)
-
-	cols := []openapiclient.ResourceColumns{}
-
-	var newcol *openapiclient.ResourceColumns
-	numOfCols := len(listofcols)
-	numOfTags := 0
-	for i := 0; i < numOfCols; i++ {
-		newcol = new(openapiclient.ResourceColumns)
-		newcol.SetName(listofcols[i])
-		numOfTags = len(listoftags[i])
-		if numOfTags > 0 {
-			p := make(map[string]map[string]interface{})
-			q := make(map[string]interface{})
-			for j := 0; j < len(listoftags[i]); j++ {
-				q[listoftags[i][j]] = "true"
-			}
-			p["tags"] = q
-			newcol.SetTags(p)
-		}
-		// if val, ok := inputMap2["tags"]; ok {
-		// 	newcol.SetTags(val.(map[string]map[string]interface{}))
-		// }
-		cols = append(cols, *newcol)
-	}
-	log.Println("******** cols : *******")
-	log.Println("cols=", cols)
-	for i := 0; i < numOfCols; i++ {
-		log.Println("cols=", cols[i].GetName())
-		log.Println("cols=", cols[i].GetTags())
-	}
-	log.Println("******** in before: *******", *in)
-	log.Println("******** res before: *******", in.Resource)
-	res := in.Resource
-	(&res).SetColumns(cols)
-	in.SetResource(res)
-	log.Println("******** res after: *******", res)
-	log.Println("******** in after: *******", *in)
-
-	log.Println("******** udpated policy manager resp object : *******")
-	b, err := json.Marshal(*in)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	fmt.Println("stringified policy manager request", string(b))
-	log.Println("******** udpated policy manager resp object end : *******")
-	//time.Sleep(8 * time.Second)
-
 	return in, nil
 }
 
