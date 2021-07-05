@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"reflect"
+	"strconv"
 	"strings"
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
@@ -29,10 +30,11 @@ func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient
 		return nil, fmt.Errorf("error Marshalling External Catalog Connector Response: %v", errJSON)
 	}
 
-	// https://stackoverflow.com/questions/21268000/unmarshaling-nested-json-objects
 	var wkcJson interface{}
-	json.Unmarshal(responseBytes, &wkcJson)
-
+	err := json.Unmarshal(responseBytes, &wkcJson)
+	if err != nil {
+		return nil, fmt.Errorf("error UnMarshalling WKC Catalog Connector Response: %v", err)
+	}
 	if main, ok := wkcJson.(map[string]interface{}); ok {
 		if details, ok := main["details"].(map[string]interface{}); ok {
 			if metadata, ok := details["metadata"].(map[string]interface{}); ok {
@@ -145,11 +147,16 @@ func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, cred
 		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in unmarshalling dataset metadata (datasetID = %s): %v", datasetID, err)
 	}
 
-	in, _ = r.updatePolicyManagerRequestWithResourceInfo(in, inputMap)
+	catalogProviderName := getEnv("CATALOG_PROVIDER_NAME")
+	if catalogProviderName == "WKC" {
+		in, _ = r.updatePolicyManagerRequestWithResourceInfo(in, inputMap)
+	} else {
+		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("processing metadata from non WKC catalog not supported yet (datasetID = %s): %v", datasetID, err)
+	}
 	b, err := json.Marshal(*in)
 	if err != nil {
 		fmt.Println(err)
-		return openapiclient.PolicymanagerResponse{}, err
+		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error during marshal in GetOPADecisions: %v", err)
 	}
 	inputJSON := "{ \"input\": " + string(b) + " }"
 	fmt.Println("updated stringified policy manager request iun GetOPADecisions", inputJSON)
@@ -176,7 +183,7 @@ func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openap
 	resultInterface := make(map[string]interface{})
 	err := json.Unmarshal([]byte(opaEval), &resultInterface)
 	if err != nil {
-		return openapiclient.PolicymanagerResponse{}, err
+		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error unmarshalling in ConvertOpaResponseToPolicymanagerResponse: %v", err)
 	}
 	evaluationMap, ok := resultInterface["result"].(map[string]interface{})
 	if !ok {
@@ -192,7 +199,6 @@ func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openap
 			return openapiclient.PolicymanagerResponse{}, errors.New("unknown format of deny content")
 		}
 		if len(lstDeny) > 0 {
-			//for i, reason := range lstDeny {
 			for i := 0; i < len(lstDeny); i++ {
 				var action1 = new(openapiclient.Action1)
 				action1.ActionOnDatasets = new(openapiclient.ActionOnDatasets)
@@ -207,7 +213,10 @@ func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openap
 				log.Println("lstDeny[i]", lstDeny[i].(string))
 				// Declared an empty map interface
 				var result1 map[string]interface{}
-				json.Unmarshal([]byte(lstDeny[i].(string)), &result1)
+				err := json.Unmarshal([]byte(lstDeny[i].(string)), &result1)
+				if err != nil {
+					return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in unmarshal in ConvertOpaResponseToPolicymanagerResponse lstDeny[%s]: %v", strconv.Itoa(i), err)
+				}
 				log.Println("result1 type in ConvertOpaResponseToPolicymanagerResponse", reflect.TypeOf(result1))
 				result.Policy = result1["policy"].(string)
 
@@ -243,12 +252,6 @@ func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openap
 			result1 = lstTransformations[i].(map[string]interface{})
 			log.Println("result1 type in ConvertOpaResponseToPolicymanagerResponse transform part ", reflect.TypeOf(result1))
 			result.Policy = result1["policy"].(string)
-
-			// if newUsedPolicy == nil {
-			// 	log.Printf("Warning: empty used policy field for transformation %d", i)
-			// } else {
-			// 	result.Policy = result.Policy + "; " + *newUsedPolicy
-			// }
 			policyManagerResp.Result = append(policyManagerResp.Result, result)
 		}
 	}
@@ -263,100 +266,88 @@ func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openap
 
 func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.ActionOnColumns, bool) {
 	log.Println("transformAction", transformAction)
-
-	//log.Println("transformAction", transformAction.(string))
-	// Declared an empty map interface
-	var result1 map[string]interface{}
-	result1 = transformAction.(map[string]interface{})
-	// json.Unmarshal([]byte(transformAction.(string)), &result1)
-	log.Println("transformAction type :", reflect.TypeOf(result1))
-	log.Println("result1[\"action\"].(string) :", result1["action"].(map[string]interface{}))
-
-	//if action, ok := transformAction.(map[string]interface{}); ok {
-	// newUsedPolicy, ok := buildNewPolicy(action["used_policy"])
-	// if !ok {
-	// 	log.Println("Warning: unknown format of used policy information. Skipping policy", action)
-	// }
-
 	var actionOnColumns = new(openapiclient.ActionOnColumns)
+	if result1, ok := transformAction.(map[string]interface{}); ok {
+		log.Println("transformAction type :", reflect.TypeOf(result1))
+		log.Println("result1[\"action\"].(string) :", result1["action"].(map[string]interface{}))
+		if result, ok := result1["action"].(map[string]interface{}); ok {
+			res1 := result["name"].(string)
+			switch res1 {
+			case string(openapiclient.REMOVE_COLUMN):
+				actionOnColumns.SetName(openapiclient.REMOVE_COLUMN)
+				log.Println("Name:", openapiclient.REMOVE_COLUMN)
 
-	if result, ok := result1["action"].(map[string]interface{}); ok {
-		res1 := result["name"].(string)
-		switch res1 {
-		case string(openapiclient.REMOVE_COLUMN):
-			actionOnColumns.SetName(openapiclient.REMOVE_COLUMN)
-			log.Println("Name:", openapiclient.REMOVE_COLUMN)
+				resCols := result["columns"].([]interface{})
+				log.Println("resCols", resCols)
+				lstOfCols := []string{}
+				for i := 0; i < len(resCols); i++ {
+					lstOfCols = append(lstOfCols, resCols[i].(string))
+				}
+				log.Println("lstOfCols", lstOfCols)
+				actionOnColumns.SetColumns(lstOfCols)
 
-			resCols := result["columns"].([]interface{})
-			log.Println("resCols", resCols)
-			lstOfCols := []string{}
-			for i := 0; i < len(resCols); i++ {
-				lstOfCols = append(lstOfCols, resCols[i].(string))
+				//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
+				return actionOnColumns, true
+
+			case string(openapiclient.ENCRYPT_COLUMN):
+				//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
+				actionOnColumns.SetName(openapiclient.ENCRYPT_COLUMN)
+				log.Println("Name:", openapiclient.ENCRYPT_COLUMN)
+
+				resCols := result["columns"].([]interface{})
+				log.Println("resCols", resCols)
+				lstOfCols := []string{}
+				for i := 0; i < len(resCols); i++ {
+					lstOfCols = append(lstOfCols, resCols[i].(string))
+				}
+				log.Println("lstOfCols", lstOfCols)
+				actionOnColumns.SetColumns(lstOfCols)
+
+				return actionOnColumns, true
+				//}
+
+			case string(openapiclient.REDACT_COLUMN):
+				//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
+				actionOnColumns.SetName(openapiclient.REDACT_COLUMN)
+				log.Println("Name:", openapiclient.REDACT_COLUMN)
+
+				resCols := result["columns"].([]interface{})
+				log.Println("resCols", resCols)
+				lstOfCols := []string{}
+				for i := 0; i < len(resCols); i++ {
+					lstOfCols = append(lstOfCols, resCols[i].(string))
+				}
+				log.Println("lstOfCols", lstOfCols)
+				actionOnColumns.SetColumns(lstOfCols)
+
+				return actionOnColumns, true
+				//}
+
+			case string(openapiclient.PERIODIC_BLACKOUT):
+				//if monthlyDaysNum, ok := extractArgument(action["arguments"], "monthly_days_end"); ok {
+				actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
+				log.Println("Name:", openapiclient.PERIODIC_BLACKOUT)
+
+				resCols := result["columns"].([]interface{})
+				log.Println("resCols", resCols)
+				lstOfCols := []string{}
+				for i := 0; i < len(resCols); i++ {
+					lstOfCols = append(lstOfCols, resCols[i].(string))
+				}
+				log.Println("lstOfCols", lstOfCols)
+				actionOnColumns.SetColumns(lstOfCols)
+
+				return actionOnColumns, true
+				//}
+				//else if yearlyDaysNum, ok := extractArgument(action["arguments"], "yearly_days_end"); ok {
+				// actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
+				// actionOnColumns.SetColumns(result["columns"].([]string))
+				// return actionOnColumns, true
+				//}
+
+			default:
+				log.Printf("Unknown Enforcement Action receieved from OPA")
 			}
-			log.Println("lstOfCols", lstOfCols)
-			actionOnColumns.SetColumns(lstOfCols)
-
-			//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
-			return actionOnColumns, true
-
-		case string(openapiclient.ENCRYPT_COLUMN):
-			//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
-			actionOnColumns.SetName(openapiclient.ENCRYPT_COLUMN)
-			log.Println("Name:", openapiclient.ENCRYPT_COLUMN)
-
-			resCols := result["columns"].([]interface{})
-			log.Println("resCols", resCols)
-			lstOfCols := []string{}
-			for i := 0; i < len(resCols); i++ {
-				lstOfCols = append(lstOfCols, resCols[i].(string))
-			}
-			log.Println("lstOfCols", lstOfCols)
-			actionOnColumns.SetColumns(lstOfCols)
-
-			return actionOnColumns, true
-			//}
-
-		case string(openapiclient.REDACT_COLUMN):
-			//if columnName, ok := extractArgument(action["arguments"], "column_name"); ok {
-			actionOnColumns.SetName(openapiclient.REDACT_COLUMN)
-			log.Println("Name:", openapiclient.REDACT_COLUMN)
-
-			resCols := result["columns"].([]interface{})
-			log.Println("resCols", resCols)
-			lstOfCols := []string{}
-			for i := 0; i < len(resCols); i++ {
-				lstOfCols = append(lstOfCols, resCols[i].(string))
-			}
-			log.Println("lstOfCols", lstOfCols)
-			actionOnColumns.SetColumns(lstOfCols)
-
-			return actionOnColumns, true
-			//}
-
-		case string(openapiclient.PERIODIC_BLACKOUT):
-			//if monthlyDaysNum, ok := extractArgument(action["arguments"], "monthly_days_end"); ok {
-			actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
-			log.Println("Name:", openapiclient.PERIODIC_BLACKOUT)
-
-			resCols := result["columns"].([]interface{})
-			log.Println("resCols", resCols)
-			lstOfCols := []string{}
-			for i := 0; i < len(resCols); i++ {
-				lstOfCols = append(lstOfCols, resCols[i].(string))
-			}
-			log.Println("lstOfCols", lstOfCols)
-			actionOnColumns.SetColumns(lstOfCols)
-
-			return actionOnColumns, true
-			//}
-			//else if yearlyDaysNum, ok := extractArgument(action["arguments"], "yearly_days_end"); ok {
-			// actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
-			// actionOnColumns.SetColumns(result["columns"].([]string))
-			// return actionOnColumns, true
-			//}
-
-		default:
-			log.Printf("Unknown Enforcement Action receieved from OPA")
 		}
 	}
 	return nil, false
