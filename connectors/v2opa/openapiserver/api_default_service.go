@@ -18,7 +18,7 @@ import (
 	"os"
 	"strconv"
 
-	opabl "github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/lib"
+	opabl "github.com/mesh-for-data/mesh-for-data/connectors/v2opa/lib"
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 )
 

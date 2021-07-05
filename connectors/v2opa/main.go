@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	v2opa "github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver"
+	v2opa "github.com/mesh-for-data/mesh-for-data/connectors/v2opa/openapiserver"
 )
 
 func main() {
