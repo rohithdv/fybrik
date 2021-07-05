@@ -22,14 +22,7 @@ type openApiPolicyManager struct {
 }
 
 // NewopenApiPolicyManager creates a PolicyManager facade that connects to a openApi service
-// You must call .Close() when you are done using the created instance
 func NewOpenApiPolicyManager(name string, connectionURL string, connectionTimeout time.Duration) (PolicyManager, error) {
-	// ctx, cancel := context.WithTimeout(context.Background(), connectionTimeout)
-	// defer cancel()
-	// connection, err := openApi.DialContext(ctx, connectionURL, openApi.WithInsecure(), openApi.WithBlock())
-	// if err != nil {
-	// 	return nil, errors.Wrap(err, fmt.Sprintf("NewopenApiPolicyManager failed when connecting to %s", connectionURL))
-	// }
 
 	configuration := &openapiclient.Configuration{
 		DefaultHeader: make(map[string]string),
@@ -52,9 +45,6 @@ func NewOpenApiPolicyManager(name string, connectionURL string, connectionTimeou
 }
 
 func (m *openApiPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error) {
-	//input := []openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.ActionType("read")), *openapiclient.NewResource("Name_example"))} // []PolicymanagerRequest | input values that need to be considered for filter
-
-	//input := []openapiclient.PolicymanagerRequest{*in}
 
 	resp, r, err := m.client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(*in).Creds(creds).Execute()
 	if err != nil {
