@@ -1,13 +1,13 @@
-2021/07/05 15:00:47 in manager-client - policy manager request:  &{0xc0000aef80 {read 0xc000097b00} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/05 15:00:47 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
-2021/07/05 15:00:51 &{0xc0000c0060} 1Response from `DefaultApi.GetPoliciesDecisions`: 
- {<nil> [{{0xc0002a8240 <nil>} Columns with Confidential tag to be redacted before read action}]}
-2021/07/05 15:00:51 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
+2021/07/05 15:59:47 in manager-client - policy manager request:  &{0xc00011af80 {read 0xc000103b00} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/05 15:59:47 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/05 15:59:50 &{0xc00012c060} 1Response from `DefaultApi.GetPoliciesDecisions`: 
+ {<nil> [{{0xc00000c240 <nil>} Columns with Confidential tag to be redacted before read action}]}
+2021/07/05 15:59:50 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
  {"result":[{"action":{"columns":["amount","newbalanceOrig"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
-2021/07/05 15:00:51 err:  <nil>
-2021/07/05 15:00:51 resp:  {<nil> [{{0xc0002a85c0 <nil>} Columns with Confidential tag to be redacted before read action}]}
-2021/07/05 15:00:51 err : <nil>
-2021/07/05 15:00:51 marshalled response: {
+2021/07/05 15:59:50 err:  <nil>
+2021/07/05 15:59:50 resp:  {<nil> [{{0xc00000c5c0 <nil>} Columns with Confidential tag to be redacted before read action}]}
+2021/07/05 15:59:50 err : <nil>
+2021/07/05 15:59:50 marshalled response: {
 	"result": [
 		{
 			"action": {

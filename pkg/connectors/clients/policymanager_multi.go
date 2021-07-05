@@ -4,10 +4,10 @@
 package clients
 
 import (
-	"context"
 	"fmt"
 
 	"emperror.dev/errors"
+	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
 	"go.uber.org/multierr"
 )
@@ -28,12 +28,14 @@ type multiPolicyManager struct {
 	managers []PolicyManager
 }
 
-func (m *multiPolicyManager) GetPoliciesDecisions(ctx context.Context, in *pb.ApplicationContext) (*pb.PoliciesDecisions, error) {
+// func (m *multiPolicyManager) GetPoliciesDecisions(ctx context.Context, in *pb.ApplicationContext) (*pb.PoliciesDecisions, error) {
+func (m *multiPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error) {
+
 	var allErr error
-	decisionsList := []*pb.PoliciesDecisions{}
+	decisionsList := []*openapiclient.PolicymanagerResponse{}
 
 	for _, manager := range m.managers {
-		decisions, err := manager.GetPoliciesDecisions(ctx, in)
+		decisions, err := manager.GetPoliciesDecisions(in, creds)
 		if !multierr.AppendInto(&allErr, err) {
 			if decisions != nil {
 				decisionsList = append(decisionsList, decisions)
@@ -41,11 +43,12 @@ func (m *multiPolicyManager) GetPoliciesDecisions(ctx context.Context, in *pb.Ap
 		}
 	}
 
-	// if len(decisionsList) == 0 {
-	// 	return nil, fmt.Errorf("received no policy manager decisions")
-	// }
+	if len(decisionsList) == 0 {
+		return nil, fmt.Errorf("received no policy manager decisions")
+	}
 
-	result := MergePoliciesDecisions(decisionsList...)
+	result := MergePoliciesDecisions2(decisionsList...)
+
 	return result, errors.Wrap(allErr, fmt.Sprintf("multi policy manager returned %d errors", len(multierr.Errors(allErr))))
 }
 

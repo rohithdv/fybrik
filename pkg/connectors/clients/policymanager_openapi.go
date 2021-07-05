@@ -14,7 +14,7 @@ import (
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 )
 
-var _ PolicyManager2 = (*openApiPolicyManager)(nil)
+var _ PolicyManager = (*openApiPolicyManager)(nil)
 
 type openApiPolicyManager struct {
 	name   string
@@ -23,7 +23,7 @@ type openApiPolicyManager struct {
 
 // NewopenApiPolicyManager creates a PolicyManager facade that connects to a openApi service
 // You must call .Close() when you are done using the created instance
-func NewOpenApiPolicyManager(name string, connectionURL string, connectionTimeout time.Duration) (PolicyManager2, error) {
+func NewOpenApiPolicyManager(name string, connectionURL string, connectionTimeout time.Duration) (PolicyManager, error) {
 	// ctx, cancel := context.WithTimeout(context.Background(), connectionTimeout)
 	// defer cancel()
 	// connection, err := openApi.DialContext(ctx, connectionURL, openApi.WithInsecure(), openApi.WithBlock())
