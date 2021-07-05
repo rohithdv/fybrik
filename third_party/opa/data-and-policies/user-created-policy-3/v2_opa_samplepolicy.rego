@@ -9,7 +9,7 @@ deny[action] {
 	description = "test for transactions dataset with deny"
 
     #user context and access type check
-    input.action.action_type == "read"
+    input.action.action_type == "read1"
 
     action = "{\"action\":\"DenyAccess\", \"policy\": \"Deny access to dataset\"}" 
 }
@@ -20,7 +20,7 @@ transform[action] {
 	description = "test for transactions dataset with deny"
 
     #user context and access type check
-    input.action.action_type == "read"
+    input.action.action_type == "read1"
 
     action = "{\"action\": {\"name\": \"RemoveColumn\", \"columns\": [\"ABCD\",\"DEFG\"]}, \"policy\": \"Remove access to some columns in the dataset\"}" 
 }

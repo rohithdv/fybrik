@@ -1,42 +1,42 @@
-2021/07/04 12:17:59 Server started
+2021/07/05 12:23:05 Server started
 query77777
-map[creds:[http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d] input:[{"action":{"action_type":"read"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}]]
+map[creds:[http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d] input:[{"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}]]
 creds received
 http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
 HTTP Request Got
-GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
+GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%2C%22processingLocation%22%3A%22Netherlands%22%7D%2C%22request_context%22%3A%7B%22intent%22%3A%22Fraud+Detection%22%2C%22role%22%3A%22Data+Scientist%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
 Host: v2opaconnector.m4d-system:50050
 user-agent: OpenAPI-Generator/1.0.0/go
 accept: application/json
 accept-encoding: gzip
 encodedValue
-/getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D
+/getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%2C%22processingLocation%22%3A%22Netherlands%22%7D%2C%22request_context%22%3A%7B%22intent%22%3A%22Fraud+Detection%22%2C%22role%22%3A%22Data+Scientist%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D
 decodedValue
-/getPoliciesDecisions?creds=http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d&input={"action":{"action_type":"read"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+/getPoliciesDecisions?creds=http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d&input={"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
 formatRequest
-GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
+GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%2C%22processingLocation%22%3A%22Netherlands%22%7D%2C%22request_context%22%3A%7B%22intent%22%3A%22Fraud+Detection%22%2C%22role%22%3A%22Data+Scientist%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
 Host: v2opaconnector.m4d-system:50050
 user-agent: OpenAPI-Generator/1.0.0/go
 accept: application/json
 accept-encoding: gzip
 inconstructPolicymanagerRequest
 inputString
-{"action":{"action_type":"read"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
-bird: %v {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+{"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+bird: %v {0xc0002162a0 {read 0xc000214330} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
 Reached Server!
 input
-{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/04 12:18:20 Received PolicymanagerRequest
-2021/07/04 12:18:20 {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/04 12:18:20 Env. variable extracted: CATALOG_CONNECTOR_URL - wkc-connector.m4d-system:50090
-2021/07/04 12:18:20 Env. variable extracted: CONNECTION_TIMEOUT - 120
-2021/07/04 12:18:20 Env. variable extracted: OPA_SERVER_URL - opa:8181
-2021/07/04 12:18:20 Env. variable extracted: CATALOG_PROVIDER_NAME - WKC
-2021/07/04 12:18:20 creds in GetDatasetsMetadataFromCatalog: http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
-2021/07/04 12:18:20 Create new catalog connection using catalog connector address:  wkc-connector.m4d-system:50090
-2021/07/04 12:18:23 Received Response from External Catalog Connector for  dataSetID: {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
-2021/07/04 12:18:23 Response received from External Catalog Connector is given below:
-2021/07/04 12:18:23 {
+{0xc0002162a0 {read 0xc000214330} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/05 12:23:21 Received PolicymanagerRequest
+2021/07/05 12:23:21 {0xc0002162a0 {read 0xc000214330} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/05 12:23:21 Env. variable extracted: CATALOG_CONNECTOR_URL - wkc-connector.m4d-system:50090
+2021/07/05 12:23:21 Env. variable extracted: CONNECTION_TIMEOUT - 120
+2021/07/05 12:23:21 Env. variable extracted: OPA_SERVER_URL - opa:8181
+2021/07/05 12:23:21 Env. variable extracted: CATALOG_PROVIDER_NAME - WKC
+2021/07/05 12:23:21 creds in GetDatasetsMetadataFromCatalog: http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/05 12:23:21 Create new catalog connection using catalog connector address:  wkc-connector.m4d-system:50090
+2021/07/05 12:23:24 Received Response from External Catalog Connector for  dataSetID: {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
+2021/07/05 12:23:24 Response received from External Catalog Connector is given below:
+2021/07/05 12:23:24 {
 	"dataset_id": "{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}",
 	"details": {
 		"name": "NTNU asset",
@@ -51,7 +51,7 @@ input
 			}
 		},
 		"data_format": "csv",
-		"geo": "Netherlands",
+		"geo": "Turkey",
 		"metadata": {
 			"dataset_named_metadata": {
 				"asset_attributes": "data_asset,asset_terms,data_profile,column_info",
@@ -64,7 +64,7 @@ input
 				"total_rating": "0"
 			},
 			"dataset_tags": [
-				"residency = Netherlands"
+				"residency = Turkey"
 			],
 			"components_metadata": {
 				"amount": {
@@ -146,94 +146,89 @@ input
 		}
 	}
 }
-2021/07/04 12:18:23 dataset_id {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
-2021/07/04 12:18:23 key : newbalanceOrig
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
-2021/07/04 12:18:23 key : type
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : isFlaggedFraud
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : nameDest
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : nameOrig
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : newbalanceDest
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : oldbalanceDest
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : oldbalanceOrg
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : step
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 key : amount
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
-2021/07/04 12:18:23 key : isFraud
-2021/07/04 12:18:23 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
-2021/07/04 12:18:23 ******** listofcols : ******* [newbalanceOrig type isFlaggedFraud nameDest nameOrig newbalanceDest oldbalanceDest oldbalanceOrg step amount isFraud]
-2021/07/04 12:18:23 ******** listoftags: ******* [[Confidential] [] [] [] [] [] [] [] [] [Confidential] []]
-2021/07/04 12:18:23 ******** cols : *******
-2021/07/04 12:18:23 cols= [{newbalanceOrig 0xc00021e290} {type <nil>} {isFlaggedFraud <nil>} {nameDest <nil>} {nameOrig <nil>} {newbalanceDest <nil>} {oldbalanceDest <nil>} {oldbalanceOrg <nil>} {step <nil>} {amount 0xc00021e298} {isFraud <nil>}]
-2021/07/04 12:18:23 cols= newbalanceOrig
-2021/07/04 12:18:23 cols= map[tags:map[newbalanceOrig:[Confidential]]]
-2021/07/04 12:18:23 cols= type
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= isFlaggedFraud
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= nameDest
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= nameOrig
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= newbalanceDest
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= oldbalanceDest
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= oldbalanceOrg
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= step
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 cols= amount
-2021/07/04 12:18:23 cols= map[tags:map[amount:[Confidential]]]
-2021/07/04 12:18:23 cols= isFraud
-2021/07/04 12:18:23 cols= map[]
-2021/07/04 12:18:23 ******** in before: ******* {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/04 12:18:23 ******** res before: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}
-2021/07/04 12:18:23 ******** res after: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> 0xc0002c4980}
-2021/07/04 12:18:23 ******** in after: ******* {<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> 0xc0002c4980}}
-2021/07/04 12:18:23 ******** udpated policy manager resp object : *******
-stringified policy manager request {"action":{"action_type":"read"},"resource":{"columns":[{"name":"newbalanceOrig","tags":{"tags":{"newbalanceOrig":["Confidential"]}}},{"name":"type"},{"name":"isFlaggedFraud"},{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"oldbalanceDest"},{"name":"oldbalanceOrg"},{"name":"step"},{"name":"amount","tags":{"tags":{"amount":["Confidential"]}}},{"name":"isFraud"}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
-2021/07/04 12:18:23 ******** udpated policy manager resp object end : *******
-updated stringified policy manager request iun GetOPADecisions { "input": {"action":{"action_type":"read"},"resource":{"columns":[{"name":"newbalanceOrig","tags":{"tags":{"newbalanceOrig":["Confidential"]}}},{"name":"type"},{"name":"isFlaggedFraud"},{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"oldbalanceDest"},{"name":"oldbalanceOrg"},{"name":"step"},{"name":"amount","tags":{"tags":{"amount":["Confidential"]}}},{"name":"isFraud"}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}} }
-2021/07/04 12:18:23 using opaServerURL in OPAConnector EvaluatePoliciesOnInput:  http://opa:8181/
-2021/07/04 12:18:23 inputJSON in pretty print 
-2021/07/04 12:18:23 res =  {
+2021/07/05 12:23:24 dataset_id {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
+2021/07/05 12:23:24 tagArr:  [residency = Turkey]
+2021/07/05 12:23:24 in.GetResource().GetTags():  map[tags:map[residency:Turkey]]
+2021/07/05 12:23:24 key : amount
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
+2021/07/05 12:23:24 key : nameDest
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+stringified policy manager request {"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"columns":[{"name":"amount","tags":{"tags":{"Confidential":"true"}}},{"name":"nameDest"},{"name":"oldbalanceDest"},{"name":"oldbalanceOrg"},{"name":"step"},{"name":"isFlaggedFraud"},{"name":"isFraud"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"newbalanceOrig","tags":{"tags":{"Confidential":"true"}}},{"name":"type"}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}","tags":{"tags":{"residency":"Turkey"}}}}
+2021/07/05 12:23:24 key : oldbalanceDest
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 key : oldbalanceOrg
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 key : step
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 key : isFlaggedFraud
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 key : isFraud
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 key : nameOrig
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 key : newbalanceDest
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 key : newbalanceOrig
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
+2021/07/05 12:23:24 key : type
+2021/07/05 12:23:24 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/05 12:23:24 ******** listofcols : ******* [amount nameDest oldbalanceDest oldbalanceOrg step isFlaggedFraud isFraud nameOrig newbalanceDest newbalanceOrig type]
+2021/07/05 12:23:24 ******** listoftags: ******* [[Confidential] [] [] [] [] [] [] [] [] [Confidential] []]
+2021/07/05 12:23:24 ******** cols : *******
+2021/07/05 12:23:24 cols= [{amount 0xc0002a62b8} {nameDest <nil>} {oldbalanceDest <nil>} {oldbalanceOrg <nil>} {step <nil>} {isFlaggedFraud <nil>} {isFraud <nil>} {nameOrig <nil>} {newbalanceDest <nil>} {newbalanceOrig 0xc0002a62c0} {type <nil>}]
+2021/07/05 12:23:24 cols= amount
+2021/07/05 12:23:24 cols= map[tags:map[Confidential:true]]
+updated stringified policy manager request iun GetOPADecisions { "input": {"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"columns":[{"name":"amount","tags":{"tags":{"Confidential":"true"}}},{"name":"nameDest"},{"name":"oldbalanceDest"},{"name":"oldbalanceOrg"},{"name":"step"},{"name":"isFlaggedFraud"},{"name":"isFraud"},{"name":"nameOrig"},{"name":"newbalanceDest"},{"name":"newbalanceOrig","tags":{"tags":{"Confidential":"true"}}},{"name":"type"}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}","tags":{"tags":{"residency":"Turkey"}}}} }
+2021/07/05 12:23:24 cols= nameDest
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= oldbalanceDest
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= oldbalanceOrg
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= step
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= isFlaggedFraud
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= isFraud
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= nameOrig
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= newbalanceDest
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 cols= newbalanceOrig
+2021/07/05 12:23:24 cols= map[tags:map[Confidential:true]]
+2021/07/05 12:23:24 cols= type
+2021/07/05 12:23:24 cols= map[]
+2021/07/05 12:23:24 ******** in before: ******* {0xc0002162a0 {read 0xc000214330} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc0002a62b0 <nil>}}
+2021/07/05 12:23:24 ******** res before: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc0002a62b0 <nil>}
+2021/07/05 12:23:24 ******** res after: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc0002a62b0 0xc0003ccd00}
+2021/07/05 12:23:24 ******** in after: ******* {0xc0002162a0 {read 0xc000214330} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc0002a62b0 0xc0003ccd00}}
+2021/07/05 12:23:24 ******** udpated policy manager resp object : *******
+2021/07/05 12:23:24 ******** udpated policy manager resp object end : *******
+2021/07/05 12:23:24 using opaServerURL in OPAConnector EvaluatePoliciesOnInput:  http://opa:8181/
+2021/07/05 12:23:24 inputJSON in pretty print 
+2021/07/05 12:23:24 res =  {
   "input": {
     "action": {
-      "action_type": "read"
+      "action_type": "read",
+      "processingLocation": "Netherlands"
+    },
+    "request_context": {
+      "intent": "Fraud Detection",
+      "role": "Data Scientist"
     },
     "resource": {
       "columns": [
         {
-          "name": "newbalanceOrig",
+          "name": "amount",
           "tags": {
             "tags": {
-              "newbalanceOrig": ["Confidential"]
+              "Confidential": "true"
             }
           }
         },
         {
-          "name": "type"
-        },
-        {
-          "name": "isFlaggedFraud"
-        },
-        {
           "name": "nameDest"
-        },
-        {
-          "name": "nameOrig"
-        },
-        {
-          "name": "newbalanceDest"
         },
         {
           "name": "oldbalanceDest"
@@ -245,71 +240,81 @@ updated stringified policy manager request iun GetOPADecisions { "input": {"acti
           "name": "step"
         },
         {
-          "name": "amount",
+          "name": "isFlaggedFraud"
+        },
+        {
+          "name": "isFraud"
+        },
+        {
+          "name": "nameOrig"
+        },
+        {
+          "name": "newbalanceDest"
+        },
+        {
+          "name": "newbalanceOrig",
           "tags": {
             "tags": {
-              "amount": ["Confidential"]
+              "Confidential": "true"
             }
           }
         },
         {
-          "name": "isFraud"
+          "name": "type"
         }
       ],
-      "name": "{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"
+      "name": "{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}",
+      "tags": {
+        "tags": {
+          "residency": "Turkey"
+        }
+      }
     }
   }
 }
 
-2021/07/04 12:18:23 opaServerURL
-2021/07/04 12:18:23 http://opa:8181/
-2021/07/04 12:18:23 req in OPAConnector performHTTPReq:  &{POST http://opa:8181/v1/data/dataapi/authz  0 0 map[Content-Type:[application/json; charset=UTF-8]] {0xc0002c5280} <nil> 0 [] false  map[] map[] <nil> map[]   <nil> <nil> <nil> <nil>}
-2021/07/04 12:18:23 httpMethod in OPAConnector performHTTPReq:  POST
-2021/07/04 12:18:23 reqURL in OPAConnector performHTTPReq:  http://opa:8181/v1/data/dataapi/authz
-2021/07/04 12:18:23 reqBody in OPAConnector performHTTPReq:  {0xc0002c5280}
-2021/07/04 12:18:23 POST succeeded
-2021/07/04 12:18:23 body from input http response: {"decision_id":"1a598e3f-f38b-468c-add7-861e60ea1430","result":{"deny":["{\"action\":\"DenyAccess\", \"policy\": \"Deny access to dataset\"}"],"transform":["{\"action\": {\"name\": \"RemoveColumn\", \"columns\": [\"ABCD\",\"DEFG\"]}, \"policy\": \"Remove access to some columns in the dataset\"}"]}}
-2021/07/04 12:18:23 status from input http response: 200
-2021/07/04 12:18:23 responsestring data
-2021/07/04 12:18:23 {"decision_id":"1a598e3f-f38b-468c-add7-861e60ea1430","result":{"deny":["{\"action\":\"DenyAccess\", \"policy\": \"Deny access to dataset\"}"],"transform":["{\"action\": {\"name\": \"RemoveColumn\", \"columns\": [\"ABCD\",\"DEFG\"]}, \"policy\": \"Remove access to some columns in the dataset\"}"]}}
-2021/07/04 12:18:23 decision_id: 1a598e3f-f38b-468c-add7-861e60ea1430
-2021/07/04 12:18:23 result: {"deny":["{\"action\":\"DenyAccess\", \"policy\": \"Deny access to dataset\"}"],"transform":["{\"action\": {\"name\": \"RemoveColumn\", \"columns\": [\"ABCD\",\"DEFG\"]}, \"policy\": \"Remove access to some columns in the dataset\"}"]}
-2021/07/04 12:18:23 OPA Eval : {"decision_id":"1a598e3f-f38b-468c-add7-861e60ea1430","result":{"deny":["{\"action\":\"DenyAccess\", \"policy\": \"Deny access to dataset\"}"],"transform":["{\"action\": {\"name\": \"RemoveColumn\", \"columns\": [\"ABCD\",\"DEFG\"]}, \"policy\": \"Remove access to some columns in the dataset\"}"]}}
-2021/07/04 12:18:23 lstDeny[i] {"action":"DenyAccess", "policy": "Deny access to dataset"}
-2021/07/04 12:18:23 lstDeny[i] {"action":"DenyAccess", "policy": "Deny access to dataset"}
-2021/07/04 12:18:23 result1 type in ConvertOpaResponseToPolicymanagerResponse map[string]interface {}
-2021/07/04 12:18:23 lstDeny[i] {"action":"DenyAccess", "policy": "Deny access to dataset"}
-2021/07/04 12:18:23 transformAction {"action": {"name": "RemoveColumn", "columns": ["ABCD","DEFG"]}, "policy": "Remove access to some columns in the dataset"}
-2021/07/04 12:18:23 transformAction {"action": {"name": "RemoveColumn", "columns": ["ABCD","DEFG"]}, "policy": "Remove access to some columns in the dataset"}
-2021/07/04 12:18:23 transformAction type : map[string]interface {}
-2021/07/04 12:18:23 result1["action"].(string) : map[columns:[ABCD DEFG] name:RemoveColumn]
-2021/07/04 12:18:23 Name: RemoveColumn
-2021/07/04 12:18:23 resCols [ABCD DEFG]
-2021/07/04 12:18:23 lstOfCols [ABCD DEFG]
-2021/07/04 12:18:23 lstTransformations[i] {"action": {"name": "RemoveColumn", "columns": ["ABCD","DEFG"]}, "policy": "Remove access to some columns in the dataset"}
-2021/07/04 12:18:23 lstTransformations[i] {"action": {"name": "RemoveColumn", "columns": ["ABCD","DEFG"]}, "policy": "Remove access to some columns in the dataset"}
-2021/07/04 12:18:23 result1 type in ConvertOpaResponseToPolicymanagerResponse transform part  map[string]interface {}
-2021/07/04 12:18:23 *policyManagerResp:  {<nil> [{{<nil> 0xc00000e030} Deny access to dataset} {{0xc00000c2a0 <nil>} Remove access to some columns in the dataset}]}
-2021/07/04 12:18:23 policyManagerResponse :  {<nil> [{{<nil> 0xc00000e030} Deny access to dataset} {{0xc00000c2a0 <nil>} Remove access to some columns in the dataset}]}
-2021/07/04 12:18:23 Received evaluation : {
-	"result": [
-		{
-			"action": {
-				"name": "DenyAccess"
-			},
-			"policy": "Deny access to dataset"
-		},
-		{
-			"action": {
-				"columns": [
-					"ABCD",
-					"DEFG"
-				],
-				"name": "RemoveColumn"
-			},
-			"policy": "Remove access to some columns in the dataset"
-		}
-	]
-}
-2021/07/04 12:18:23 implResp evaluation :  {200 {<nil> [{{<nil> 0xc00000e030} Deny access to dataset} {{0xc00000c2a0 <nil>} Remove access to some columns in the dataset}]}}
-2021/07/04 12:18:23 GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D GetPoliciesDecisions 3.879631752s
+2021/07/05 12:23:24 opaServerURL
+2021/07/05 12:23:24 http://opa:8181/
+2021/07/05 12:23:24 req in OPAConnector performHTTPReq:  &{POST http://opa:8181/v1/data/dataapi/authz  0 0 map[Content-Type:[application/json; charset=UTF-8]] {0xc0003cd700} <nil> 0 [] false  map[] map[] <nil> map[]   <nil> <nil> <nil> <nil>}
+2021/07/05 12:23:24 httpMethod in OPAConnector performHTTPReq:  POST
+2021/07/05 12:23:24 reqURL in OPAConnector performHTTPReq:  http://opa:8181/v1/data/dataapi/authz
+2021/07/05 12:23:24 reqBody in OPAConnector performHTTPReq:  {0xc0003cd700}
+2021/07/05 12:23:24 POST succeeded
+2021/07/05 12:23:24 body from input http response: {"decision_id":"2e180ad5-f8c7-4fac-a7d9-0a6e3f3481fd","result":{"transform":[{"action":{"columns":["amount","newbalanceOrig"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}}
+2021/07/05 12:23:24 status from input http response: 200
+2021/07/05 12:23:24 responsestring data
+2021/07/05 12:23:24 {"decision_id":"2e180ad5-f8c7-4fac-a7d9-0a6e3f3481fd","result":{"transform":[{"action":{"columns":["amount","newbalanceOrig"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}}
+2021/07/05 12:23:24 decision_id: 2e180ad5-f8c7-4fac-a7d9-0a6e3f3481fd
+2021/07/05 12:23:24 result: {"transform":[{"action":{"columns":["amount","newbalanceOrig"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
+2021/07/05 12:23:24 OPA Eval : {"decision_id":"2e180ad5-f8c7-4fac-a7d9-0a6e3f3481fd","result":{"transform":[{"action":{"columns":["amount","newbalanceOrig"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}}
+2021/07/05 12:23:24 transformAction map[action:map[columns:[amount newbalanceOrig] name:RedactColumn] policy:Columns with Confidential tag to be redacted before read action]
+2021/07/05 12:23:24 http: panic serving 10.244.0.213:56520: interface conversion: interface {} is map[string]interface {}, not string
+goroutine 17 [running]:
+net/http.(*conn).serve.func1(0xc000208000)
+	/usr/local/go/src/net/http/server.go:1801 +0x147
+panic(0x9b87e0, 0xc000094780)
+	/usr/local/go/src/runtime/panic.go:975 +0x47a
+github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/lib.buildNewEnforcementAction(0x9ae700, 0xc000094600, 0xa618d9, 0x9)
+	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/lib/opa_reader.go:278 +0x153f
+github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/lib.ConvertOpaResponseToPolicymanagerResponse(0xc0000e84b0, 0xe3, 0xc0003a5520, 0xc0000e84b0, 0xe3, 0xc0000e85a0, 0xee, 0xe3, 0x0)
+	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/lib/opa_reader.go:240 +0x2ae
+github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/lib.(*OpaReader).GetOPADecisions(0xc0003a5670, 0xc0003a5798, 0xc000238000, 0x4b, 0xc0001b16d8, 0xa63a97, 0xd, 0x0, 0x4db051, 0xe46ae0, ...)
+	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/lib/opa_reader.go:178 +0x5a5
+github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver.(*DefaultApiService).GetPoliciesDecisions(0xe8b7d8, 0xb13080, 0xc000204270, 0xc0002162a0, 0xc00020e20c, 0x4, 0xc000214330, 0xc000232070, 0x6a, 0xc0002a62b0, ...)
+	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/openapiserver/api_default_service.go:99 +0x4b4
+github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver.(*DefaultApiController).GetPoliciesDecisions(0xc00001fc40, 0xb12180, 0xc000234000, 0xc000228200)
+	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/openapiserver/api_default.go:120 +0x7e2
+net/http.HandlerFunc.ServeHTTP(0xc00001fc50, 0xb12180, 0xc000234000, 0xc000228200)
+	/usr/local/go/src/net/http/server.go:2042 +0x44
+github.com/mesh-for-data/mesh-for-data/connectors/v2opa_revised/openapiserver.Logger.func1(0xb12180, 0xc000234000, 0xc000228200)
+	/home/rohith/DATA_FOLDER/rohith/v0.2/rohith-fork/the-mesh-for-data/connectors/v2opa_revised/openapiserver/logger.go:22 +0xb0
+net/http.HandlerFunc.ServeHTTP(0xc00018cc00, 0xb12180, 0xc000234000, 0xc000228200)
+	/usr/local/go/src/net/http/server.go:2042 +0x44
+github.com/gorilla/mux.(*Router).ServeHTTP(0xc000158180, 0xb12180, 0xc000234000, 0xc000228000)
+	/home/rohith/go/pkg/mod/github.com/gorilla/mux@v1.7.4/mux.go:210 +0xd3
+net/http.serverHandler.ServeHTTP(0xc0001c6000, 0xb12180, 0xc000234000, 0xc000228000)
+	/usr/local/go/src/net/http/server.go:2843 +0xa3
+net/http.(*conn).serve(0xc000208000, 0xb12fc0, 0xc000212000)
+	/usr/local/go/src/net/http/server.go:1925 +0x8ad
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2969 +0x36c

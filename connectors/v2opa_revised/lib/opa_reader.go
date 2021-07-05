@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"reflect"
+	"strings"
 
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 )
@@ -40,6 +41,30 @@ func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient
 
 	f = m["metadata"]
 	m = f.(map[string]interface{})
+
+	f1 := m["dataset_tags"]
+	m1 := f1.([]interface{})
+
+	tagArr := make([]string, 0)
+	for i := 0; i < len(m1); i++ {
+		tagVal := m1[i].(string)
+		tagArr = append(tagArr, tagVal)
+	}
+	log.Println("tagArr: ", tagArr)
+
+	//var tagInReq map[string]map[string]interface{}
+	tagInReq := make(map[string]map[string]interface{})
+	tagVal := make(map[string]interface{})
+	for i := 0; i < len(tagArr); i++ {
+		splitStr := strings.Split(tagArr[i], " = ")
+		// residency = Turkey
+		tagVal[splitStr[0]] = splitStr[1]
+	}
+	tagInReq["tags"] = tagVal
+	resource := in.GetResource()
+	(&resource).SetTags(tagInReq)
+	in.SetResource(resource)
+	log.Println("in.GetResource().GetTags(): ", (&resource).GetTags())
 
 	f = m["components_metadata"]
 	m = f.(map[string]interface{})
@@ -81,7 +106,9 @@ func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient
 		if numOfTags > 0 {
 			p := make(map[string]map[string]interface{})
 			q := make(map[string]interface{})
-			q[listofcols[i]] = listoftags[i]
+			for j := 0; j < len(listoftags[i]); j++ {
+				q[listoftags[i][j]] = "true"
+			}
 			p["tags"] = q
 			newcol.SetTags(p)
 		}

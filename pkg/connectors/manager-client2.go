@@ -29,7 +29,18 @@ func main() {
 	// input := []openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.ActionType("read")), *openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))} // []PolicymanagerRequest | input values that need to be considered for filter
 
 	input := openapiclient.NewPolicymanagerRequestWithDefaults()
-	input.SetAction(*openapiclient.NewAction(openapiclient.ActionType("read")))
+
+	reqCtx := openapiclient.NewRequestContextWithDefaults()
+	reqCtx.SetIntent(openapiclient.FRAUD_DETECTION)
+	reqCtx.SetRole(openapiclient.DATA_SCIENTIST)
+	input.SetRequestContext(*reqCtx)
+
+	action := openapiclient.NewActionWithDefaults()
+	action.SetActionType(openapiclient.READ)
+	action.SetProcessingLocation(openapiclient.NETHERLANDS)
+	input.SetAction(*action)
+
+	//input.SetAction(*openapiclient.NewAction(openapiclient.ActionType("read")))
 	input.SetResource(*openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"))
 	//input.SetRequestContext(openapiclient.RequestContext{})
 

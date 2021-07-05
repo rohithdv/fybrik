@@ -1,13 +1,13 @@
-2021/07/03 13:06:35 in manager-client - policy manager request:  &{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/03 13:06:35 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
-2021/07/03 13:06:39 &{0xc00013a060} 1Response from `DefaultApi.GetPoliciesDecisions`: 
- {<nil> [{{<nil> 0xc0000a8088} Deny access to dataset} {{0xc000098400 <nil>} Remove access to some columns in the dataset}]}
-2021/07/03 13:06:39 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
+2021/07/05 10:35:08 in manager-client - policy manager request:  &{<nil> {read <nil>} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/05 10:35:08 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/05 10:35:12 &{0xc00013a060} 1Response from `DefaultApi.GetPoliciesDecisions`: 
+ {<nil> [{{<nil> 0xc0001383a0} Deny access to dataset} {{0xc0001298c0 <nil>} Remove access to some columns in the dataset}]}
+2021/07/05 10:35:12 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
  {"result":[{"action":{"name":"DenyAccess"},"policy":"Deny access to dataset"},{"action":{"columns":["ABCD","DEFG"],"name":"RemoveColumn"},"policy":"Remove access to some columns in the dataset"}]}
-2021/07/03 13:06:39 err:  <nil>
-2021/07/03 13:06:39 resp:  {<nil> [{{<nil> 0xc0000a8100} Deny access to dataset} {{0xc000098720 <nil>} Remove access to some columns in the dataset}]}
-2021/07/03 13:06:39 err : <nil>
-2021/07/03 13:06:39 marshalled response: {
+2021/07/05 10:35:12 err:  <nil>
+2021/07/05 10:35:12 resp:  {<nil> [{{<nil> 0xc000138418} Deny access to dataset} {{0xc000129be0 <nil>} Remove access to some columns in the dataset}]}
+2021/07/05 10:35:12 err : <nil>
+2021/07/05 10:35:12 marshalled response: {
 	"result": [
 		{
 			"action": {
