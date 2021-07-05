@@ -249,10 +249,11 @@ func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openap
 			}
 
 			log.Println("lstTransformations[i]", lstTransformations[i])
-			log.Println("lstTransformations[i]", lstTransformations[i].(string))
+			//log.Println("lstTransformations[i]", lstTransformations[i].(string))
 			// Declared an empty map interface
 			var result1 map[string]interface{}
-			json.Unmarshal([]byte(lstTransformations[i].(string)), &result1)
+			//json.Unmarshal([]byte(lstTransformations[i].(string)), &result1)
+			result1 = lstTransformations[i].(map[string]interface{})
 			log.Println("result1 type in ConvertOpaResponseToPolicymanagerResponse transform part ", reflect.TypeOf(result1))
 			result.Policy = result1["policy"].(string)
 
@@ -275,10 +276,12 @@ func ConvertOpaResponseToPolicymanagerResponse(opaEval string, operation *openap
 
 func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.ActionOnColumns, bool) {
 	log.Println("transformAction", transformAction)
-	log.Println("transformAction", transformAction.(string))
+
+	//log.Println("transformAction", transformAction.(string))
 	// Declared an empty map interface
 	var result1 map[string]interface{}
-	json.Unmarshal([]byte(transformAction.(string)), &result1)
+	result1 = transformAction.(map[string]interface{})
+	// json.Unmarshal([]byte(transformAction.(string)), &result1)
 	log.Println("transformAction type :", reflect.TypeOf(result1))
 	log.Println("result1[\"action\"].(string) :", result1["action"].(map[string]interface{}))
 
