@@ -4,20 +4,18 @@
 package clients
 
 import (
-	"io"
-
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
 )
 
 // PolicyManager is an interface of a facade to connect to a policy manager.
-type PolicyManager interface {
-	pb.PolicyManagerServiceServer
-	io.Closer
-}
+// type PolicyManager interface {
+// 	pb.PolicyManagerServiceServer
+// 	io.Closer
+// }
 
 // PolicyManager is an interface of a facade to connect to a policy manager.
-type PolicyManager2 interface {
+type PolicyManager interface {
 	//pb.PolicyManagerServiceServer
 	GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error)
 	//io.Closer

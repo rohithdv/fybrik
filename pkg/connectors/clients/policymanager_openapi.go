@@ -14,7 +14,7 @@ import (
 	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 )
 
-var _ PolicyManager2 = (*openApiPolicyManager)(nil)
+var _ PolicyManager = (*openApiPolicyManager)(nil)
 
 type openApiPolicyManager struct {
 	name   string
