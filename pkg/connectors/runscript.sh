@@ -4,7 +4,7 @@ set -e
 set -x
 
 # cd ../../config/taxonomy
-# ./generate_client_server.sh
+# ./codegen_openapi_client_server.sh
 # pwd
 # cd ../../pkg/connectors
 # rm -rf out_go_client 
