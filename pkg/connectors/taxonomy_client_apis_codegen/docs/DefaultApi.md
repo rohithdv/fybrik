@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-    input := *openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.action_type("read")), *openapiclient.NewResource("Name_example")) // PolicymanagerRequest | input values that need to be considered for filter
+    input := TODO // PolicymanagerRequest | input values that need to be considered for filter
     creds := "creds_example" // string | credentials to wkc connector
 
     configuration := openapiclient.NewConfiguration()

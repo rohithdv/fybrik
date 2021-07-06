@@ -8,14 +8,14 @@ import (
 	"log"
 	"strings"
 
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 // PolicyManager is an interface of a facade to connect to a policy manager.
 type PolicyManager interface {
 	//pb.PolicyManagerServiceServer
-	GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error)
+	GetPoliciesDecisions(in *openapiclientmodels.PolicymanagerRequest, creds string) (*openapiclientmodels.PolicymanagerResponse, error)
 	io.Closer
 }
 
@@ -101,7 +101,7 @@ func compactOperationDecisions(in []*pb.OperationDecision) []*pb.OperationDecisi
 	return decisions
 }
 
-func convertOpenApiReqToGrpcReq(in *openapiclient.PolicymanagerRequest, creds string) *pb.ApplicationContext {
+func convertOpenApiReqToGrpcReq(in *openapiclientmodels.PolicymanagerRequest, creds string) *pb.ApplicationContext {
 
 	credentialPath := creds
 	processingGeo := ""
@@ -121,7 +121,7 @@ func convertOpenApiReqToGrpcReq(in *openapiclient.PolicymanagerRequest, creds st
 	return appContext
 }
 
-func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclient.PolicymanagerResponse {
+func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclientmodels.PolicymanagerResponse {
 
 	// convert GRPC response to Open Api Response - start
 	//decisionId := "3ffb47c7-c3c7-4fe7-b244-b38dc8951b87"
@@ -132,7 +132,7 @@ func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclient.Poli
 	var datasetDecisions []*pb.DatasetDecision
 	var decisions []*pb.OperationDecision
 	datasetDecisions = result.GetDatasetDecisions()
-	respResult := []openapiclient.PolicymanagerResponseResult{}
+	respResult := []openapiclientmodels.PolicymanagerResponseResult{}
 
 	// we assume only one dataset decision is passed
 	for i := 0; i < len(datasetDecisions); i++ {
@@ -154,33 +154,33 @@ func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclient.Poli
 				name := enfAction.GetName()
 				level := enfAction.GetLevel()
 				args := enfAction.GetArgs()
-				policyManagerResult := openapiclient.PolicymanagerResponseResult{}
+				policyManagerResult := openapiclientmodels.PolicymanagerResponseResult{}
 
 				if level == pb.EnforcementAction_COLUMN {
-					actionOnCols := openapiclient.ActionOnColumns{}
+					actionOnCols := openapiclientmodels.ActionOnColumns{}
 					if name == "redact" {
-						actionOnCols.SetName(openapiclient.REDACT_COLUMN)
+						actionOnCols.SetName(openapiclientmodels.REDACT_COLUMN)
 						actionOnCols.SetColumns([]string{args["columns_name"]})
 					}
 					if name == "encrypted" {
-						actionOnCols.SetName(openapiclient.ENCRYPT_COLUMN)
+						actionOnCols.SetName(openapiclientmodels.ENCRYPT_COLUMN)
 						actionOnCols.SetColumns([]string{args["columns_name"]})
 					}
 					if name == "removed" {
-						actionOnCols.SetName(openapiclient.REMOVE_COLUMN)
+						actionOnCols.SetName(openapiclientmodels.REMOVE_COLUMN)
 						actionOnCols.SetColumns([]string{args["columns_name"]})
 					}
 					policyManagerResult.SetAction(
-						openapiclient.ActionOnColumnsAsAction1(&actionOnCols))
+						openapiclientmodels.ActionOnColumnsAsAction1(&actionOnCols))
 				}
 
 				if level == pb.EnforcementAction_DATASET {
-					actionOnDataset := openapiclient.ActionOnDatasets{}
+					actionOnDataset := openapiclientmodels.ActionOnDatasets{}
 					if name == "Deny" {
-						actionOnDataset.SetName(openapiclient.DENY_ACCESS)
+						actionOnDataset.SetName(openapiclientmodels.DENY_ACCESS)
 					}
 					policyManagerResult.SetAction(
-						openapiclient.ActionOnDatasetsAsAction1(&actionOnDataset))
+						openapiclientmodels.ActionOnDatasetsAsAction1(&actionOnDataset))
 				}
 				policy := usedPoliciesList[k].GetDescription()
 				log.Println("usedPoliciesList[k].GetDescription()", policy)
@@ -191,16 +191,16 @@ func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclient.Poli
 		}
 	}
 	// convert GRPC response to Open Api Response - end
-	policyManagerResp := &openapiclient.PolicymanagerResponse{DecisionId: &decisionId, Result: respResult}
+	policyManagerResp := &openapiclientmodels.PolicymanagerResponse{DecisionId: &decisionId, Result: respResult}
 
 	return policyManagerResp
 }
 
-func MergePoliciesDecisions2(in ...*openapiclient.PolicymanagerResponse) *openapiclient.PolicymanagerResponse {
-	result := &openapiclient.PolicymanagerResponse{}
+func MergePoliciesDecisions2(in ...*openapiclientmodels.PolicymanagerResponse) *openapiclientmodels.PolicymanagerResponse {
+	result := &openapiclientmodels.PolicymanagerResponse{}
 	decisionIdList := make([]string, 0)
 
-	policyManagerRespResultArr := make([]openapiclient.PolicymanagerResponseResult, 0)
+	policyManagerRespResultArr := make([]openapiclientmodels.PolicymanagerResponseResult, 0)
 
 	for _, response := range in {
 		decisionIdList = append(decisionIdList, response.GetDecisionId())

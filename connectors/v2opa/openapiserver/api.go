@@ -13,7 +13,7 @@ import (
 	"context"
 	"net/http"
 
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 // DefaultApiRouter defines the required methods for binding the api requests to a responses for the DefaultApi
@@ -28,5 +28,5 @@ type DefaultApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type DefaultApiServicer interface {
-	GetPoliciesDecisions(context.Context, openapiclient.PolicymanagerRequest, string) (ImplResponse, error)
+	GetPoliciesDecisions(context.Context, openapiclientmodels.PolicymanagerRequest, string) (ImplResponse, error)
 }

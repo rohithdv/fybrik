@@ -6,7 +6,7 @@ import (
 	"time"
 
 	connectors "github.com/mesh-for-data/mesh-for-data/pkg/connectors/clients"
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 func main() {
@@ -26,25 +26,25 @@ func main() {
 
 	creds := "http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d"
 
-	// input := []openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.ActionType("read")), *openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))} // []PolicymanagerRequest | input values that need to be considered for filter
+	// input := []openapiclientmodels.PolicymanagerRequest{*openapiclientmodels.NewPolicymanagerRequest(*openapiclientmodels.NewAction(openapiclientmodels.ActionType("read")), *openapiclientmodels.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))} // []PolicymanagerRequest | input values that need to be considered for filter
 
-	input := openapiclient.NewPolicymanagerRequestWithDefaults()
+	input := openapiclientmodels.NewPolicymanagerRequestWithDefaults()
 
-	reqCtx := openapiclient.NewRequestContextWithDefaults()
-	reqCtx.SetIntent(openapiclient.FRAUD_DETECTION)
-	reqCtx.SetRole(openapiclient.DATA_SCIENTIST)
+	reqCtx := openapiclientmodels.NewRequestContextWithDefaults()
+	reqCtx.SetIntent(openapiclientmodels.FRAUD_DETECTION)
+	reqCtx.SetRole(openapiclientmodels.DATA_SCIENTIST)
 	input.SetRequestContext(*reqCtx)
 
-	action := openapiclient.NewActionWithDefaults()
-	action.SetActionType(openapiclient.READ)
-	action.SetProcessingLocation(openapiclient.NETHERLANDS)
+	action := openapiclientmodels.NewActionWithDefaults()
+	action.SetActionType(openapiclientmodels.READ)
+	action.SetProcessingLocation(openapiclientmodels.NETHERLANDS)
 	input.SetAction(*action)
 
-	//input.SetAction(*openapiclient.NewAction(openapiclient.ActionType("read")))
-	input.SetResource(*openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"))
-	//input.SetRequestContext(openapiclient.RequestContext{})
+	//input.SetAction(*openapiclientmodels.NewAction(openapiclientmodels.ActionType("read")))
+	input.SetResource(*openapiclientmodels.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"))
+	//input.SetRequestContext(openapiclientmodels.RequestContext{})
 
-	// input := openapiclient.PolicymanagerRequest{*openapiclient.NewPolicymanagerRequest(*openapiclient.NewAction(openapiclient.ActionType("read")), *openapiclient.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))} // []PolicymanagerRequest | input values that need to be considered for filter
+	// input := openapiclientmodels.PolicymanagerRequest{*openapiclientmodels.NewPolicymanagerRequest(*openapiclientmodels.NewAction(openapiclientmodels.ActionType("read")), *openapiclientmodels.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))} // []PolicymanagerRequest | input values that need to be considered for filter
 
 	log.Println("in manager-client - policy manager request: ", input)
 	log.Println("in manager-client - creds: ", creds)
@@ -54,7 +54,7 @@ func main() {
 	bytes, _ := response.MarshalJSON()
 	log.Println("in manager-client - Response from `policyManager.GetPoliciesDecisions`: \n", string(bytes))
 
-	var resp openapiclient.PolicymanagerResponse
+	var resp openapiclientmodels.PolicymanagerResponse
 	err = json.Unmarshal(bytes, &resp)
 	log.Println("err: ", err)
 	log.Println("resp: ", resp)

@@ -11,7 +11,8 @@ import (
 	"time"
 
 	"emperror.dev/errors"
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
+	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_client_apis_codegen"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 var _ PolicyManager = (*openApiPolicyManager)(nil)
@@ -44,7 +45,7 @@ func NewOpenApiPolicyManager(name string, connectionURL string, connectionTimeou
 	}, nil
 }
 
-func (m *openApiPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error) {
+func (m *openApiPolicyManager) GetPoliciesDecisions(in *openapiclientmodels.PolicymanagerRequest, creds string) (*openapiclientmodels.PolicymanagerResponse, error) {
 
 	resp, r, err := m.client.DefaultApi.GetPoliciesDecisions(context.Background()).Input(*in).Creds(creds).Execute()
 	if err != nil {

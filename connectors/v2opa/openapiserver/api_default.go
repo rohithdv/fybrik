@@ -18,7 +18,7 @@ import (
 	"strings"
 
 	// "github.com/gorilla/mux"
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 // A DefaultApiController binds http requests to an api service and writes the service results to the http response
@@ -70,11 +70,11 @@ func formatRequest(r *http.Request) string {
 	return strings.Join(request, "\n")
 }
 
-func constructPolicymanagerRequest(inputString string) *openapiclient.PolicymanagerRequest {
+func constructPolicymanagerRequest(inputString string) *openapiclientmodels.PolicymanagerRequest {
 	fmt.Println("inconstructPolicymanagerRequest")
 	fmt.Println("inputString")
 	fmt.Println(inputString)
-	var bird openapiclient.PolicymanagerRequest
+	var bird openapiclientmodels.PolicymanagerRequest
 	json.Unmarshal([]byte(inputString), &bird)
 	fmt.Println("bird: %v", bird)
 	//resource := (&bird).GetResource()

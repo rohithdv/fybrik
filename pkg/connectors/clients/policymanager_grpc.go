@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"emperror.dev/errors"
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 	"google.golang.org/grpc"
 )
 
@@ -49,7 +49,7 @@ func NewGrpcPolicyManager(name string, connectionURL string, connectionTimeout t
 	}, nil
 }
 
-func (m *grpcPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error) {
+func (m *grpcPolicyManager) GetPoliciesDecisions(in *openapiclientmodels.PolicymanagerRequest, creds string) (*openapiclientmodels.PolicymanagerResponse, error) {
 
 	appContext := convertOpenApiReqToGrpcReq(in, creds)
 

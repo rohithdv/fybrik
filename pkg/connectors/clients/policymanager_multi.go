@@ -7,8 +7,8 @@ import (
 	"fmt"
 
 	"emperror.dev/errors"
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 	"go.uber.org/multierr"
 )
 
@@ -29,10 +29,10 @@ type multiPolicyManager struct {
 }
 
 // func (m *multiPolicyManager) GetPoliciesDecisions(ctx context.Context, in *pb.ApplicationContext) (*pb.PoliciesDecisions, error) {
-func (m *multiPolicyManager) GetPoliciesDecisions(in *openapiclient.PolicymanagerRequest, creds string) (*openapiclient.PolicymanagerResponse, error) {
+func (m *multiPolicyManager) GetPoliciesDecisions(in *openapiclientmodels.PolicymanagerRequest, creds string) (*openapiclientmodels.PolicymanagerResponse, error) {
 
 	var allErr error
-	decisionsList := []*openapiclient.PolicymanagerResponse{}
+	decisionsList := []*openapiclientmodels.PolicymanagerResponse{}
 
 	for _, manager := range m.managers {
 		decisions, err := manager.GetPoliciesDecisions(in, creds)

@@ -19,7 +19,7 @@ import (
 	"strconv"
 
 	opabl "github.com/mesh-for-data/mesh-for-data/connectors/v2opa/lib"
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 func getEnv(key string) string {
@@ -43,7 +43,7 @@ func NewDefaultApiService() DefaultApiServicer {
 }
 
 // GetPoliciesDecisions - getPoliciesDecisions
-func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input openapiclient.PolicymanagerRequest, creds string) (ImplResponse, error) {
+func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input openapiclientmodels.PolicymanagerRequest, creds string) (ImplResponse, error) {
 	// TODO - update GetPoliciesDecisions with the required logic for this service method.
 	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

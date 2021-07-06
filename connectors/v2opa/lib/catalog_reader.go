@@ -12,8 +12,8 @@ import (
 	"time"
 
 	clients "github.com/mesh-for-data/mesh-for-data/pkg/connectors/clients"
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 func getEnv(key string) string {
@@ -36,7 +36,7 @@ func NewCatalogReader(address string, timeOut int) *CatalogReader {
 }
 
 // return map  datasetID -> metadata of dataset in form of map
-func (r *CatalogReader) GetDatasetsMetadataFromCatalog(in *openapiclient.PolicymanagerRequest, creds string) (map[string]interface{}, error) {
+func (r *CatalogReader) GetDatasetsMetadataFromCatalog(in *openapiclientmodels.PolicymanagerRequest, creds string) (map[string]interface{}, error) {
 	datasetsMetadata := make(map[string]interface{})
 	catalogProviderName := getEnv("CATALOG_PROVIDER_NAME")
 	// creds := ((in.GetResource()).Creds)

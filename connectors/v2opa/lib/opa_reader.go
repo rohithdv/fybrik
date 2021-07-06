@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"strings"
 
-	openapiclient "github.com/mesh-for-data/mesh-for-data/pkg/connectors/out_go_client"
+	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
 type OpaReader struct {
@@ -21,19 +21,19 @@ func NewOpaReader(opasrvurl string) *OpaReader {
 	return &OpaReader{opaServerURL: opasrvurl}
 }
 
-func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient.PolicymanagerRequest, wkcMetadata map[string]interface{}) (*openapiclient.PolicymanagerRequest, error) {
+func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclientmodels.PolicymanagerRequest, catalogMetadata map[string]interface{}) (*openapiclientmodels.PolicymanagerRequest, error) {
 
-	responseBytes, errJSON := json.MarshalIndent(wkcMetadata, "", "\t")
+	responseBytes, errJSON := json.MarshalIndent(catalogMetadata, "", "\t")
 	if errJSON != nil {
 		return nil, fmt.Errorf("error Marshalling External Catalog Connector Response: %v", errJSON)
 	}
 
-	var wkcJson interface{}
-	err := json.Unmarshal(responseBytes, &wkcJson)
+	var catalogJson interface{}
+	err := json.Unmarshal(responseBytes, &catalogJson)
 	if err != nil {
 		return nil, fmt.Errorf("error UnMarshalling WKC Catalog Connector Response: %v", err)
 	}
-	if main, ok := wkcJson.(map[string]interface{}); ok {
+	if main, ok := catalogJson.(map[string]interface{}); ok {
 		if details, ok := main["details"].(map[string]interface{}); ok {
 			if metadata, ok := details["metadata"].(map[string]interface{}); ok {
 				if datasetTags, ok := metadata["dataset_tags"].([]interface{}); ok {
@@ -82,13 +82,13 @@ func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient
 					log.Println("******** listofcols : *******", listofcols)
 					log.Println("******** listoftags: *******", listoftags)
 
-					cols := []openapiclient.ResourceColumns{}
+					cols := []openapiclientmodels.ResourceColumns{}
 
-					var newcol *openapiclient.ResourceColumns
+					var newcol *openapiclientmodels.ResourceColumns
 					numOfCols := len(listofcols)
 					numOfTags := 0
 					for i := 0; i < numOfCols; i++ {
-						newcol = new(openapiclient.ResourceColumns)
+						newcol = new(openapiclientmodels.ResourceColumns)
 						newcol.SetName(listofcols[i])
 						numOfTags = len(listoftags[i])
 						if numOfTags > 0 {
@@ -131,30 +131,26 @@ func (r *OpaReader) updatePolicyManagerRequestWithResourceInfo(in *openapiclient
 	return in, nil
 }
 
-func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, creds string, catalogReader *CatalogReader, policyToBeEvaluated string) (openapiclient.PolicymanagerResponse, error) {
+func (r *OpaReader) GetOPADecisions(in *openapiclientmodels.PolicymanagerRequest, creds string, catalogReader *CatalogReader, policyToBeEvaluated string) (openapiclientmodels.PolicymanagerResponse, error) {
 
 	datasetsMetadata, err := catalogReader.GetDatasetsMetadataFromCatalog(in, creds)
 	if err != nil {
-		return openapiclient.PolicymanagerResponse{}, err
+		return openapiclientmodels.PolicymanagerResponse{}, err
 	}
 	datasetID := in.GetResource().Name
 	metadata := datasetsMetadata[datasetID]
 
 	inputMap, ok := metadata.(map[string]interface{})
 	if !ok {
-		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in unmarshalling dataset metadata (datasetID = %s): %v", datasetID, err)
+		return openapiclientmodels.PolicymanagerResponse{}, fmt.Errorf("error in unmarshalling dataset metadata (datasetID = %s): %v", datasetID, err)
 	}
 
-	catalogProviderName := getEnv("CATALOG_PROVIDER_NAME")
-	if catalogProviderName == "WKC" {
-		in, _ = r.updatePolicyManagerRequestWithResourceInfo(in, inputMap)
-	} else {
-		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("processing metadata from non WKC catalog not supported yet (datasetID = %s): %v", datasetID, err)
-	}
+	in, _ = r.updatePolicyManagerRequestWithResourceInfo(in, inputMap)
+
 	b, err := json.Marshal(*in)
 	if err != nil {
 		fmt.Println(err)
-		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error during marshal in GetOPADecisions: %v", err)
+		return openapiclientmodels.PolicymanagerResponse{}, fmt.Errorf("error during marshal in GetOPADecisions: %v", err)
 	}
 	inputJSON := "{ \"input\": " + string(b) + " }"
 	fmt.Println("updated stringified policy manager request iun GetOPADecisions", inputJSON)
@@ -162,39 +158,39 @@ func (r *OpaReader) GetOPADecisions(in *openapiclient.PolicymanagerRequest, cred
 	opaEval, err := EvaluatePoliciesOnInput(inputJSON, r.opaServerURL, policyToBeEvaluated)
 	if err != nil {
 		log.Printf("error in EvaluatePoliciesOnInput : %v", err)
-		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in EvaluatePoliciesOnInput : %v", err)
+		return openapiclientmodels.PolicymanagerResponse{}, fmt.Errorf("error in EvaluatePoliciesOnInput : %v", err)
 	}
 	log.Println("OPA Eval : " + opaEval)
 
 	//operation := in.GetAction().ActionType
-	policyManagerResponse := new(openapiclient.PolicymanagerResponse)
+	policyManagerResponse := new(openapiclientmodels.PolicymanagerResponse)
 	err = json.Unmarshal([]byte(opaEval), &policyManagerResponse)
 	if err != nil {
-		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in GetOPADecisions during unmarshalling OPA response to Policy Manager Response : %v", err)
+		return openapiclientmodels.PolicymanagerResponse{}, fmt.Errorf("error in GetOPADecisions during unmarshalling OPA response to Policy Manager Response : %v", err)
 	}
 	log.Println("unmarshalled policyManagerResp in GetOPADecisions:", policyManagerResponse)
 
 	res, err := json.MarshalIndent(policyManagerResponse, "", "\t")
 	if err != nil {
-		return openapiclient.PolicymanagerResponse{}, fmt.Errorf("error in GetOPADecisions during MarshalIndent Policy Manager Response : %v", err)
+		return openapiclientmodels.PolicymanagerResponse{}, fmt.Errorf("error in GetOPADecisions during MarshalIndent Policy Manager Response : %v", err)
 	}
 	log.Println("Marshalled PolicyManagerResponse from OPA response in GetOPADecisions:", string(res))
 
 	return *policyManagerResponse, nil
 }
 
-func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.ActionOnColumns, bool) {
+func buildNewEnforcementAction(transformAction interface{}) (*openapiclientmodels.ActionOnColumns, bool) {
 	log.Println("transformAction", transformAction)
-	var actionOnColumns = new(openapiclient.ActionOnColumns)
+	var actionOnColumns = new(openapiclientmodels.ActionOnColumns)
 	if result1, ok := transformAction.(map[string]interface{}); ok {
 		log.Println("transformAction type :", reflect.TypeOf(result1))
 		log.Println("result1[\"action\"].(string) :", result1["action"].(map[string]interface{}))
 		if result, ok := result1["action"].(map[string]interface{}); ok {
 			res1 := result["name"].(string)
 			switch res1 {
-			case string(openapiclient.REMOVE_COLUMN):
-				actionOnColumns.SetName(openapiclient.REMOVE_COLUMN)
-				log.Println("Name:", openapiclient.REMOVE_COLUMN)
+			case string(openapiclientmodels.REMOVE_COLUMN):
+				actionOnColumns.SetName(openapiclientmodels.REMOVE_COLUMN)
+				log.Println("Name:", openapiclientmodels.REMOVE_COLUMN)
 
 				resCols := result["columns"].([]interface{})
 				log.Println("resCols", resCols)
@@ -207,9 +203,9 @@ func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.Acti
 
 				return actionOnColumns, true
 
-			case string(openapiclient.ENCRYPT_COLUMN):
-				actionOnColumns.SetName(openapiclient.ENCRYPT_COLUMN)
-				log.Println("Name:", openapiclient.ENCRYPT_COLUMN)
+			case string(openapiclientmodels.ENCRYPT_COLUMN):
+				actionOnColumns.SetName(openapiclientmodels.ENCRYPT_COLUMN)
+				log.Println("Name:", openapiclientmodels.ENCRYPT_COLUMN)
 
 				resCols := result["columns"].([]interface{})
 				log.Println("resCols", resCols)
@@ -222,9 +218,9 @@ func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.Acti
 
 				return actionOnColumns, true
 
-			case string(openapiclient.REDACT_COLUMN):
-				actionOnColumns.SetName(openapiclient.REDACT_COLUMN)
-				log.Println("Name:", openapiclient.REDACT_COLUMN)
+			case string(openapiclientmodels.REDACT_COLUMN):
+				actionOnColumns.SetName(openapiclientmodels.REDACT_COLUMN)
+				log.Println("Name:", openapiclientmodels.REDACT_COLUMN)
 
 				resCols := result["columns"].([]interface{})
 				log.Println("resCols", resCols)
@@ -237,10 +233,10 @@ func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.Acti
 
 				return actionOnColumns, true
 
-			case string(openapiclient.PERIODIC_BLACKOUT):
+			case string(openapiclientmodels.PERIODIC_BLACKOUT):
 				//if monthlyDaysNum, ok := extractArgument(action["arguments"], "monthly_days_end"); ok {
-				actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
-				log.Println("Name:", openapiclient.PERIODIC_BLACKOUT)
+				actionOnColumns.SetName(openapiclientmodels.PERIODIC_BLACKOUT)
+				log.Println("Name:", openapiclientmodels.PERIODIC_BLACKOUT)
 
 				resCols := result["columns"].([]interface{})
 				log.Println("resCols", resCols)
@@ -254,7 +250,7 @@ func buildNewEnforcementAction(transformAction interface{}) (*openapiclient.Acti
 				return actionOnColumns, true
 				//}
 				//else if yearlyDaysNum, ok := extractArgument(action["arguments"], "yearly_days_end"); ok {
-				// actionOnColumns.SetName(openapiclient.PERIODIC_BLACKOUT)
+				// actionOnColumns.SetName(openapiclientmodels.PERIODIC_BLACKOUT)
 				// actionOnColumns.SetColumns(result["columns"].([]string))
 				// return actionOnColumns, true
 				//}

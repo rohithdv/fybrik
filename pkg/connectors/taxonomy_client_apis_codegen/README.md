@@ -83,22 +83,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [Action](docs/Action.md)
- - [Action1](docs/Action1.md)
- - [ActionOnColumns](docs/ActionOnColumns.md)
- - [ActionOnDatasets](docs/ActionOnDatasets.md)
- - [ActionType](docs/ActionType.md)
- - [AllowableActionColumns](docs/AllowableActionColumns.md)
- - [AllowableActionDataset](docs/AllowableActionDataset.md)
- - [GeographyName](docs/GeographyName.md)
- - [Intent](docs/Intent.md)
- - [PolicymanagerRequest](docs/PolicymanagerRequest.md)
- - [PolicymanagerResponse](docs/PolicymanagerResponse.md)
- - [PolicymanagerResponseResult](docs/PolicymanagerResponseResult.md)
- - [RequestContext](docs/RequestContext.md)
- - [Resource](docs/Resource.md)
- - [ResourceColumns](docs/ResourceColumns.md)
- - [Role](docs/Role.md)
 
 
 ## Documentation For Authorization
