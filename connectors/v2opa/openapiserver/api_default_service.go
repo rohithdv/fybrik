@@ -83,7 +83,7 @@ func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input open
 	// return ImplResponse{}, fmt.Errorf("returning before business logic execution for debugging purpose")
 
 	catalogConnectorAddress := getEnv("CATALOG_CONNECTOR_URL")
-	policyToBeEvaluated := "dataapi/authz"
+	policyToBeEvaluated := "dataapi/authz/verdict"
 
 	timeOutInSecs := getEnv("CONNECTION_TIMEOUT")
 	timeOut, err := strconv.Atoi(timeOutInSecs)
@@ -99,13 +99,15 @@ func (s *DefaultApiService) GetPoliciesDecisions(ctx context.Context, input open
 	eval, err := opaReader.GetOPADecisions(&input, creds, catalogReader, policyToBeEvaluated)
 	if err != nil {
 		log.Println("GetOPADecisions err:", err)
-		return ImplResponse{}, err
+		var implResp = new(ImplResponse)
+		implResp.Code = http.StatusInternalServerError
+		return *implResp, err
 	}
 	jsonOutput, err := json.MarshalIndent(eval, "", "\t")
 	if err != nil {
 		return ImplResponse{}, fmt.Errorf("error during MarshalIndent of OPA decisions: %v", err)
 	}
-	log.Println("Received evaluation : " + string(jsonOutput))
+	log.Println("DefaultApiService.GetPoliciesDecisions: Received evaluation after execution of GetOPADecisions : " + string(jsonOutput))
 	//return eval, err
 
 	var implResp = new(ImplResponse)
