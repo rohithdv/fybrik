@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -40,10 +39,11 @@ func main() {
 	// 	return
 	// }
 
-	mainPolicyManagerURL := "http://opa-connector.m4d-system:50090"
+	mainPolicyManagerURL := "http://opa-connector.svc.cluster.local:80"
 	policyManager, err := connectors.NewGrpcPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
 	if err != nil {
-		fmt.Errorf("error in policyManager creation : %v", err)
+		log.Println("returned with error ")
+		log.Println("error in policyManager creation  %v", err)
 		return
 	}
 

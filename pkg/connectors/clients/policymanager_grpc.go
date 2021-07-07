@@ -42,7 +42,7 @@ func NewGrpcPolicyManager(name string, connectionURL string, connectionTimeout t
 	defer cancel()
 	log.Println("name: ", name)
 	log.Println("connectionURL: ", connectionURL)
-	connection, err := grpc.DialContext(ctx, connectionURL, grpc.WithInsecure())
+	connection, err := grpc.DialContext(ctx, connectionURL, grpc.WithInsecure(), grpc.WithBlock())
 	log.Println("connectionTimeout: ", connectionTimeout)
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("NewGrpcPolicyManager failed when connecting to %s", connectionURL))
