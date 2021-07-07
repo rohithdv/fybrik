@@ -8,6 +8,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"log"
 	"time"
 
 	"emperror.dev/errors"
@@ -36,12 +37,17 @@ func randomHex(n int) (string, error) {
 // NewGrpcPolicyManager creates a PolicyManager facade that connects to a GRPC service
 // You must call .Close() when you are done using the created instance
 func NewGrpcPolicyManager(name string, connectionURL string, connectionTimeout time.Duration) (PolicyManager, error) {
+	log.Println("in NewGrpcPolicyManager: ")
 	ctx, cancel := context.WithTimeout(context.Background(), connectionTimeout)
 	defer cancel()
-	connection, err := grpc.DialContext(ctx, connectionURL, grpc.WithInsecure(), grpc.WithBlock())
+	log.Println("name: ", name)
+	log.Println("connectionURL: ", connectionURL)
+	connection, err := grpc.DialContext(ctx, connectionURL, grpc.WithInsecure())
+	log.Println("connectionTimeout: ", connectionTimeout)
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("NewGrpcPolicyManager failed when connecting to %s", connectionURL))
 	}
+	log.Println("connectionURL: ", connectionURL)
 	return &grpcPolicyManager{
 		name:       name,
 		client:     pb.NewPolicyManagerServiceClient(connection),
@@ -51,11 +57,13 @@ func NewGrpcPolicyManager(name string, connectionURL string, connectionTimeout t
 
 func (m *grpcPolicyManager) GetPoliciesDecisions(in *openapiclientmodels.PolicymanagerRequest, creds string) (*openapiclientmodels.PolicymanagerResponse, error) {
 
+	log.Println("GetPoliciesDecisions: entry")
 	appContext := convertOpenApiReqToGrpcReq(in, creds)
 
 	result, err := m.client.GetPoliciesDecisions(context.Background(), appContext)
 
 	policyManagerResp := convGrpcRespToOpenApiResp(result)
+	log.Println("GetPoliciesDecisions: exit")
 
 	return policyManagerResp, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
 	// return result, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))

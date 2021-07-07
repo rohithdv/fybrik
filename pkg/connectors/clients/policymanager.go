@@ -104,19 +104,37 @@ func compactOperationDecisions(in []*pb.OperationDecision) []*pb.OperationDecisi
 func convertOpenApiReqToGrpcReq(in *openapiclientmodels.PolicymanagerRequest, creds string) *pb.ApplicationContext {
 
 	credentialPath := creds
-	processingGeo := ""
+	action := in.GetAction()
+	processingGeo := (&action).GetProcessingLocation()
+	log.Println("processingGeo: ", processingGeo)
 	properties := make(map[string]string)
-	appInfo := &pb.ApplicationDetails{ProcessingGeography: processingGeo, Properties: properties}
+	appInfo := &pb.ApplicationDetails{ProcessingGeography: string(processingGeo), Properties: properties}
 
 	datasetContextList := []*pb.DatasetContext{}
-	datasetId := ""
+	resource := in.GetResource()
+	datasetId := (&resource).GetName()
 	dataset := &pb.DatasetIdentifier{DatasetId: datasetId}
+	// ?? this is not supported in openapi
 	destination := ""
-	operation := &pb.AccessOperation{Type: pb.AccessOperation_READ, Destination: destination}
+	actionType := (&action).GetActionType()
+
+	var grpcActionType pb.AccessOperation_AccessType
+	if actionType == openapiclientmodels.READ {
+		grpcActionType = pb.AccessOperation_READ
+	} else if actionType == openapiclientmodels.WRITE {
+		grpcActionType = pb.AccessOperation_WRITE
+	} else {
+		// default is read
+		grpcActionType = pb.AccessOperation_READ
+	}
+
+	operation := &pb.AccessOperation{Type: grpcActionType, Destination: destination}
 	datasetContext := &pb.DatasetContext{Dataset: dataset, Operation: operation}
 	datasetContextList = append(datasetContextList, datasetContext)
 
 	appContext := &pb.ApplicationContext{CredentialPath: credentialPath, AppInfo: appInfo, Datasets: datasetContextList}
+
+	log.Println("Constructed GRPC appContext: ", appContext)
 
 	return appContext
 }

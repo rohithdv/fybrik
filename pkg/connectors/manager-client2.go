@@ -2,25 +2,48 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"os"
+	"strconv"
 	"time"
 
 	connectors "github.com/mesh-for-data/mesh-for-data/pkg/connectors/clients"
 	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 )
 
+func getEnv(key string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		log.Fatalf("Env Variable %v not defined", key)
+	}
+	log.Printf("Env. variable extracted: %s - %s\n", key, value)
+	return value
+}
+
 func main() {
 
 	//mainPolicyManagerName := os.Getenv("MAIN_POLICY_MANAGER_NAME")
 	mainPolicyManagerName := "OPEN API MANAGER"
 	//mainPolicyManagerURL := os.Getenv("MAIN_POLICY_MANAGER_CONNECTOR_URL")
-	mainPolicyManagerURL := "http://v2opaconnector.m4d-system:50050"
+	//mainPolicyManagerURL := "http://v2opaconnector.m4d-system:50050"
 	//connectionTimeout, err := getConnectionTimeout()
-	timeOutInSeconds := 120
-	connectionTimeout := time.Duration(timeOutInSeconds) * time.Second
+	// timeOutInSeconds := 120
 
-	policyManager, err := connectors.NewOpenApiPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
+	timeOutInSecs := getEnv("CONNECTION_TIMEOUT")
+	timeOut, err := strconv.Atoi(timeOutInSecs)
+	connectionTimeout := time.Duration(timeOut) * time.Second
+
+	// mainPolicyManagerURL := "http://v2opaconnector.m4d-system:50050"
+	// policyManager, err := connectors.NewOpenApiPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
+	// if err != nil {
+	// 	return
+	// }
+
+	mainPolicyManagerURL := "http://opa-connector.m4d-system:50090"
+	policyManager, err := connectors.NewGrpcPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
 	if err != nil {
+		fmt.Errorf("error in policyManager creation : %v", err)
 		return
 	}
 

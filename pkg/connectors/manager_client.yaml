@@ -20,5 +20,8 @@ spec:
         ports:
         - name: manager-client
           containerPort: 50040
+        envFrom:
+        - configMapRef:
+            name: v2-opa-connector-config          
       restartPolicy: Never          
   backoffLimit: 0

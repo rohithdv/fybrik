@@ -1,24 +1,22 @@
-2021/07/06 11:35:03 in manager-client - policy manager request:  &{0xc00000cfc0 {read 0xc00001fb20} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/06 11:35:03 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
-2021/07/06 11:35:06 &{0xc0000680c0} 1Response from `DefaultApi.GetPoliciesDecisions`: 
- {0xc0001d41e0 [{{0xc00000d780 <nil>} Columns with Confidential tag to be redacted before read action}]}
-2021/07/06 11:35:06 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
- {"decision_id":"3fda038c-f2de-49c8-aaa4-03a2580056a5","result":[{"action":{"columns":["newbalanceOrig","amount"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
-2021/07/06 11:35:06 err:  <nil>
-2021/07/06 11:35:06 resp:  {0xc0001d4580 [{{0xc00000dae0 <nil>} Columns with Confidential tag to be redacted before read action}]}
-2021/07/06 11:35:06 err : <nil>
-2021/07/06 11:35:06 marshalled response: {
-	"decision_id": "3fda038c-f2de-49c8-aaa4-03a2580056a5",
-	"result": [
-		{
-			"action": {
-				"columns": [
-					"newbalanceOrig",
-					"amount"
-				],
-				"name": "RedactColumn"
-			},
-			"policy": "Columns with Confidential tag to be redacted before read action"
-		}
-	]
+2021/07/07 12:16:40 Env. variable extracted: CONNECTION_TIMEOUT - 120
+2021/07/07 12:16:40 in NewGrpcPolicyManager: 
+2021/07/07 12:16:40 name:  OPEN API MANAGER
+2021/07/07 12:16:40 connectionURL:  http://opa-connector.m4d-system:50090
+2021/07/07 12:16:40 connectionTimeout:  2m0s
+2021/07/07 12:16:40 connectionURL:  http://opa-connector.m4d-system:50090
+2021/07/07 12:16:40 in manager-client - policy manager request:  &{0xc0000af0c0 {read 0xc000097d90} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/07 12:16:40 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/07 12:16:40 GetPoliciesDecisions: entry
+2021/07/07 12:16:40 processingGeo:  Netherlands
+2021/07/07 12:16:40 Constructed GRPC appContext:  credential_path:"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d" app_info:{processing_geography:"Netherlands"} datasets:{dataset:{dataset_id:"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"} operation:{type:READ}}
+2021/07/07 12:16:40 decision id generated 904f72a588f63058800c0447321cf5e860ec7195
+2021/07/07 12:16:40 GetPoliciesDecisions: exit
+2021/07/07 12:16:40 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
+ {"decision_id":"904f72a588f63058800c0447321cf5e860ec7195","result":[]}
+2021/07/07 12:16:40 err:  <nil>
+2021/07/07 12:16:40 resp:  {0xc0001867e0 []}
+2021/07/07 12:16:40 err : <nil>
+2021/07/07 12:16:40 marshalled response: {
+	"decision_id": "904f72a588f63058800c0447321cf5e860ec7195",
+	"result": []
 }
