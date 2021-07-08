@@ -7,11 +7,10 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
-	"fmt"
+	"flag"
 	"log"
 	"time"
 
-	"emperror.dev/errors"
 	pb "github.com/mesh-for-data/mesh-for-data/pkg/connectors/protobuf"
 	openapiclientmodels "github.com/mesh-for-data/mesh-for-data/pkg/connectors/taxonomy_models_codegen"
 	"google.golang.org/grpc"
@@ -37,16 +36,28 @@ func randomHex(n int) (string, error) {
 // NewGrpcPolicyManager creates a PolicyManager facade that connects to a GRPC service
 // You must call .Close() when you are done using the created instance
 func NewGrpcPolicyManager(name string, connectionURL string, connectionTimeout time.Duration) (PolicyManager, error) {
-	log.Println("in NewGrpcPolicyManager: ")
-	ctx, cancel := context.WithTimeout(context.Background(), connectionTimeout)
-	defer cancel()
-	log.Println("name: ", name)
-	log.Println("connectionURL: ", connectionURL)
-	connection, err := grpc.DialContext(ctx, connectionURL, grpc.WithInsecure(), grpc.WithBlock())
-	log.Println("connectionTimeout: ", connectionTimeout)
+	// log.Println("in NewGrpcPolicyManager: ")
+	// ctx, cancel := context.WithTimeout(context.Background(), connectionTimeout)
+	// defer cancel()
+	// log.Println("name: ", name)
+	// log.Println("connectionURL: ", connectionURL)
+	// connection, err := grpc.DialContext(ctx, connectionURL, grpc.WithInsecure(), grpc.WithBlock())
+	// log.Println("connectionTimeout: ", connectionTimeout)
+	// if err != nil {
+	// 	return nil, errors.Wrap(err, fmt.Sprintf("NewGrpcPolicyManager failed when connecting to %s", connectionURL))
+	// }
+
+	serverAddr := flag.String("server_addr", connectionURL, "The server address in the format of host:port")
+	var opts []grpc.DialOption
+	opts = append(opts, grpc.WithInsecure())
+	opts = append(opts, grpc.WithBlock())
+	log.Println("serverAddr: ", *serverAddr)
+	connection, err := grpc.Dial(*serverAddr, opts...)
 	if err != nil {
-		return nil, errors.Wrap(err, fmt.Sprintf("NewGrpcPolicyManager failed when connecting to %s", connectionURL))
+		log.Fatalf("fail to dial: %v", err)
 	}
+	//defer conn.Close()
+
 	log.Println("connectionURL: ", connectionURL)
 	return &grpcPolicyManager{
 		name:       name,
@@ -60,12 +71,13 @@ func (m *grpcPolicyManager) GetPoliciesDecisions(in *openapiclientmodels.Policym
 	log.Println("GetPoliciesDecisions: entry")
 	appContext := convertOpenApiReqToGrpcReq(in, creds)
 
-	result, err := m.client.GetPoliciesDecisions(context.Background(), appContext)
+	result, _ := m.client.GetPoliciesDecisions(context.Background(), appContext)
 
 	policyManagerResp := convGrpcRespToOpenApiResp(result)
 	log.Println("GetPoliciesDecisions: exit")
+	return policyManagerResp, nil
 
-	return policyManagerResp, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
+	//return policyManagerResp, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
 	// return result, errors.Wrap(err, fmt.Sprintf("get policies decisions from %s failed", m.name))
 }
 

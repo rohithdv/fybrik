@@ -158,7 +158,7 @@ func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclientmodel
 		//datasetID := datasetDecision.GetDataset()
 		decisions = datasetDecision.GetDecisions()
 
-		for j := 0; j < len(decisions); i++ {
+		for j := 0; j < len(decisions); j++ {
 			decision := decisions[j]
 			//operation := decision.GetOperation()
 
@@ -200,16 +200,22 @@ func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclientmodel
 					policyManagerResult.SetAction(
 						openapiclientmodels.ActionOnDatasetsAsAction1(&actionOnDataset))
 				}
-				policy := usedPoliciesList[k].GetDescription()
-				log.Println("usedPoliciesList[k].GetDescription()", policy)
-				policyManagerResult.SetPolicy(policy)
-
+				if k < len(usedPoliciesList) {
+					policy := usedPoliciesList[k].GetDescription()
+					log.Println("usedPoliciesList[k].GetDescription()", policy)
+					policyManagerResult.SetPolicy(policy)
+				}
+				log.Println("looping")
 				respResult = append(respResult, policyManagerResult)
 			}
+			log.Println("looping2")
 		}
+		log.Println("looping3")
 	}
 	// convert GRPC response to Open Api Response - end
 	policyManagerResp := &openapiclientmodels.PolicymanagerResponse{DecisionId: &decisionId, Result: respResult}
+
+	log.Println("policyManagerResp in convGrpcRespToOpenApiResp", policyManagerResp)
 
 	return policyManagerResp
 }

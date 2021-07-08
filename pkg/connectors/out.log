@@ -1,7 +1,30 @@
-2021/07/07 12:50:44 Env. variable extracted: CONNECTION_TIMEOUT - 10
-2021/07/07 12:50:44 in NewGrpcPolicyManager: 
-2021/07/07 12:50:44 name:  OPEN API MANAGER
-2021/07/07 12:50:44 connectionURL:  http://opa-connector.m4d-system:80
-2021/07/07 12:50:54 connectionTimeout:  10s
-2021/07/07 12:50:54 returned with error 
-2021/07/07 12:50:54 error in policyManager creation  %v NewGrpcPolicyManager failed when connecting to http://opa-connector.m4d-system:80: context deadline exceeded
+2021/07/08 13:15:59 Env. variable extracted: CONNECTION_TIMEOUT - 120
+2021/07/08 13:15:59 serverAddr:  opa-connector.m4d-system:80
+2021/07/08 13:15:59 connectionURL:  opa-connector.m4d-system:80
+2021/07/08 13:15:59 in manager-client - policy manager request:  &{0xc000197360 {read 0xc00018beb0} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/08 13:15:59 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/08 13:15:59 GetPoliciesDecisions: entry
+2021/07/08 13:15:59 processingGeo:  Netherlands
+2021/07/08 13:15:59 Constructed GRPC appContext:  credential_path:"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d" app_info:{processing_geography:"Netherlands"} datasets:{dataset:{dataset_id:"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"} operation:{type:READ}}
+2021/07/08 13:16:03 decision id generated afd904a021547e91f75f9aa236a86477a1b6fcd7
+2021/07/08 13:16:03 looping
+2021/07/08 13:16:03 looping2
+2021/07/08 13:16:03 looping3
+2021/07/08 13:16:03 policyManagerResp in convGrpcRespToOpenApiResp &{0xc00001e920 [{{<nil> 0xc00000e0d0} }]}
+2021/07/08 13:16:03 GetPoliciesDecisions: exit
+2021/07/08 13:16:03 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
+ {"decision_id":"afd904a021547e91f75f9aa236a86477a1b6fcd7","result":[{"action":{},"policy":""}]}
+2021/07/08 13:16:03 err:  <nil>
+2021/07/08 13:16:03 resp:  {0xc00001eb60 [{{0xc00000cb20 <nil>} }]}
+2021/07/08 13:16:03 err : <nil>
+2021/07/08 13:16:03 marshalled response: {
+	"decision_id": "afd904a021547e91f75f9aa236a86477a1b6fcd7",
+	"result": [
+		{
+			"action": {
+				"columns": null
+			},
+			"policy": ""
+		}
+	]
+}

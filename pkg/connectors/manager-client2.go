@@ -39,7 +39,7 @@ func main() {
 	// 	return
 	// }
 
-	mainPolicyManagerURL := "http://opa-connector.svc.cluster.local:80"
+	mainPolicyManagerURL := "opa-connector.m4d-system:80"
 	policyManager, err := connectors.NewGrpcPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
 	if err != nil {
 		log.Println("returned with error ")
