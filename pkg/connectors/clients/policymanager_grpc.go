@@ -7,6 +7,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
 	"flag"
 	"log"
 	"time"
@@ -70,10 +71,16 @@ func (m *grpcPolicyManager) GetPoliciesDecisions(in *openapiclientmodels.Policym
 
 	log.Println("GetPoliciesDecisions: entry")
 	appContext := convertOpenApiReqToGrpcReq(in, creds)
+	log.Println("appContext: created from convertOpenApiReqToGrpcReq: ", appContext)
 
 	result, _ := m.client.GetPoliciesDecisions(context.Background(), appContext)
 
+	log.Println("GRPC result returned from GetPoliciesDecisions:", result)
 	policyManagerResp := convGrpcRespToOpenApiResp(result)
+	log.Println("policyManagerResp: created from convGrpcRespToOpenApiResp")
+	res, err := json.MarshalIndent(policyManagerResp, "", "\t")
+	log.Println("err :", err)
+	log.Println("marshalled response:", string(res))
 	log.Println("GetPoliciesDecisions: exit")
 	return policyManagerResp, nil
 

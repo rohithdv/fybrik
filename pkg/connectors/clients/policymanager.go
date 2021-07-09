@@ -107,7 +107,13 @@ func convertOpenApiReqToGrpcReq(in *openapiclientmodels.PolicymanagerRequest, cr
 	action := in.GetAction()
 	processingGeo := (&action).GetProcessingLocation()
 	log.Println("processingGeo: ", processingGeo)
+
 	properties := make(map[string]string)
+	reqContext := in.GetRequestContext()
+	intent := (&reqContext).GetIntent()
+	role := (&reqContext).GetRole()
+	properties["intent"] = string(intent)
+	properties["role"] = string(role)
 	appInfo := &pb.ApplicationDetails{ProcessingGeography: string(processingGeo), Properties: properties}
 
 	datasetContextList := []*pb.DatasetContext{}
@@ -172,21 +178,22 @@ func convGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) *openapiclientmodel
 				name := enfAction.GetName()
 				level := enfAction.GetLevel()
 				args := enfAction.GetArgs()
+				log.Println("args received: ", args)
 				policyManagerResult := openapiclientmodels.PolicymanagerResponseResult{}
 
 				if level == pb.EnforcementAction_COLUMN {
 					actionOnCols := openapiclientmodels.ActionOnColumns{}
 					if name == "redact" {
 						actionOnCols.SetName(openapiclientmodels.REDACT_COLUMN)
-						actionOnCols.SetColumns([]string{args["columns_name"]})
+						actionOnCols.SetColumns([]string{args["column_name"]})
 					}
 					if name == "encrypted" {
 						actionOnCols.SetName(openapiclientmodels.ENCRYPT_COLUMN)
-						actionOnCols.SetColumns([]string{args["columns_name"]})
+						actionOnCols.SetColumns([]string{args["column_name"]})
 					}
 					if name == "removed" {
 						actionOnCols.SetName(openapiclientmodels.REMOVE_COLUMN)
-						actionOnCols.SetColumns([]string{args["columns_name"]})
+						actionOnCols.SetColumns([]string{args["column_name"]})
 					}
 					policyManagerResult.SetAction(
 						openapiclientmodels.ActionOnColumnsAsAction1(&actionOnCols))
