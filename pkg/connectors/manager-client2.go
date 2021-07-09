@@ -33,19 +33,19 @@ func main() {
 	timeOut, err := strconv.Atoi(timeOutInSecs)
 	connectionTimeout := time.Duration(timeOut) * time.Second
 
-	// mainPolicyManagerURL := "http://v2opaconnector.m4d-system:50050"
-	// policyManager, err := connectors.NewOpenApiPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
-	// if err != nil {
-	// 	return
-	// }
-
-	mainPolicyManagerURL := "opa-connector.m4d-system:80"
-	policyManager, err := connectors.NewGrpcPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
+	mainPolicyManagerURL := "http://v2opaconnector.m4d-system:50050"
+	policyManager, err := connectors.NewOpenApiPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
 	if err != nil {
-		log.Println("returned with error ")
-		log.Println("error in policyManager creation  %v", err)
 		return
 	}
+
+	// mainPolicyManagerURL := "opa-connector.m4d-system:80"
+	// policyManager, err := connectors.NewGrpcPolicyManager(mainPolicyManagerName, mainPolicyManagerURL, connectionTimeout)
+	// if err != nil {
+	// 	log.Println("returned with error ")
+	// 	log.Println("error in policyManager creation  %v", err)
+	// 	return
+	// }
 
 	creds := "http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d"
 

@@ -1,1 +1,321 @@
-2021/07/07 10:43:45 Server started
+2021/07/09 14:45:55 Server started
+query77777
+map[creds:[http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d] input:[{"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}]]
+creds received
+http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+HTTP Request Got
+GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%2C%22processingLocation%22%3A%22Netherlands%22%7D%2C%22request_context%22%3A%7B%22intent%22%3A%22Fraud+Detection%22%2C%22role%22%3A%22Data+Scientist%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
+Host: v2opaconnector.m4d-system:50050
+user-agent: OpenAPI-Generator/1.0.0/go
+2021/07/09 14:46:06 Received PolicymanagerRequest
+2021/07/09 14:46:06 {0xc00000d320 {read 0xc00001fef0} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+accept: application/json
+accept-encoding: gzip
+encodedValue
+/getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%2C%22processingLocation%22%3A%22Netherlands%22%7D%2C%22request_context%22%3A%7B%22intent%22%3A%22Fraud+Detection%22%2C%22role%22%3A%22Data+Scientist%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D
+decodedValue
+2021/07/09 14:46:06 Env. variable extracted: CATALOG_CONNECTOR_URL - wkc-connector.m4d-system:50090
+/getPoliciesDecisions?creds=http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d&input={"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+2021/07/09 14:46:06 Env. variable extracted: CONNECTION_TIMEOUT - 120
+2021/07/09 14:46:06 Env. variable extracted: OPA_SERVER_URL - opa:8181
+2021/07/09 14:46:06 Env. variable extracted: CATALOG_PROVIDER_NAME - WKC
+2021/07/09 14:46:06 creds in GetDatasetsMetadataFromCatalog: http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/09 14:46:06 Create new catalog connection using catalog connector address:  wkc-connector.m4d-system:50090
+formatRequest
+GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%2C%22processingLocation%22%3A%22Netherlands%22%7D%2C%22request_context%22%3A%7B%22intent%22%3A%22Fraud+Detection%22%2C%22role%22%3A%22Data+Scientist%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D HTTP/1.1
+Host: v2opaconnector.m4d-system:50050
+accept: application/json
+accept-encoding: gzip
+user-agent: OpenAPI-Generator/1.0.0/go
+inconstructPolicymanagerRequest
+inputString
+{"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"}}
+bird: %v {0xc00000d320 {read 0xc00001fef0} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+Reached Server!
+input
+{0xc00000d320 {read 0xc00001fef0} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/09 14:46:10 Received Response from External Catalog Connector for  dataSetID: {"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"}
+2021/07/09 14:46:10 Response received from External Catalog Connector is given below:
+2021/07/09 14:46:10 {
+	"dataset_id": "{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}",
+	"details": {
+		"name": "NTNU asset",
+		"data_owner": "1000331001",
+		"data_store": {
+			"type": 2,
+			"name": "object store",
+			"s3": {
+				"endpoint": "s3.eu-gb.cloud-object-storage.appdomain.cloud",
+				"bucket": "notebook-sample",
+				"object_key": "data.csv"
+			}
+		},
+		"data_format": "csv",
+		"geo": "Turkey",
+		"metadata": {
+			"dataset_named_metadata": {
+				"asset_attributes": "data_asset,asset_terms,data_profile,column_info",
+				"asset_category": "USER",
+				"asset_state": "available",
+				"asset_type": "data_asset",
+				"catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5",
+				"created_at": "2021-05-04T12:33:50Z",
+				"rating": "0.0",
+				"total_rating": "0"
+			},
+			"dataset_tags": [
+				"residency = Turkey"
+			],
+			"components_metadata": {
+				"amount": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					},
+					"tags": [
+						"Confidential"
+					]
+				},
+				"isFlaggedFraud": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"isFraud": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"nameDest": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"nameOrig": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"newbalanceDest": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"newbalanceOrig": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					},
+					"tags": [
+						"Confidential"
+					]
+				},
+				"oldbalanceDest": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"oldbalanceOrg": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"step": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				},
+				"type": {
+					"component_type": "column",
+					"named_metadata": {
+						"type": "length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false"
+					}
+				}
+			}
+		},
+		"credentials_info": {
+			"vault_secret_path": "/v1/wkc-creds/s3creds/503d683f-1d43-4257-a1a3-0ddf5e446ba5?asset_id=0bb3245e-e3ef-40b7-b639-c471bae4966c"
+		}
+	}
+}
+2021/07/09 14:46:10 tagArr:  [residency = Turkey]
+2021/07/09 14:46:10 in.GetResource().GetTags():  map[tags:map[residency:Turkey]]
+2021/07/09 14:46:10 key : type
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : isFlaggedFraud
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : isFraud
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : nameDest
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : nameOrig
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : newbalanceOrig
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
+2021/07/09 14:46:10 key : amount
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false] tags:[Confidential]]
+2021/07/09 14:46:10 key : newbalanceDest
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : oldbalanceDest
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : oldbalanceOrg
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 key : step
+2021/07/09 14:46:10 val : map[component_type:column named_metadata:map[type:length=1024.0,nullable=true,type=varchar,scale=0.0,signed=false]]
+2021/07/09 14:46:10 ******** listofcols : ******* [type isFlaggedFraud isFraud nameDest nameOrig newbalanceOrig amount newbalanceDest oldbalanceDest oldbalanceOrg step]
+2021/07/09 14:46:10 ******** listoftags: ******* [[] [] [] [] [] [Confidential] [Confidential] [] [] [] []]
+2021/07/09 14:46:10 ******** cols : *******
+2021/07/09 14:46:10 cols= [{type <nil>} {isFlaggedFraud <nil>} {isFraud <nil>} {nameDest <nil>} {nameOrig <nil>} {newbalanceOrig 0xc00000e6d0} {amount 0xc00000e6d8} {newbalanceDest <nil>} {oldbalanceDest <nil>} {oldbalanceOrg <nil>} {step <nil>}]
+2021/07/09 14:46:10 cols= type
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= isFlaggedFraud
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= isFraud
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= nameDest
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= nameOrig
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= newbalanceOrig
+2021/07/09 14:46:10 cols= map[tags:map[Confidential:true]]
+2021/07/09 14:46:10 cols= amount
+2021/07/09 14:46:10 cols= map[tags:map[Confidential:true]]
+2021/07/09 14:46:10 cols= newbalanceDest
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= oldbalanceDest
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= oldbalanceOrg
+2021/07/09 14:46:10 cols= map[]
+2021/07/09 14:46:10 cols= step
+2021/07/09 14:46:10 cols= map[]
+stringified policy manager request {"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"columns":[{"name":"type"},{"name":"isFlaggedFraud"},{"name":"isFraud"},{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceOrig","tags":{"tags":{"Confidential":"true"}}},{"name":"amount","tags":{"tags":{"Confidential":"true"}}},{"name":"newbalanceDest"},{"name":"oldbalanceDest"},{"name":"oldbalanceOrg"},{"name":"step"}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}","tags":{"tags":{"residency":"Turkey"}}}}
+updated stringified policy manager request iun GetOPADecisions { "input": {"action":{"action_type":"read","processingLocation":"Netherlands"},"request_context":{"intent":"Fraud Detection","role":"Data Scientist"},"resource":{"columns":[{"name":"type"},{"name":"isFlaggedFraud"},{"name":"isFraud"},{"name":"nameDest"},{"name":"nameOrig"},{"name":"newbalanceOrig","tags":{"tags":{"Confidential":"true"}}},{"name":"amount","tags":{"tags":{"Confidential":"true"}}},{"name":"newbalanceDest"},{"name":"oldbalanceDest"},{"name":"oldbalanceOrg"},{"name":"step"}],"name":"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}","tags":{"tags":{"residency":"Turkey"}}}} }
+2021/07/09 14:46:10 ******** in before: ******* {0xc00000d320 {read 0xc00001fef0} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc00000e6c8 <nil>}}
+2021/07/09 14:46:10 ******** res before: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc00000e6c8 <nil>}
+2021/07/09 14:46:10 ******** res after: ******* {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc00000e6c8 0xc000302640}
+2021/07/09 14:46:10 ******** in after: ******* {0xc00000d320 {read 0xc00001fef0} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} 0xc00000e6c8 0xc000302640}}
+2021/07/09 14:46:10 ******** udpated policy manager resp object : *******
+2021/07/09 14:46:10 ******** udpated policy manager resp object end : *******
+2021/07/09 14:46:10 using opaServerURL in OPAConnector EvaluatePoliciesOnInput:  http://opa:8181/
+2021/07/09 14:46:10 inputJSON in pretty print 
+2021/07/09 14:46:10 res =  {
+  "input": {
+    "action": {
+      "action_type": "read",
+      "processingLocation": "Netherlands"
+    },
+    "request_context": {
+      "intent": "Fraud Detection",
+      "role": "Data Scientist"
+    },
+    "resource": {
+      "columns": [
+        {
+          "name": "type"
+        },
+        {
+          "name": "isFlaggedFraud"
+        },
+        {
+          "name": "isFraud"
+        },
+        {
+          "name": "nameDest"
+        },
+        {
+          "name": "nameOrig"
+        },
+        {
+          "name": "newbalanceOrig",
+          "tags": {
+            "tags": {
+              "Confidential": "true"
+            }
+          }
+        },
+        {
+          "name": "amount",
+          "tags": {
+            "tags": {
+              "Confidential": "true"
+            }
+          }
+        },
+        {
+          "name": "newbalanceDest"
+        },
+        {
+          "name": "oldbalanceDest"
+        },
+        {
+          "name": "oldbalanceOrg"
+        },
+        {
+          "name": "step"
+        }
+      ],
+      "name": "{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}",
+      "tags": {
+        "tags": {
+          "residency": "Turkey"
+        }
+      }
+    }
+  }
+}
+
+2021/07/09 14:46:10 opaServerURL
+2021/07/09 14:46:10 http://opa:8181/
+2021/07/09 14:46:10 req in OPAConnector performHTTPReq:  &{POST http://opa:8181/v1/data/dataapi/authz/verdict  0 0 map[Content-Type:[application/json; charset=UTF-8]] {0xc000303040} <nil> 0 [] false  map[] map[] <nil> map[]   <nil> <nil> <nil> <nil>}
+2021/07/09 14:46:10 httpMethod in OPAConnector performHTTPReq:  POST
+2021/07/09 14:46:10 reqURL in OPAConnector performHTTPReq:  http://opa:8181/v1/data/dataapi/authz/verdict
+2021/07/09 14:46:10 reqBody in OPAConnector performHTTPReq:  {0xc000303040}
+2021/07/09 14:46:10 POST succeeded
+2021/07/09 14:46:10 body from input http response: {"decision_id":"fee28ad0-f2f2-407e-9a1f-e5f75cb744b3","result":[{"action":{"columns":["newbalanceOrig","amount"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
+2021/07/09 14:46:10 status from input http response: 200
+2021/07/09 14:46:10 responsestring data
+2021/07/09 14:46:10 {"decision_id":"fee28ad0-f2f2-407e-9a1f-e5f75cb744b3","result":[{"action":{"columns":["newbalanceOrig","amount"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
+2021/07/09 14:46:10 decision_id: fee28ad0-f2f2-407e-9a1f-e5f75cb744b3
+2021/07/09 14:46:10 result: [{"action":{"columns":["newbalanceOrig","amount"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]
+2021/07/09 14:46:10 OPA Eval : {"decision_id":"fee28ad0-f2f2-407e-9a1f-e5f75cb744b3","result":[{"action":{"columns":["newbalanceOrig","amount"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
+2021/07/09 14:46:10 unmarshalled policyManagerResp in GetOPADecisions: &{0xc000230170 [{{0xc00025c280 <nil>} Columns with Confidential tag to be redacted before read action}]}
+2021/07/09 14:46:10 Marshalled PolicyManagerResponse from OPA response in GetOPADecisions: {
+	"decision_id": "fee28ad0-f2f2-407e-9a1f-e5f75cb744b3",
+	"result": [
+		{
+			"action": {
+				"columns": [
+					"newbalanceOrig",
+					"amount"
+				],
+				"name": "RedactColumn"
+			},
+			"policy": "Columns with Confidential tag to be redacted before read action"
+		}
+	]
+}
+2021/07/09 14:46:10 DefaultApiService.GetPoliciesDecisions: Received evaluation after execution of GetOPADecisions : {
+	"decision_id": "fee28ad0-f2f2-407e-9a1f-e5f75cb744b3",
+	"result": [
+		{
+			"action": {
+				"columns": [
+					"newbalanceOrig",
+					"amount"
+				],
+				"name": "RedactColumn"
+			},
+			"policy": "Columns with Confidential tag to be redacted before read action"
+		}
+	]
+}
+2021/07/09 14:46:10 implResp evaluation :  {200 {0xc000230170 [{{0xc00025c280 <nil>} Columns with Confidential tag to be redacted before read action}]}}
+2021/07/09 14:46:10 GET /getPoliciesDecisions?creds=http%3A%2F%2Fvault.m4d-system%3A8200%2Fv1%2Fkubernetes-secrets%2Fwkc-creds%3Fnamespace%3Dcp4d&input=%7B%22action%22%3A%7B%22action_type%22%3A%22read%22%2C%22processingLocation%22%3A%22Netherlands%22%7D%2C%22request_context%22%3A%7B%22intent%22%3A%22Fraud+Detection%22%2C%22role%22%3A%22Data+Scientist%22%7D%2C%22resource%22%3A%7B%22name%22%3A%22%7B%5C%22asset_id%5C%22%3A+%5C%220bb3245e-e3ef-40b7-b639-c471bae4966c%5C%22%2C+%5C%22catalog_id%5C%22%3A+%5C%22503d683f-1d43-4257-a1a3-0ddf5e446ba5%5C%22%7D%22%7D%7D GetPoliciesDecisions 3.377125428s

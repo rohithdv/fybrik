@@ -1,69 +1,20 @@
-2021/07/09 14:39:51 Env. variable extracted: CONNECTION_TIMEOUT - 120
-2021/07/09 14:39:51 serverAddr:  opa-connector.m4d-system:80
-2021/07/09 14:39:51 connectionURL:  opa-connector.m4d-system:80
-2021/07/09 14:39:51 in manager-client - policy manager request:  &{0xc00028e0a0 {read 0xc00029a0c0} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
-2021/07/09 14:39:51 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
-2021/07/09 14:39:51 GetPoliciesDecisions: entry
-2021/07/09 14:39:51 processingGeo:  Netherlands
-2021/07/09 14:39:51 Constructed GRPC appContext:  credential_path:"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d" app_info:{processing_geography:"Netherlands" properties:{key:"intent" value:"Fraud Detection"} properties:{key:"role" value:"Data Scientist"}} datasets:{dataset:{dataset_id:"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"} operation:{type:READ}}
-2021/07/09 14:39:51 appContext: created from convertOpenApiReqToGrpcReq:  credential_path:"http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d" app_info:{processing_geography:"Netherlands" properties:{key:"intent" value:"Fraud Detection"} properties:{key:"role" value:"Data Scientist"}} datasets:{dataset:{dataset_id:"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"} operation:{type:READ}}
-2021/07/09 14:39:55 GRPC result returned from GetPoliciesDecisions: dataset_decisions:{dataset:{dataset_id:"{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"} decisions:{operation:{type:READ} enforcement_actions:{name:"redact" id:"redact-ID" level:COLUMN args:{key:"column_name" value:"newbalanceOrig"}} enforcement_actions:{name:"redact" id:"redact-ID" level:COLUMN args:{key:"column_name" value:"amount"}} used_policies:{description:"Columns with Confidential tag to be redacted before read action"} used_policies:{description:"Columns with Confidential tag to be redacted before read action"}}}
-2021/07/09 14:39:55 decision id generated 0166ea0a98094b7a5a5f5b1546cccb4ad3df2071
-2021/07/09 14:39:55 args received:  map[column_name:newbalanceOrig]
-2021/07/09 14:39:55 usedPoliciesList[k].GetDescription() Columns with Confidential tag to be redacted before read action
-2021/07/09 14:39:55 looping
-2021/07/09 14:39:55 args received:  map[column_name:amount]
-2021/07/09 14:39:55 usedPoliciesList[k].GetDescription() Columns with Confidential tag to be redacted before read action
-2021/07/09 14:39:55 looping
-2021/07/09 14:39:55 looping2
-2021/07/09 14:39:55 looping3
-2021/07/09 14:39:55 policyManagerResp in convGrpcRespToOpenApiResp &{0xc0001bfb10 [{{0xc0000affe0 <nil>} Columns with Confidential tag to be redacted before read action} {{0xc0001e8080 <nil>} Columns with Confidential tag to be redacted before read action}]}
-2021/07/09 14:39:55 policyManagerResp: created from convGrpcRespToOpenApiResp
-2021/07/09 14:39:55 err : <nil>
-2021/07/09 14:39:55 marshalled response: {
-	"decision_id": "0166ea0a98094b7a5a5f5b1546cccb4ad3df2071",
+2021/07/09 14:46:06 Env. variable extracted: CONNECTION_TIMEOUT - 120
+2021/07/09 14:46:06 in manager-client - policy manager request:  &{0xc00000d000 {read 0xc00001fb90} {{"asset_id": "0bb3245e-e3ef-40b7-b639-c471bae4966c", "catalog_id": "503d683f-1d43-4257-a1a3-0ddf5e446ba5"} <nil> <nil>}}
+2021/07/09 14:46:06 in manager-client - creds:  http://vault.m4d-system:8200/v1/kubernetes-secrets/wkc-creds?namespace=cp4d
+2021/07/09 14:46:10 &{0xc0000680c0} 1Response from `DefaultApi.GetPoliciesDecisions`: 
+ {0xc0000a6110 [{{0xc0000c4220 <nil>} Columns with Confidential tag to be redacted before read action}]}
+2021/07/09 14:46:10 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
+ {"decision_id":"fee28ad0-f2f2-407e-9a1f-e5f75cb744b3","result":[{"action":{"columns":["newbalanceOrig","amount"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
+2021/07/09 14:46:10 err:  <nil>
+2021/07/09 14:46:10 resp:  {0xc0000a64b0 [{{0xc0000c4580 <nil>} Columns with Confidential tag to be redacted before read action}]}
+2021/07/09 14:46:10 err : <nil>
+2021/07/09 14:46:10 marshalled response: {
+	"decision_id": "fee28ad0-f2f2-407e-9a1f-e5f75cb744b3",
 	"result": [
 		{
 			"action": {
 				"columns": [
-					"newbalanceOrig"
-				],
-				"name": "RedactColumn"
-			},
-			"policy": "Columns with Confidential tag to be redacted before read action"
-		},
-		{
-			"action": {
-				"columns": [
-					"amount"
-				],
-				"name": "RedactColumn"
-			},
-			"policy": "Columns with Confidential tag to be redacted before read action"
-		}
-	]
-}
-2021/07/09 14:39:55 GetPoliciesDecisions: exit
-2021/07/09 14:39:55 in manager-client - Response from `policyManager.GetPoliciesDecisions`: 
- {"decision_id":"0166ea0a98094b7a5a5f5b1546cccb4ad3df2071","result":[{"action":{"columns":["newbalanceOrig"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"},{"action":{"columns":["amount"],"name":"RedactColumn"},"policy":"Columns with Confidential tag to be redacted before read action"}]}
-2021/07/09 14:39:55 err:  <nil>
-2021/07/09 14:39:55 resp:  {0xc0001f8190 [{{0xc0001e8620 <nil>} Columns with Confidential tag to be redacted before read action} {{0xc0001e87a0 <nil>} Columns with Confidential tag to be redacted before read action}]}
-2021/07/09 14:39:55 err : <nil>
-2021/07/09 14:39:55 marshalled response: {
-	"decision_id": "0166ea0a98094b7a5a5f5b1546cccb4ad3df2071",
-	"result": [
-		{
-			"action": {
-				"columns": [
-					"newbalanceOrig"
-				],
-				"name": "RedactColumn"
-			},
-			"policy": "Columns with Confidential tag to be redacted before read action"
-		},
-		{
-			"action": {
-				"columns": [
+					"newbalanceOrig",
 					"amount"
 				],
 				"name": "RedactColumn"
