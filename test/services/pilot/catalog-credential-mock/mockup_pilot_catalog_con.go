@@ -117,7 +117,7 @@ func GetMetadata(datasetID string) error {
 
 func WriteMetadata(datasetID string) error {
 	catalogConnectorURL := getEnv("CATALOG_CONNECTOR_URL")
-	catalogProviderName := getEnv("CATALOG_CONNECTOR_URL")
+	catalogProviderName := getEnv("CATALOG_PROVIDER_NAME")
 
 	timeoutInSecs := getEnv("CONNECTION_TIMEOUT")
 	timeoutInSeconds, err := strconv.Atoi(timeoutInSecs)
