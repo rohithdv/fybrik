@@ -1,0 +1,7 @@
+# Copyright 2020 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+
+resources:
+- catalog_credential_mock.yaml
+- policy_manager_mock.yaml
+namespace: fybrik-system
