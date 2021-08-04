@@ -1,10 +1,11 @@
-# To Test With Mocks
+# Steps to test With Pilot (Fybrik Controller) Mocks
 
-Start kubernetes cluster (say kind)
+# Start kubernetes cluster (say kind)
 ```bash
 kind create cluster
 ```
-Install Fybrik
+
+# Install cert-manager
 ```bash
 helm repo add jetstack https://charts.jetstack.io
 helm repo add hashicorp https://helm.releases.hashicorp.com
@@ -37,7 +38,7 @@ stringData:
 EOF
 ```
 
-Install Vault
+# Install Vault
 
 ```bash
 helm repo add hashicorp https://helm.releases.hashicorp.com
@@ -53,7 +54,7 @@ wget https://raw.githubusercontent.com/IBM/the-mesh-for-data/a3f951087eada4aed4b
 kubectl apply -f vault-rbac.yaml -n fybrik-system
 ```
 
-Install Fybrik
+# Install Fybrik
 ```bash
 git clone https://github.com/fybrik/fybrik.git
 cd fybrik
@@ -63,10 +64,11 @@ helm install fybrik charts/fybrik --set global.tag=latest -n fybrik-system --wai
 kubectl apply -f https://github.com/fybrik/arrow-flight-module/releases/latest/download/module.yaml -n fybrik-system
 ```
 
-Install WKC connector (Ref: https://github.ibm.com/data-mesh-research/WKC-connector)
+# Install WKC connector
+(Ref: https://github.ibm.com/data-mesh-research/WKC-connector)
 
 
-Define data access policies
+# Define data access policies
 
 Define an OpenPolicyAgent policy to redact the nameOrig column for datasets tagged as finance. Below is the policy (written in Rego language):
 
@@ -92,7 +94,7 @@ kubectl -n fybrik-system label configmap sample-policy openpolicyagent.org/polic
 while [[ $(kubectl get cm sample-policy -n fybrik-system -o 'jsonpath={.metadata.annotations.openpolicyagent\.org/policy-status}') != '{"status":"ok"}' ]]; do echo "waiting for policy to be applied" && sleep 5; done
 ```
 
-WKC Configuration:
+# WKC Configuration
 
 Upload data.csv to COS. data.csv contains the first 100 rows from the following data set created by NTNU, and it is shared under the CC BY-SA 4.0 license. Please check https://fybrik.io/v0.4/samples/notebook/ under the section "Prepare a dataset to be accessed by the notebook".
 
@@ -104,12 +106,15 @@ residency = Netherlands
 
 (with a spaces arround "=")
 
+# Install secrets
 ```bash
 kubectl create namespace cp4d
 kubectl apply -f cp4d-secret.yaml
 kubectl apply -f wkc-credentials-fybrik-system.yaml
 ```
-where  cp4d-secret.yaml is
+cp4d-secret.yaml and wkc-credentials-fybrik-system.yaml are given below.
+
+cp4d-secret.yaml is given below:
 ```bash
 apiVersion: v1
 data:
@@ -125,10 +130,9 @@ metadata:
 ```bash
 echo <OWNERID> | base64
 ```
-Similarly for <WKCPASS_BASE64ENCODED> and <WKCUSER_BASE64ENCODED>
+Similarly get the values for <WKCPASS_BASE64ENCODED> and <WKCUSER_BASE64ENCODED>.
 
-
-where wkc-credentials-fybrik-system.yaml is
+wkc-credentials-fybrik-system.yaml is given below:
 ```bash
 apiVersion: v1
 kind: Secret
@@ -142,11 +146,16 @@ stringData:
   CP4D_SERVER_URL: "<CP4DURL>"
 ```
 
-
-Now go to test/services/pilot folder
-Change the mock files appropriately
+# Deploy the mocks 
+Now go to test/services/pilot folder. Change the mock files appropriately and execute:
 
 ```bash
 make dockerall
 make deploy
+```
+
+
+# Remove kubernetes cluster (say kind)
+```bash
+kind delete cluster
 ```
