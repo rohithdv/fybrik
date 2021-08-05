@@ -1,10 +1,12 @@
-ROOT_DIR := ../..
+ROOT_DIR := ../../../..
 DOCKER_NAME = manager-client
 
 include $(ROOT_DIR)/Makefile.env
 include $(ROOT_DIR)/hack/make-rules/docker.mk
 
 KUBE_NAMESPACE ?= m4d-system
+
+docker-all: docker-build docker-push 
 
 .PHONY: build
 build: $(TOOLBIN)/protoc $(TOOLBIN)/protoc-gen-go

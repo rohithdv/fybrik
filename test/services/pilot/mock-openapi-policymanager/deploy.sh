@@ -5,9 +5,9 @@
 set -x
 set -e
 
-: ${KUBE_NAMESPACE:=m4d-system}
+: ${KUBE_NAMESPACE:=fybrik-system}
 : ${WITHOUT_VAULT=true}
-: ${ROOT_DIR=../..}
+: ${ROOT_DIR=../../../..}
 
 manager_client_delete() {
         printf "\nRemoving kubectl resources on active cluster"

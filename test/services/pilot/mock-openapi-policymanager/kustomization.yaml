@@ -3,7 +3,7 @@
 
 resources:
 - manager_client.yaml
-namespace: m4d-system
+namespace: fybrik-system
 
 images:
 - name: manager-client

@@ -22,6 +22,6 @@ spec:
           containerPort: 50040
         envFrom:
         - configMapRef:
-            name: v2-opa-connector-config          
+            name: fybrik-config          
       restartPolicy: Never          
   backoffLimit: 0
