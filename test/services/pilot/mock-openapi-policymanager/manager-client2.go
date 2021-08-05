@@ -65,7 +65,10 @@ func main() {
 	input.SetAction(action)
 
 	//input.SetAction(*openapiclientmodels.NewAction(openapiclientmodels.ActionType("read")))
-	input.SetResource(*openapiclientmodels.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"))
+	// /0fd6ff25-7327-4b55-8ff2-56cc1c934824/asset/5067b64a-67bc-4067-9117-0aff0a9963ea/a
+	// input.SetResource(*openapiclientmodels.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}"))
+	input.SetResource(*openapiclientmodels.NewResource("{\"asset_id\": \"5067b64a-67bc-4067-9117-0aff0a9963ea\", \"catalog_id\": \"0fd6ff25-7327-4b55-8ff2-56cc1c934824\"}"))
+
 	//input.SetRequestContext(openapiclientmodels.RequestContext{})
 
 	// input := openapiclientmodels.PolicymanagerRequest{*openapiclientmodels.NewPolicymanagerRequest(*openapiclientmodels.NewAction(openapiclientmodels.ActionType("read")), *openapiclientmodels.NewResource("{\"asset_id\": \"0bb3245e-e3ef-40b7-b639-c471bae4966c\", \"catalog_id\": \"503d683f-1d43-4257-a1a3-0ddf5e446ba5\"}", creds))} // []PolicymanagerRequest | input values that need to be considered for filter
