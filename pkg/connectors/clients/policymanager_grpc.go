@@ -53,7 +53,7 @@ func (m *grpcPolicyManager) GetPoliciesDecisions(
 	result, _ := m.client.GetPoliciesDecisions(context.Background(), appContext)
 
 	log.Println("GRPC result returned from GetPoliciesDecisions:", result)
-	policyManagerResp, _ := ConvGrpcRespToOpenApiResp(result)
+	policyManagerResp, _ := ConvertGrpcRespToOpenApiResp(result)
 
 	res, err := json.MarshalIndent(policyManagerResp, "", "\t")
 	log.Println("err :", err)
@@ -247,7 +247,7 @@ func ConvertOpenApiRespToGrpcResp(
 	return &pb.PoliciesDecisions{DatasetDecisions: datasetDecisionList}, nil
 }
 
-func ConvGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) (*openapiclientmodels.PolicyManagerResponse, error) {
+func ConvertGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) (*openapiclientmodels.PolicyManagerResponse, error) {
 
 	// convert GRPC response to Open Api Response - start
 	//decisionId := "3ffb47c7-c3c7-4fe7-b244-b38dc8951b87"

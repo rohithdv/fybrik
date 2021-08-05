@@ -27,16 +27,6 @@ func (m *MockPolicyManager) GetPoliciesDecisions(
 	in, _ := connectors.ConvertOpenApiReqToGrpcReq(input, creds)
 	log.Println("appContext: created from convertOpenApiReqToGrpcReq: ", in)
 
-	// result, _ := m.client.GetPoliciesDecisions(context.Background(), appContext)
-
-	// log.Println("GRPC result returned from GetPoliciesDecisions:", result)
-	// policyManagerResp, _ := ConvGrpcRespToOpenApiResp(result)
-
-	// res, err := json.MarshalIndent(policyManagerResp, "", "\t")
-	// log.Println("err :", err)
-	// log.Println("policyManagerResp: created from convGrpcRespToOpenApiResp")
-	// log.Println("marshalled response:", string(res))
-
 	log.Printf("Received: ")
 	log.Printf("ProcessingGeography: " + in.AppInfo.GetProcessingGeography())
 	log.Printf("Secret: " + in.GetCredentialPath())
@@ -114,7 +104,7 @@ func (m *MockPolicyManager) GetPoliciesDecisions(
 	result := &pb.PoliciesDecisions{ComponentVersions: externalComponents,
 		DatasetDecisions: dataSetWithActions}
 
-	policyManagerResp, _ := connectors.ConvGrpcRespToOpenApiResp(result)
+	policyManagerResp, _ := connectors.ConvertGrpcRespToOpenApiResp(result)
 
 	res, err := json.MarshalIndent(policyManagerResp, "", "\t")
 	log.Println("err :", err)
