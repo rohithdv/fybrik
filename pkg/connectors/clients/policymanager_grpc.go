@@ -281,20 +281,21 @@ func ConvertGrpcRespToOpenApiResp(result *pb.PoliciesDecisions) (*openapiclientm
 				level := enfAction.GetLevel()
 				args := enfAction.GetArgs()
 				log.Println("args received: ", args)
+				log.Println("name received: ", name)
 				policyManagerResult := openapiclientmodels.ResultItem{}
 
 				if level == pb.EnforcementAction_COLUMN {
 					actionOnCols := openapiclientmodels.Action{}
 					action := make(map[string]interface{})
-					if name == "redact column" {
+					if name == "redact" {
 						action["name"] = "redact"
 						action["columns"] = []string{args["column_name"]}
 					}
-					if name == "encrypt column" {
+					if name == "encrypt" {
 						action["name"] = "encrypt"
 						action["columns"] = []string{args["column_name"]}
 					}
-					if name == "remove column" {
+					if name == "remove" {
 						action["name"] = "remove"
 						action["columns"] = []string{args["column_name"]}
 					}

@@ -34,6 +34,7 @@ undeploy() {
 }
 
 deploy() {
+        undeploy
 	config
         manager_client_create
 }
