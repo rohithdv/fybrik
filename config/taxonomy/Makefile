@@ -62,6 +62,18 @@ generate-server: clean-server $(TOOLBIN)/openapi-generator-cli charts/taxonomy.j
 	rm -f $(ROOT_DIR)/connectors/opa/Dockerfile $(ROOT_DIR)/connectors/opa/go/README.md
 	rm -r $(ROOT_DIR)/connectors/opa/api $(ROOT_DIR)/connectors/opa/.openapi-generator
 
+generate-documentation: $(TOOLBIN)/openapi-generator-cli 
+	mkdir -p $(ROOT_DIR)/connector-docs/openapigenerator-documentation-policymanager
+	$(TOOLBIN)/openapi-generator-cli generate -i policymanager.spec.yaml -g html -o $(ROOT_DIR)/connector-docs/openapigenerator-documentation-policymanager
+	mkdir -p $(ROOT_DIR)/connector-docs/openapigenerator-documentation-datacatalog
+	$(TOOLBIN)/openapi-generator-cli generate -i datacatalog.spec.yaml -g html -o $(ROOT_DIR)/connector-docs/openapigenerator-documentation-datacatalog
+
+	mkdir -p $(ROOT_DIR)/connector-docs/redoc-datacatalog
+	redoc-cli bundle datacatalog.spec.yaml -o $(ROOT_DIR)/connector-docs/redoc-datacatalog/datacatalog.html
+	mkdir -p $(ROOT_DIR)/connector-docs/redoc-policymanager
+	redoc-cli bundle policymanager.spec.yaml -o $(ROOT_DIR)/connector-docs/redoc-policymanager/policymanager.html
+
+
 .PHONY: clean
 clean:
 	rm -f $(ROOT_DIR)/charts/fybrik/files/taxonomy/taxonomy.json
