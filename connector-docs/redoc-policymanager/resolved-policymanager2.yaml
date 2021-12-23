@@ -1,0 +1,226 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Policy Manager Service",
+    "license": {
+      "name": "Apache 2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/getPoliciesDecisions": {
+      "post": {
+        "summary": "getPoliciesDecisions.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Request-Cred",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Policy Manager Request Object.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "title": "Policy Manager Request",
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "action": {
+                    "type": "object",
+                    "properties": {
+                      "actionType": {
+                        "type": "string",
+                        "enum": [
+                          "read",
+                          "write",
+                          "delete"
+                        ]
+                      },
+                      "processingLocation": {
+                        "type": "string"
+                      },
+                      "destination": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "resource": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the data set"
+                      },
+                      "owner": {
+                        "type": "string"
+                      },
+                      "geography": {
+                        "type": "string"
+                      },
+                      "tags": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "columns": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "tags": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          },
+                          "required": [
+                            "name"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ]
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "action",
+                  "resource"
+                ],
+                "definitions": {
+                  "PolicyManagerRequestAction": {
+                    "type": "object",
+                    "properties": {
+                      "actionType": {
+                        "type": "string",
+                        "enum": [
+                          "read",
+                          "write",
+                          "delete"
+                        ]
+                      },
+                      "processingLocation": {
+                        "type": "string"
+                      },
+                      "destination": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ActionType": {
+                    "type": "string",
+                    "enum": [
+                      "read",
+                      "write",
+                      "delete"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "title": "Policy Manager Response",
+                  "type": "object",
+                  "properties": {
+                    "decision_id": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "policy": {
+                            "description": "The policy on which the decision was based.",
+                            "type": "string"
+                          },
+                          "action": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": true,
+                            "required": [
+                              "name"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "policy",
+                          "action"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "result"
+                  ],
+                  "definitions": {
+                    "PolicyManagerResultItem": {
+                      "type": "object",
+                      "properties": {
+                        "policy": {
+                          "description": "The policy on which the decision was based.",
+                          "type": "string"
+                        },
+                        "action": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": true,
+                          "required": [
+                            "name"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "policy",
+                        "action"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    }
+  }
+}
+

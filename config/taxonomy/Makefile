@@ -50,7 +50,7 @@ generate-client-datacatalog: $(TOOLBIN)/openapi-generator-cli charts/taxonomy.js
 	rm -f $(ROOT_DIR)/pkg/connectors/datacatalog/openapiclient/README.md $(ROOT_DIR)/pkg/connectors/datacatalog/openapiclient/git_push.sh
 	rm -f $(ROOT_DIR)/pkg/connectors/datacatalog/openapiclient/.gitignore $(ROOT_DIR)/pkg/connectors/datacatalog/openapiclient/.openapi-generator-ignore $(ROOT_DIR)/pkg/connectors/datacatalog/openapiclient/.openapi-generator/FILES
 	rm -r $(ROOT_DIR)/pkg/connectors/datacatalog/openapiclient/api
-	
+
 .PHONY: generate-server
 generate-server: clean-server $(TOOLBIN)/openapi-generator-cli charts/taxonomy.json
 	mkdir -p $(ROOT_DIR)/connectors/opa
@@ -62,16 +62,26 @@ generate-server: clean-server $(TOOLBIN)/openapi-generator-cli charts/taxonomy.j
 	rm -f $(ROOT_DIR)/connectors/opa/Dockerfile $(ROOT_DIR)/connectors/opa/go/README.md
 	rm -r $(ROOT_DIR)/connectors/opa/api $(ROOT_DIR)/connectors/opa/.openapi-generator
 
-generate-documentation: $(TOOLBIN)/openapi-generator-cli 
+generate-documentation: $(TOOLBIN)/openapi-generator-cli
+	rm -rf $(ROOT_DIR)/connector-docs/
 	mkdir -p $(ROOT_DIR)/connector-docs/openapigenerator-documentation-policymanager
 	$(TOOLBIN)/openapi-generator-cli generate -i policymanager.spec.yaml -g html -o $(ROOT_DIR)/connector-docs/openapigenerator-documentation-policymanager
 	mkdir -p $(ROOT_DIR)/connector-docs/openapigenerator-documentation-datacatalog
 	$(TOOLBIN)/openapi-generator-cli generate -i datacatalog.spec.yaml -g html -o $(ROOT_DIR)/connector-docs/openapigenerator-documentation-datacatalog
 
 	mkdir -p $(ROOT_DIR)/connector-docs/redoc-datacatalog
-	redoc-cli bundle datacatalog.spec.yaml -o $(ROOT_DIR)/connector-docs/redoc-datacatalog/datacatalog.html
+	swagger-cli bundle --dereference  datacatalog.spec.yaml > $(ROOT_DIR)/connector-docs/redoc-datacatalog/resolved-datacatalog.yaml
+	redoc-cli bundle $(ROOT_DIR)/connector-docs/redoc-datacatalog/resolved-datacatalog.yaml -o $(ROOT_DIR)/connector-docs/redoc-datacatalog/datacatalog.html
+
 	mkdir -p $(ROOT_DIR)/connector-docs/redoc-policymanager
-	redoc-cli bundle policymanager.spec.yaml -o $(ROOT_DIR)/connector-docs/redoc-policymanager/policymanager.html
+	swagger-cli bundle --dereference  policymanager.spec.yaml > $(ROOT_DIR)/connector-docs/redoc-policymanager/resolved-policymanager2.yaml
+	redoc-cli bundle $(ROOT_DIR)/connector-docs/redoc-policymanager/resolved-policymanager2.yaml -o $(ROOT_DIR)/connector-docs/redoc-policymanager/policymanager.html
+
+	mkdir -p $(ROOT_DIR)/connector-docs/openapigenerator-documentation-policymanager-asciidoc
+	$(TOOLBIN)/openapi-generator-cli generate -i policymanager.spec.yaml -g asciidoc -o $(ROOT_DIR)/connector-docs/openapigenerator-documentation-policymanager-asciidoc
+	mkdir -p $(ROOT_DIR)/connector-docs/openapigenerator-documentation-datacatalog-asciidoc
+	$(TOOLBIN)/openapi-generator-cli generate -i datacatalog.spec.yaml -g asciidoc -o $(ROOT_DIR)/connector-docs/openapigenerator-documentation-datacatalog-asciidoc
+
 
 
 .PHONY: clean

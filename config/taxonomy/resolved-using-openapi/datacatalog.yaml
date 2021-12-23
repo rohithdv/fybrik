@@ -1,0 +1,165 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Data Catalog Service - Asset Details",
+    "license": {
+      "name": "Apache 2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/getAssetInfo": {
+      "post": {
+        "summary": "getAssetInfo",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Request-DataCatalog-Cred",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Data Catalog Request Object.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "title": "Data Catalog Request - GetAssetDetails",
+                "type": "object",
+                "properties": {
+                  "assetID": {
+                    "type": "string"
+                  },
+                  "operationType": {
+                    "type": "string",
+                    "enum": [
+                      "read"
+                    ],
+                    "description": "Type of operation requested for the asset"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "assetID",
+                  "operationType"
+                ],
+                "definitions": {
+                  "operationType": {
+                    "type": "string",
+                    "enum": [
+                      "read"
+                    ],
+                    "description": "Type of operation requested for the asset"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "title": "Data Catalog Response - GetAssetDetails",
+                  "type": "object",
+                  "properties": {
+                    "resourceMetadata": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the data set"
+                        },
+                        "owner": {
+                          "type": "string"
+                        },
+                        "geography": {
+                          "type": "string"
+                        },
+                        "tags": {
+                          "type": "object",
+                          "additionalProperties": true
+                        },
+                        "columns": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "tags": {
+                                "type": "object",
+                                "additionalProperties": true
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ]
+                    },
+                    "details": {
+                      "type": "object",
+                      "description": "Asset details",
+                      "properties": {
+                        "connection": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": true,
+                          "required": [
+                            "name"
+                          ]
+                        },
+                        "dataFormat": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "connection"
+                      ]
+                    },
+                    "credentials": {
+                      "type": "string",
+                      "description": "This has the vault plugin path where the data credentials will be stored as kubernetes secrets. This value is assumed to be known to the catalog connector."
+                    }
+                  },
+                  "required": [
+                    "resourceMetadata",
+                    "details",
+                    "credentials"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - server cannot process the request due to client error"
+          }
+        }
+      }
+    }
+  }
+}
+
