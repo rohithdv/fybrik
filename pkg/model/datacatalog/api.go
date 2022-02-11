@@ -19,3 +19,18 @@ type GetAssetResponse struct {
 	// This value is assumed to be known to the catalog connector.
 	Credentials string `json:"credentials"`
 }
+
+// +fybrik:validation:object
+type WriteAssetRequest struct {
+	DestinationCatalogID string           `json:"destinationCatalogID"`
+	ResourceMetadata     ResourceMetadata `json:"resourceMetadata"`
+	Details              ResourceDetails  `json:"details"`
+	// This has the vault plugin path where the data credentials will be stored as kubernetes secrets
+	// This value is assumed to be known to the catalog connector.
+	Credentials string `json:"credentials"`
+}
+
+// +fybrik:validation:object
+type WriteAssetResponse struct {
+	AssetID string `json:"assetID"`
+}

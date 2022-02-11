@@ -56,3 +56,11 @@ func (r *Handler) getAssetInfo(c *gin.Context) {
 
 	c.JSON(http.StatusOK, &response)
 }
+
+func (r *Handler) WriteAssetInfo(c *gin.Context) {
+	response := datacatalog.WriteAssetResponse{
+		AssetID: "testAssetID",
+	}
+
+	c.JSON(http.StatusOK, &response)
+}

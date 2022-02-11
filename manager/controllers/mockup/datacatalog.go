@@ -45,6 +45,10 @@ func (d *DataCatalogDummy) GetAssetInfo(in *datacatalog.GetAssetRequest, creds s
 	return nil, errors.New(app.InvalidAssetID)
 }
 
+func (d *DataCatalogDummy) WriteAssetInfo(in *datacatalog.WriteAssetRequest, creds string) (*datacatalog.WriteAssetResponse, error) {
+	return &datacatalog.WriteAssetResponse{AssetID: "testAssetID"}, nil
+}
+
 func (d *DataCatalogDummy) Close() error {
 	return nil
 }

@@ -16,6 +16,8 @@ import (
 type DataCatalog interface {
 	GetAssetInfo(in *datacatalog.GetAssetRequest, creds string) (*datacatalog.GetAssetResponse, error)
 	io.Closer
+	WriteAssetInfo(in *datacatalog.WriteAssetRequest, creds string) (*datacatalog.WriteAssetResponse, error)
+	io.Closer
 }
 
 func NewDataCatalog(catalogProviderName, catalogConnectorAddress string, connectionTimeout time.Duration) (DataCatalog, error) {

@@ -49,6 +49,10 @@ func NewGrpcDataCatalog(name string, connectionURL string, connectionTimeout tim
 	}, nil
 }
 
+func (m *grpcDataCatalog) WriteAssetInfo(in *datacatalog.WriteAssetRequest, creds string) (*datacatalog.WriteAssetResponse, error) {
+	return &datacatalog.WriteAssetResponse{AssetID: "testAssetID"}, nil
+}
+
 func (m *grpcDataCatalog) GetAssetInfo(in *datacatalog.GetAssetRequest, creds string) (*datacatalog.GetAssetResponse, error) {
 	log.Println("open api request received for getting policy decisions: ", *in)
 	dataCatalogReq, _ := ConvertDataCatalogOpenAPIReqToGrpcReq(in, creds)
