@@ -1,0 +1,11 @@
+# Copyright 2020 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+
+resources:
+- write_asset_client.yaml
+namespace: fybrik-system
+
+images:
+- name: write-asset-clt
+  newName: ghcr.io/rohithdv/write-asset-client
+  newTag: 0.0.0
