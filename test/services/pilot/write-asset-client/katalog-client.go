@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"fybrik.io/fybrik/pkg/model/datacatalog"
 )
 
 type Response struct {
@@ -14,9 +17,17 @@ type Response struct {
 }
 
 func main() {
+	request := datacatalog.WriteAssetRequest{
+		DestinationCatalogID: "test",
+	}
+
+	//Encode the data
+	postBody, _ := json.Marshal(request)
+	responseBody := bytes.NewBuffer(postBody)
+
 	fmt.Println("Calling API...")
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", "https://icanhazdadjoke.com/", nil)
+	req, err := http.NewRequest("POST", "http://katalog-connector:80/WriteAssetInfo", responseBody)
 	if err != nil {
 		fmt.Print(err.Error())
 	}
@@ -31,7 +42,7 @@ func main() {
 	if err != nil {
 		fmt.Print(err.Error())
 	}
-	var responseObject Response
+	var responseObject datacatalog.WriteAssetResponse
 	json.Unmarshal(bodyBytes, &responseObject)
 	fmt.Printf("API Response as struct %+v\n", responseObject)
 }
