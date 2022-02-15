@@ -27,7 +27,7 @@ func main() {
 
 	fmt.Println("Calling API...")
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", "http://katalog-connector:80/WriteAssetInfo", responseBody)
+	req, err := http.NewRequest("POST", "http://katalog-connector:80/writeAssetInfo", responseBody)
 	if err != nil {
 		fmt.Print(err.Error())
 	}
