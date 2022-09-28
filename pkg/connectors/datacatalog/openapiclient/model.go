@@ -13,3 +13,5 @@ type DeleteAssetRequest = datacatalog.DeleteAssetRequest
 type DeleteAssetResponse = datacatalog.DeleteAssetResponse
 type UpdateAssetRequest = datacatalog.UpdateAssetRequest
 type UpdateAssetResponse = datacatalog.UpdateAssetResponse
+type CreateNewComponentRequest = datacatalog.CreateNewComponentRequest
+type CreateNewComponentResponse = datacatalog.CreateNewComponentResponse

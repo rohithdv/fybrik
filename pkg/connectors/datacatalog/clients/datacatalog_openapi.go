@@ -109,6 +109,19 @@ func (m *openAPIDataCatalog) UpdateAsset(in *datacatalog.UpdateAssetRequest, cre
 	return resp, nil
 }
 
+func (m *openAPIDataCatalog) CreateNewComponent(in *datacatalog.CreateNewComponentRequest, creds string) (*datacatalog.CreateNewComponentResponse, error) {
+	resp, httpResponse, err := m.client.DefaultApi.CreateNewComponent(
+		context.Background()).XRequestCreateNewComponentCred(creds).CreateNewComponentRequest(*in).Execute()
+	defer httpResponse.Body.Close()
+	if httpResponse.StatusCode == http.StatusNotFound {
+		return nil, errors.New(AssetIDNotFound)
+	}
+	if err != nil {
+		return nil, errors.Wrap(err, fmt.Sprintf("update asset info from %s failed", m.name))
+	}
+	return resp, nil
+}
+
 func (m *openAPIDataCatalog) Close() error {
 	return nil
 }

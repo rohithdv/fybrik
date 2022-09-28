@@ -79,3 +79,17 @@ type UpdateAssetResponse struct {
 	// The updation status
 	Status string `json:"status,omitempty"`
 }
+
+type CreateNewComponentRequest struct {
+	// The destination catalog id in which the new asset will be created
+	DestinationCatalogID string `json:"destinationCatalogID"`
+
+	// +kubebuilder:validation:Optional
+	// Asset ID to be used for the created asset
+	DestinationAssetID string `json:"destinationAssetID,omitempty"`
+}
+
+type CreateNewComponentResponse struct {
+	// Status of the response
+	Status string `json:"status,omitempty"`
+}

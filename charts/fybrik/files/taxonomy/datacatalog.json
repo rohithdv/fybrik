@@ -43,6 +43,31 @@
         }
       }
     },
+    "CreateNewComponentRequest": {
+      "type": "object",
+      "required": [
+        "destinationCatalogID"
+      ],
+      "properties": {
+        "destinationAssetID": {
+          "description": "Asset ID to be used for the created asset",
+          "type": "string"
+        },
+        "destinationCatalogID": {
+          "description": "The destination catalog id in which the new asset will be created",
+          "type": "string"
+        }
+      }
+    },
+    "CreateNewComponentResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Status of the response",
+          "type": "string"
+        }
+      }
+    },
     "DeleteAssetRequest": {
       "type": "object",
       "required": [

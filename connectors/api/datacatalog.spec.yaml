@@ -128,3 +128,34 @@ paths:
           '401':
             description: Unauthorized
 
+  /createNewComponent:
+      patch:
+        summary: This REST API is a test method
+        operationId: createNewComponent
+        parameters:
+          - in: header
+            name: X-Request-CreateNewComponent-Cred
+            description: This header carries credential information.
+            schema:
+              type: string
+            required: true
+        requestBody:
+          description: create new component
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "../../charts/fybrik/files/taxonomy/datacatalog.json#/definitions/CreateNewComponentRequest"
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "../../charts/fybrik/files/taxonomy/datacatalog.json#/definitions/CreateNewComponentResponse"
+          '400':
+            description: Bad request - server cannot process the request due to client error
+          '404':
+            description: id not found
+          '401':
+            description: Unauthorized

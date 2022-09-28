@@ -687,3 +687,105 @@ opaConnector:
 # S3 mock service installed in fybrik namespace
 s3mock:
   enabled: false
+
+# V2 OPA connector component
+testConnector:
+  # Set to true to deploy the opa connector or false to skip its deployment.
+  # Defaults to true if `coordinator.policyManager` is set to "opa"
+  enabled: auto
+
+  # Overrides the URL of the OPA server
+  # Defaults to the address of the deployed OPA server
+  # If the OPA server is configured with TLS then use https://opa:8443
+  serverURL:
+
+  # Image name or a hub/image[:tag]
+  image: "test-connector"
+
+  # Overrides `.global.imagePullPolicy`
+  imagePullPolicy: "Always"
+
+  # Used if autoscaling is not enabled
+  replicaCount: 1
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use
+    name: test-connector
+
+  tls:
+    # MinVersion contains the minimum TLS version that is acceptable.
+    # If not provided, the system default value is used.
+    # Possible values are TLS-1.0, TLS-1.1, TLS-1.2 and TLS-1.3.
+    minVersion: TLS-1.3
+    # Specifies whether the opa connector communication should use tls.
+    use_tls: false
+    # Specifies whether the opa connector communication should use mutual tls.
+    use_mtls: false
+    # Relevant if the connection between the manager and the connectors
+    # uses tls.
+    certs:
+      # Name of kubernetes tls secret that holds opa-connector certificates.
+      # The secret should be of `kubernetes.io/tls` type.
+      # Relavent if tls is used.
+      # certSecretName: "test-tls-opa-connector-certs"
+      certSecretName: ""
+      # Name of kubernetes secret that holds the certificate authority (CA) certificates 
+      # which are used by opa-connector to validate the connection to the manager if
+      # mtls is enabled.
+      # The CA certificates key in the secret should have `.crt` suffix.
+      # The provided certificates replaces the certificates in the system CA certificate store.
+      # If the secret is not provided then the CA certificates are taken from the system
+      # CA certificate store, for example `/etc/ssl/certs/`.
+      # cacertSecretName: "test-tls-ca-certs"
+      cacertSecretName: ""
+
+  podAnnotations: {}
+
+  # Pod Security Context. If set, the fields of podSecurityContext override
+  # the equivalent fields of .Values.global.podSecurityContext.
+  # ref: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
+  podSecurityContext: {}
+
+  # Container Security Context. If set, the fields of containerSecurityContext override
+  # the equivalent fields of .Values.global.containerSecurityContext.
+  # ref: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context-1
+  containerSecurityContext: {}
+
+  service:
+    type: ClusterIP
+    # For tls connection use port 8443
+    port: 8080
+
+  # Set the size limit of the data directory.
+  dataDirSizeLimit: 200Mi
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage:
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+  

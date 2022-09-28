@@ -141,6 +141,126 @@ func (a *DefaultApiService) CreateAssetExecute(r ApiCreateAssetRequest) (*Create
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiCreateNewComponentRequest struct {
+	ctx                            context.Context
+	ApiService                     *DefaultApiService
+	xRequestCreateNewComponentCred *string
+	createNewComponentRequest      *CreateNewComponentRequest
+}
+
+// This header carries credential information.
+func (r ApiCreateNewComponentRequest) XRequestCreateNewComponentCred(xRequestCreateNewComponentCred string) ApiCreateNewComponentRequest {
+	r.xRequestCreateNewComponentCred = &xRequestCreateNewComponentCred
+	return r
+}
+
+// create new component
+func (r ApiCreateNewComponentRequest) CreateNewComponentRequest(createNewComponentRequest CreateNewComponentRequest) ApiCreateNewComponentRequest {
+	r.createNewComponentRequest = &createNewComponentRequest
+	return r
+}
+
+func (r ApiCreateNewComponentRequest) Execute() (*CreateNewComponentResponse, *http.Response, error) {
+	return r.ApiService.CreateNewComponentExecute(r)
+}
+
+/*
+CreateNewComponent This REST API is a test method
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCreateNewComponentRequest
+*/
+func (a *DefaultApiService) CreateNewComponent(ctx context.Context) ApiCreateNewComponentRequest {
+	return ApiCreateNewComponentRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//  @return CreateNewComponentResponse
+func (a *DefaultApiService) CreateNewComponentExecute(r ApiCreateNewComponentRequest) (*CreateNewComponentResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *CreateNewComponentResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.CreateNewComponent")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/createNewComponent"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xRequestCreateNewComponentCred == nil {
+		return localVarReturnValue, nil, reportError("xRequestCreateNewComponentCred is required and must be specified")
+	}
+	if r.createNewComponentRequest == nil {
+		return localVarReturnValue, nil, reportError("createNewComponentRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Request-CreateNewComponent-Cred"] = parameterToString(*r.xRequestCreateNewComponentCred, "")
+	// body params
+	localVarPostBody = r.createNewComponentRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiDeleteAssetRequest struct {
 	ctx                     context.Context
 	ApiService              *DefaultApiService

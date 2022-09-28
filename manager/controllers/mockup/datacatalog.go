@@ -61,6 +61,12 @@ func (m *DataCatalogDummy) UpdateAsset(in *datacatalog.UpdateAssetRequest, creds
 	return &datacatalog.UpdateAssetResponse{Status: "UpdateAsset not implemented in DataCatalogDummy"}, nil
 }
 
+func (m *DataCatalogDummy) CreateNewComponent(in *datacatalog.CreateNewComponentRequest, creds string) (*datacatalog.CreateNewComponentResponse, error) {
+	// TODO: will be provided a proper implementation once the implementation of UpdateAsset in katalog-connector
+	// is completed in a future PR. Till then a dummy implementation is provided.
+	return &datacatalog.CreateNewComponentResponse{Status: "CreateNewComponent not implemented in DataCatalogDummy"}, nil
+}
+
 func (d *DataCatalogDummy) Close() error {
 	return nil
 }
