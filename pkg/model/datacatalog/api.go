@@ -90,6 +90,7 @@ type CreateNewComponentRequest struct {
 }
 
 type CreateNewComponentResponse struct {
+	// +kubebuilder:validation:Optional
 	// Status of the response
 	Status string `json:"status,omitempty"`
 }
